@@ -1,0 +1,30 @@
+{
+  "name": "tabulator",
+  "description": "Object structure and value validator for metadata and surveys",
+  "version": "0.1.1",
+  "author": "Codenautas <codenautas@googlegroups.com>",
+  "license": "MIT",
+  "repository": "codenautas/tabulator",
+  "contributors": [{
+    "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
+  }],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "istanbul": "~0.3.6",
+    "mocha": "~2.1.0"
+  },
+  "files": [
+    "LICENSE",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "start": "node example/server.js"
+  }
+}
