@@ -9,13 +9,16 @@
     "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
   }],
   "dependencies": {
+    "express": "^4.12.0"
   },
   "devDependencies": {
     "istanbul": "~0.3.6",
-    "mocha": "~2.1.0"
+    "mocha": "~2.1.0",
+    "supertest": "~0.15.0"
   },
   "files": [
     "LICENSE",
+    "HISTORY.md",
     "index.js"
   ],
   "engines": {
