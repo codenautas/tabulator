@@ -10,20 +10,31 @@
 // import used by this file
 // var dependency = dependency || require('dependency');  
 
-var tabulator = {};
+var Tabulator = function(){
+};
 
 (function(){
 
-tabulator.createSimpleCellFromString = function createSimpleCellFromString(text){
-    return {bad:'NOT IMPLEMENTED YET (1)!'}
+Tabulator.prototype.cellator = function cellator(obj){
+    return 'NOT IMPLEMENTED YET(1)!';
 }
 
-tabulator.render = function render(matrix){
-    return 'NOT IMPLEMENTED YET (2)!';
+Tabulator.prototype.render = function render(matrix,opts){
+    return 'NOT IMPLEMENTED YET(2)!';
+}
+
+Tabulator.prototype.matrixator = function matrixator(datum){
+    return 'not implemented yet (3)!';
+}
+
+// module system:
+
+Tabulator.newTabulator = function newTabulator(){
+    return new Tabulator();
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = tabulator;
+    module.exports = Tabulator;
 }
 })();
 

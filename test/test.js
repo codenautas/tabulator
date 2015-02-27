@@ -4,23 +4,53 @@ var assert = require('assert');
 var http = require('http');
 var path = require('path');
 var request = require('supertest');
-var tabulator = require('..');
+var numeral = require('numeral');
+
+numeral.language('es-ar', {
+    delimiters: {
+        thousands: '.',
+        decimal: ','
+    },
+    abbreviations: {
+        thousand: 'm',
+        million: 'M',
+        billion: 'mM',
+        trillion: 'B'
+    },
+    ordinal : function (number) {
+        switch(number){
+            case 3:
+            case 1: return 'ro';
+            case 2: return 'do';
+            case 6:
+            case 5:
+            case 4: return 'to';
+            case 7: return 'mo';
+            case 8: return 'vo';
+            case 9: return 'no';
+        }
+        return '';
+    },
+    currency: {
+        symbol: '$'
+    }
+});
+
+
+var Tabulator = require('..');
 
 describe('tabulator', function(){
-    describe('createSimpleCellFromString', function(){
-        it.skip('should create an object with one property', function(done){
-            var simpleCell=tabulator.createSimpleCellFromString("hola 'che'. ¿tenés < de 5 años?");
-            expect(simpleCell).to.eql({show: "hola 'che'. ¿tenés < de 5 años?"});
-        });
+    var tabulator;
+    beforeEach(function(){
+        tabulator=new Tabulator();
     });
     describe('render', function(){
-        var simple=tabulator.createSimpleCellFromString;
         it.skip('should render a 2x3 matrix into a html table', function(){
             var matrix={
                 lines:[{
-                    cells:[simple("one"), simple("two"), simple("three")]
+                    cells:["one", "two", "three"]
                 },{
-                    cells:["alpha", "betha", "gamma"].map(function(text){ return simple(text); })
+                    cells:["alpha", "betha", "gamma"]
                 }]
             };
             var html=tabulator.render(matrix,{pretty:true});
@@ -35,21 +65,22 @@ describe('tabulator', function(){
                 "    <tr>\n"+
                 "      <td>alpha</td>\n"+
                 "      <td>betha</td>\n"+
-                "      <td>gama</td>\n"+
+                "      <td>gamma</td>\n"+
                 "    </tr>\n"+
                 "  </tbody>\n"+
-                "</table>"
+                "</table>\n"
             );
         });
         it.skip('should escape when render', function(){
             var countCall2escape=0;
-            tabulator.escape=function(pureText){
+            tabulator.cellator=function(obj){
                 countCall2escape++;
-                return "#"+pureText+"#";
+                return '<td attr='+obj.attr+'>'+obj.content+'</td>';
             }
-            var matrix={lines:[{cells:[simple("3<4 & 3>1")]}]};
+            var matrix={lines:[{cells:[{attr:'this', content:'that'}]}]};
             var html=tabulator.render(matrix); // not pretty
-            expect(html).to.eql("<table><tbody><tr><td>#3<4 & 3>1#</td></tr></tbody></table>");
+            expect(html).to.eql('<table><tbody><tr><td attr=this>that</td></tr></tbody></table>');
+            expect(countCall2escape).to.eql(1);
         });
         it.skip('should render titles', function(){
             var matrix={
@@ -58,9 +89,9 @@ describe('tabulator', function(){
                     "status": "not defined yet"
                 }],
                 lines:[{
-                    cells:["100", "51.1", "48.9"].map(function(text){ return simple(text); })
+                    cells:["100", "51.1", "48.9"]
                 },{
-                    cells:["100", "51.5", "48.5"].map(function(text){ return simple(text); })
+                    cells:["100", "51.5", "48.5"]
                 }]
             };
             var html=tabulator.render(matrix,{pretty:true});
@@ -97,10 +128,44 @@ describe('tabulator', function(){
                 "      <td>gama</td>\n"+
                 "    </tr>\n"+
                 "  </tbody>\n"+
-                "</table>"
+                "</table>\n"
             );
         });
     });
+    describe('matrixator', function(){
+        it.skip('shoud matrix a list with three header variables and 1 data variable',function(){
+            var datum={
+                list:[
+                    {zone:'zone 1', area:'area 1', sex:'masc', number:5110, total:10000},
+                    {zone:'zone 1', area:'area 1', sex:'fem' , number:4890, total:10000},
+                    {zone:'zone 1', area:'area 2', sex:'masc', number:4635, total: 9000},
+                    {zone:'zone 1', area:'area 2', sex:'fem' , number:4365, total: 9000}
+                ],
+                vars:[
+                    {name: 'zone'  , place: 'left'},
+                    {name: 'area'  , place: 'left'},
+                    {name: 'sex'   , place: 'top' },
+                    {name: 'number', place: 'data'},
+                    {name: 'total' , place: 'data'}
+                ],
+                showFunction:function(data){
+                    return data.number/total.number*100
+                }
+            };
+            var matrix={
+                headers:[{
+                    "status": "not defined yet"
+                }],
+                lines:[{
+                    cells:["100", "51.1", "48.9"]
+                },{
+                    cells:["100", "51.5", "48.5"]
+                }]
+            };
+            var obtain=tabulator.matrixator(datum);
+            expect(obtain).to.eql(matrix);
+        });
+    })
 });
 
 
