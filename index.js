@@ -15,6 +15,8 @@ var Tabulator = function(){
 
 (function(){
 
+console.log('al instalar');
+
 Tabulator.prototype.cellator = function cellator(obj){
     return 'NOT IMPLEMENTED YET(1)!';
 }
