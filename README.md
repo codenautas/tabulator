@@ -16,7 +16,9 @@ $ npm install tabulator
 ## API
 
 ```js
-var tabulator = require('tabulator');
+var tabulator = require('tabulator').newTabulator();
+
+res.send(tabulator.toHtmlTable(matrix));
 ```
 
 ## License

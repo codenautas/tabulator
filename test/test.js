@@ -44,7 +44,7 @@ describe('tabulator', function(){
     beforeEach(function(){
         tabulator=new Tabulator();
     });
-    describe('render', function(){
+    describe('toHtmlTable', function(){
         it.skip('should render a 2x3 matrix into a html table', function(){
             var matrix={
                 lines:[{
@@ -53,7 +53,7 @@ describe('tabulator', function(){
                     cells:["alpha", "betha", "gamma"]
                 }]
             };
-            var html=tabulator.render(matrix,{pretty:true});
+            var html=tabulator.toHtmlTable(matrix,{pretty:true});
             expect(html).to.eql(
                 "<table>\n"+
                 "  <tbody>\n"+
@@ -72,15 +72,15 @@ describe('tabulator', function(){
             );
         });
         it.skip('should escape when render', function(){
-            var countCall2escape=0;
-            tabulator.cellator=function(obj){
-                countCall2escape++;
-                return '<td attr='+obj.attr+'>'+obj.content+'</td>';
+            var countCall2toHtmlTd=0;
+            tabulator.toHtmlTd=function(obj){
+                countCall2toHtmlTd++;
+                return '<TD attr='+obj.attr+'>'+obj.content+'</TD>';
             }
             var matrix={lines:[{cells:[{attr:'this', content:'that'}]}]};
-            var html=tabulator.render(matrix); // not pretty
-            expect(html).to.eql('<table><tbody><tr><td attr=this>that</td></tr></tbody></table>');
-            expect(countCall2escape).to.eql(1);
+            var html=tabulator.toHtmlTable(matrix); // not pretty
+            expect(html).to.eql('<table><tbody><tr><TD attr=this>that</TD></tr></tbody></table>');
+            expect(countCall2toHtmlTd).to.eql(1);
         });
         it.skip('should render titles', function(){
             var matrix={
@@ -94,7 +94,7 @@ describe('tabulator', function(){
                     cells:["100", "51.5", "48.5"]
                 }]
             };
-            var html=tabulator.render(matrix,{pretty:true});
+            var html=tabulator.toHtmlTable(matrix,{pretty:true});
             expect(html).to.eql(
                 "<table>\n"+
                 "  <caption>The caption</caption>\n"+
@@ -132,7 +132,7 @@ describe('tabulator', function(){
             );
         });
     });
-    describe('matrixator', function(){
+    describe('toMatrix', function(){
         it.skip('shoud matrix a list with three header variables and 1 data variable',function(){
             var datum={
                 list:[
@@ -162,7 +162,7 @@ describe('tabulator', function(){
                     cells:["100", "51.5", "48.5"]
                 }]
             };
-            var obtain=tabulator.matrixator(datum);
+            var obtain=tabulator.toMatrix(datum);
             expect(obtain).to.eql(matrix);
         });
     })
