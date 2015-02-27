@@ -15,15 +15,15 @@ var Tabulator = function(){
 
 (function(){
 
-Tabulator.prototype.cellator = function cellator(obj){
+Tabulator.prototype.toHtmlTd = function toHtmlTd(obj){
     return 'NOT IMPLEMENTED YET(1)!';
 }
 
-Tabulator.prototype.render = function render(matrix,opts){
+Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix,opts){
     return 'NOT IMPLEMENTED YET(2)!';
 }
 
-Tabulator.prototype.matrixator = function matrixator(datum){
+Tabulator.prototype.toMatrix = function toMatrix(datum){
     return 'not implemented yet (3)!';
 }
 
