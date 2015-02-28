@@ -180,6 +180,28 @@ describe('tabulator', function(){
                 tabulator.toHtmlTable(matrix);
             }).throwError(/there are no titles in column 0 but columnVariables exists/);
         });
+        it.skip('should control the count of cells and columns', function(){
+            var matrix={
+                columns:[{},{},{}],
+                lines:[
+                    {cells:[1,2,3]},
+                    {cells:[1,2,3]},
+                    {cells:[1]}
+                ]
+            };
+            expect(function(){
+                tabulator.toHtmlTable(matrix);
+            }).throwError(/line 2 has 1 cells but columns has 3/);
+        });
+        it.skip('should control the existence of cells', function(){
+            var matrix={
+                columns:[{},{},{}],
+                lines:[{}]
+            };
+            expect(function(){
+                tabulator.toHtmlTable(matrix);
+            }).throwError(/there are no cells in line 0 but columns exists/);
+        });
     });
 });
 
