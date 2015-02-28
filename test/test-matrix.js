@@ -8,9 +8,9 @@ describe('tabulator', function(){
     beforeEach(function(){
         tabulator=new Tabulator();
     });
-    describe('toMatrix', function(){
-        it/*.skip*/('shoud matrix a list with three header variables and 1 data variable and with holes',function(){
-            var countCall2toCell=0;
+    describe('toMatrix with datum to produce a 3x3 incomplete matrix', function(){
+        var datum;
+        beforeEach(function(){
             var datum={
                 list:[
                     {zone:'totalZ', area:'totalA', sex:'both', number:19000,total:19000},
@@ -32,19 +32,29 @@ describe('tabulator', function(){
                     return data.number/total.number*100
                 }
             };
+        });
+        it/*.skip*/('shoud obtain the variables',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.lineVariables).to.eql(['zone','area']);
+            expect(obtain.columnVariables).to.eql(['sex']);
+        });
+        it/*.skip*/('shoud obtain the data for the column titles',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.columns,[
+                {titles:['both']},
+                {titles:['masc']},
+                {titles:['fem' ]}
+            ]);
+        });
+        it/*.skip*/('shoud obtain the data and the titles of each line',function(){
+            var countCall2toCell=0;
             tabulator.toCell=function(row){
                 countCall2toCell++;
                 return {display:row.number/row.total, numerator:row.number, denominator:row.total};
             }
-            var matrix={
-                lineVariables:['zone','area'],
-                columnVariables:['sex'],
-                columns:[
-                    {titles:['both']},
-                    {titles:['masc']},
-                    {titles:['fem' ]}
-                ],
-                lines:[{
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.lines,[
+                {
                     titles:['totalZ', 'totalA'],
                     cells:[
                         {display:100  , number:19000,total:19000},
@@ -65,10 +75,8 @@ describe('tabulator', function(){
                         {display:51.5 , number:4635, total: 9000},
                         {display:48.5 , number:4365, total: 9000}
                     ]
-                }]
-            };
-            var obtain=tabulator.toMatrix(datum);
-            expect(obtain).to.eql(matrix);
+                }
+            ]};
         });
     })
 });
