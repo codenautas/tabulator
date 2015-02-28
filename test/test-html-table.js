@@ -135,6 +135,52 @@ describe('tabulator', function(){
             );
         });
     });
+    describe('toHtmlTable controls', function(){
+        it.skip('should control the count of variables and header lines', function(){
+            // if specified lineVariables
+            var matrix={
+                lineVariables:['1','2'],
+                lines:[
+                    { titles:['a','b'] },
+                    { titles:['a','b'] },
+                    { titles:['a','b','c'] },
+                ]
+            };
+            expect(function(){
+                tabulator.toHtmlTable(matrix);
+            }).throwError(/line 2 has 3 values but lineVariables has 2/);
+        });
+        it.skip('should control the count of variables and column headers', function(){
+            var matrix={
+                columnVariables:['sex'],
+                columns:[
+                    {titles:['both']},
+                    {titles:[]},
+                ]
+            };
+            expect(function(){
+                tabulator.toHtmlTable(matrix);
+            }).throwError(/column 1 has 0 values but columnVariables has 1/);
+        });
+        it.skip('should control the existence of line headers', function(){
+            var matrix={
+                lineVariables:[],
+                lines:[{titles:[]},{}]
+            };
+            expect(function(){
+                tabulator.toHtmlTable(matrix);
+            }).throwError(/there are no titles in line 1 but lineVariables exists/);
+        });
+        it.skip('should control the existence of title columns', function(){
+            var matrix={
+                columnVariables:['sex'],
+                columns:[{}]
+            };
+            expect(function(){
+                tabulator.toHtmlTable(matrix);
+            }).throwError(/there are no titles in column 0 but columnVariables exists/);
+        });
+    });
 });
 
 
