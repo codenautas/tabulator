@@ -9,7 +9,7 @@ describe('tabulator', function(){
         tabulator=new Tabulator();
     });
     describe('toHtmlTable', function(){
-        it.skip('should render a 2x3 matrix into a html table', function(){
+        it('should render a 2x3 matrix into a html table', function(){
             var matrix={
                 lines:[{
                     cells:["one", "two", "three"]

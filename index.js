@@ -22,7 +22,15 @@ Tabulator.prototype.cellator = function cellator(obj){
 }
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix,opts){
-    return 'NOT IMPLEMENTED YET(2)!';
+    return '<table>\n'+
+        '  <tbody>\n'+ 
+        matrix.lines.map(function(lineas){
+            return '    <tr>'+'\n' +
+                lineas.cells.map(function(celdas){
+                    return '      <td>'+celdas+'</td>'+'\n';
+                }).join('')+
+                '    </tr>'+'\n';
+        }).join('')+'  </tbody>'+'\n'+'</table>'+'\n';
 }
 
 Tabulator.prototype.toMatrix = function toMatrix(datum){
