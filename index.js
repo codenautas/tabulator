@@ -26,7 +26,17 @@ Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix,opts){
 }
 
 Tabulator.prototype.toMatrix = function toMatrix(datum){
-    return 'not implemented yet (3)!';
+    var matrix={lineVariables:[],columnVariables:[]};
+    for(var i=0; i<datum.vars.length;i++){
+        var cadaVar=datum.vars[i];
+        if (cadaVar.place=='left'){
+            matrix.lineVariables.push(cadaVar.name);
+        }
+        if (cadaVar.place=='top'){
+            matrix.columnVariables.push(cadaVar.name);
+        }
+    }
+    return matrix;
 }
 
 // module system:
