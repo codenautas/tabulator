@@ -7,7 +7,10 @@
 /**
  * Module dependencies.
  */
-// import used by this file
+
+var jh=require('js-to-html');
+ 
+ // import used by this file
 // var dependency = dependency || require('dependency');  
 
 var Tabulator = function(){
