@@ -11,7 +11,7 @@ describe('tabulator', function(){
         tabulator=new Tabulator();
     });
     describe('toHtmlTable', function(){
-        it('should render a 2x3 matrix into a html table', function(){
+        it.skip('should render a 2x3 matrix into a html table', function(){
             var matrix={
                 lines:[{
                     cells:["one", "two", "three"]
@@ -20,7 +20,7 @@ describe('tabulator', function(){
                 }]
             };
             var html=tabulator.toHtmlTable(matrix);
-            expect(html).to.be(jh.Internal);
+            expect(html).to.be.an(jh.Internal);
             expect(html.toHtml({pretty:true})).to.eql(
                 "<table>\n"+
                 "  <tbody>\n"+
