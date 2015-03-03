@@ -25,11 +25,29 @@ Tabulator.prototype.cellator = function cellator(obj){
 }
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix,opts){
-    return 'NOT IMPLEMENTED YET(2)!';
+    return '<table>\n'+
+        '  <tbody>\n'+ 
+        matrix.lines.map(function(lineas){
+            return '    <tr>'+'\n' +
+                lineas.cells.map(function(celdas){
+                    return '      <td>'+celdas+'</td>'+'\n';
+                }).join('')+
+                '    </tr>'+'\n';
+        }).join('')+'  </tbody>'+'\n'+'</table>'+'\n';
 }
 
 Tabulator.prototype.toMatrix = function toMatrix(datum){
-    return 'not implemented yet (3)!';
+    var matrix={lineVariables:[],columnVariables:[]};
+    for(var i=0; i<datum.vars.length;i++){
+        var cadaVar=datum.vars[i];
+        if (cadaVar.place=='left'){
+            matrix.lineVariables.push(cadaVar.name);
+        }
+        if (cadaVar.place=='top'){
+            matrix.columnVariables.push(cadaVar.name);
+        }
+    }
+    return matrix;
 }
 
 // module system:

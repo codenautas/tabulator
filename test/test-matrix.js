@@ -11,7 +11,7 @@ describe('tabulator', function(){
     describe('toMatrix with datum to produce a 3x3 incomplete matrix', function(){
         var datum;
         beforeEach(function(){
-            var datum={
+            datum={
                 list:[
                     {zone:'totalZ', area:'totalA', sex:'both', number:19000,total:19000},
                     {zone:'totalZ', area:'totalA', sex:'masc', number:9745, total:19000},
@@ -33,7 +33,7 @@ describe('tabulator', function(){
                 }
             };
         });
-        it.skip('shoud obtain the variables',function(){
+        it('shoud obtain the variables',function(){
             var obtain=tabulator.toMatrix(datum);
             expect(obtain.lineVariables).to.eql(['zone','area']);
             expect(obtain.columnVariables).to.eql(['sex']);
