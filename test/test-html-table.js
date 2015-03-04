@@ -87,7 +87,9 @@ describe('tabulator', function(){
                 ]
             };
             var html=tabulator.toHtmlTable(matrix);
-            expect(html.toHtml({pretty:true})).to.contain(
+            var htmlText=html.toHtmlText({pretty:true})
+            var i=htmlText.indexOf('  <tbody>');
+            expect(htmlText.substr(i)).to.eql(
                 "  <tbody>\n"+
                 "    <tr>\n"+
                 "      <th>one</th>\n"+
@@ -105,24 +107,6 @@ describe('tabulator', function(){
                 "    </tr>\n"+
                 "  </tbody>\n"+
                 "</table>\n"
-            );
-            expect(html.internal.content[0]).to.eql(
-                { tagName:'tbody', content:[
-                    "    <tr>\n"+
-                    "      <th>one</th>\n"+
-                    "      <th>alpha</th>\n"+
-                    "      <th>a</th>\n"+
-                    "      <td>101</td>\n"+
-                    "      <td>102</td>\n"+
-                    "    </tr>\n"+
-                    "    <tr>\n"+
-                    "      <th>two</th>\n"+
-                    "      <th>betha</th>\n"+
-                    "      <th>b</th>\n"+
-                    "      <td>103</td>\n"+
-                    "      <td>104</td>\n"+
-                    "    </tr>\n"
-                ]}
             );
         });
         it.skip('should render condense title lines and subtitles', function(){
