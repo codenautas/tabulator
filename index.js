@@ -7,7 +7,10 @@
 /**
  * Module dependencies.
  */
-// import used by this file
+
+var jh=require('js-to-html');
+ 
+ // import used by this file
 // var dependency = dependency || require('dependency');  
 
 var Tabulator = function(){
@@ -21,16 +24,20 @@ Tabulator.prototype.cellator = function cellator(obj){
     return 'NOT IMPLEMENTED YET(1)!';
 }
 
-Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix,opts){
-    return '<table>\n'+
-        '  <tbody>\n'+ 
-        matrix.lines.map(function(lineas){
-            return '    <tr>'+'\n' +
-                lineas.cells.map(function(celdas){
-                    return '      <td>'+celdas+'</td>'+'\n';
-                }).join('')+
-                '    </tr>'+'\n';
-        }).join('')+'  </tbody>'+'\n'+'</table>'+'\n';
+Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
+    console.log('la matriz', matrix.lines, matrix.lines.map);
+    return jh({
+        tagName:'table',
+        content:[{
+            tagName:'tbody', 
+            content:matrix.lines.map(function(line){
+                console.log('la celda', line.cells, line.cells.map);
+                return {tagName:'tr', content: line.cells.map(function(cell){
+                    return {tagName:'td', content:cell};
+                })}
+            })
+        }]
+    });
 }
 
 Tabulator.prototype.toMatrix = function toMatrix(datum){

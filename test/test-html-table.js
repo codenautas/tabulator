@@ -1,5 +1,7 @@
 ﻿
 var expect = require('expect.js');
+var expectCalled = require('expect-called');
+var jh = require('js-to-html');
 
 var Tabulator = require('..');
 
@@ -9,7 +11,7 @@ describe('tabulator', function(){
         tabulator=new Tabulator();
     });
     describe('toHtmlTable', function(){
-        it('should render a 2x3 matrix into a html table', function(){
+        it.skip('should render a 2x3 matrix into a html table', function(){
             var matrix={
                 lines:[{
                     cells:["one", "two", "three"]
@@ -17,8 +19,9 @@ describe('tabulator', function(){
                     cells:["alpha", "betha", "gamma"]
                 }]
             };
-            var html=tabulator.toHtmlTable(matrix,{pretty:true});
-            expect(html).to.eql(
+            var html=tabulator.toHtmlTable(matrix);
+            expect(html).to.be.an(jh.Internal);
+            expect(html.toHtml({pretty:true})).to.eql(
                 "<table>\n"+
                 "  <tbody>\n"+
                 "    <tr>\n"+
@@ -35,18 +38,9 @@ describe('tabulator', function(){
                 "</table>\n"
             );
         });
-        it.skip('should escape when render', function(){
-            var countCall2toHtmlTd=0;
-            tabulator.toHtmlTd=function(obj){
-                countCall2toHtmlTd++;
-                return '<TD attr='+obj.attr+'>'+obj.content+'</TD>';
-            }
-            var matrix={lines:[{cells:[{attr:'this', content:'that'}]}]};
-            var html=tabulator.toHtmlTable(matrix); // not pretty
-            expect(html).to.eql('<table><tbody><tr><TD attr=this>that</TD></tr></tbody></table>');
-            expect(countCall2toHtmlTd).to.eql(1);
-        });
         it.skip('should render headers', function(){
+            var controlValue=expectCalled.control(tabulator.toHtmlThValue);
+            var controlVariable=expectCalled.control(tabulator.toHtmlThVariable);
             var matrix={
                 caption:"Data for zone and area by sex",
                 lineVariables:['zone','area'],
@@ -58,31 +52,30 @@ describe('tabulator', function(){
                 ]
             };
             var html=tabulator.toHtmlTable(matrix,{pretty:true});
-            expect(html).to.contain("<table>\n"+
-                "  <caption>Data for zone and area by sex</caption>\n"+
-                "  <colgroup class=headers>\n"+
-                "    <col class=zone>\n"+
-                "    <col class=area>\n"+
-                "  </colgroup>\n"+
-                "  <colgroup class=data>\n"+
-                "    <col class='{\"sex\":\"both\"}'>\n"+
-                "    <col class='{\"sex\":\"masc\"}'>\n"+
-                "    <col class='{\"sex\":\"fem\"}'>\n"+
-                "  </colgroup>\n"+
-                "  <thead>\n"+
-                "    <tr>\n"+
-                "      <th rowspan=2>zone</th>\n"+
-                "      <th rowspan=2>area</th>\n"+
-                "      <th colspan=3>sex</th>\n"+ //colspan=3 porque columns.length=3
-                "    </tr>\n"+
-                "    <tr>\n"+
-                "      <th>both</th>\n"+
-                "      <th>masc</th>\n"+
-                "      <th>fem</th>\n"+
-                "    </tr>\n"+
-                "  </thead>\n"+
-                "  <tbody>\n"
-            );
+            expect(html.internal.content.slice(0,4)).to.eql([
+                { tagName:'caption', textContent:'Data for zone and area by sex' },
+                { tagName:'colgroup', attributes:{'class':'headers'}, content:[
+                    {  tagName:'col', attributes:{'class':'zone'} }, 
+                    {  tagName:'col', attributes:{'class':'area'} }
+                ]}, 
+                { tagName:'colgroup', attributes:{'class':'data'}, content:[
+                    {  tagName:'col', attributes:{'class':'{\"sex\":\"both\"}'} }, 
+                    {  tagName:'col', attributes:{'class':'{\"sex\":\"masc\"}'} },
+                    {  tagName:'col', attributes:{'class':'{\"sex\":\"fem\"}'} }
+                ]}, 
+                { tagName:'thead', content:[
+                    { tagName:'tr', content:[
+                        { tagName:'th', attributes:{'class':'variable', 'rowspan':2}, textContent:'zone'},
+                        { tagName:'th', attributes:{'class':'variable', 'rowspan':2}, textContent:'area'},
+                        { tagName:'th', attributes:{'class':'variable', 'colspan':2}, textContent:'sex'},//colspan=3 porque columns.length=3
+                    ]},
+                    { tagName:'tr', content:[
+                        { tagName:'th', attributes:{'class':'var_sex'}, textContent:'both'},
+                        { tagName:'th', attributes:{'class':'var_sex'}, textContent:'masc'},
+                        { tagName:'th', attributes:{'class':'var_sex'}, textContent:'fem'},
+                    ]}
+                ]}
+            ]);
         });
         it.skip('should render line titles', function(){
             var matrix={
@@ -91,8 +84,8 @@ describe('tabulator', function(){
                     { titles:['two','betha','b'], cells:["103", "104"]}
                 ]
             };
-            var html=tabulator.toHtmlTable(matrix,{pretty:true});
-            expect(html).to.contain(
+            var html=tabulator.toHtmlTable(matrix);
+            expect(html.toHtml({pretty:true})).to.contain(
                 "  <tbody>\n"+
                 "    <tr>\n"+
                 "      <th>one</th>\n"+
@@ -111,6 +104,24 @@ describe('tabulator', function(){
                 "  </tbody>\n"+
                 "</table>\n"
             );
+            expect(html.internal.content[0]).to.eql(
+                { tagName:'tbody', content:[
+                    "    <tr>\n"+
+                    "      <th>one</th>\n"+
+                    "      <th>alpha</th>\n"+
+                    "      <th>a</th>\n"+
+                    "      <td>101</td>\n"+
+                    "      <td>102</td>\n"+
+                    "    </tr>\n"+
+                    "    <tr>\n"+
+                    "      <th>two</th>\n"+
+                    "      <th>betha</th>\n"+
+                    "      <th>b</th>\n"+
+                    "      <td>103</td>\n"+
+                    "      <td>104</td>\n"+
+                    "    </tr>\n"
+                ]}
+            );
         });
         it.skip('should render condense title lines and subtitles', function(){
             var matrix={
@@ -124,7 +135,7 @@ describe('tabulator', function(){
                 ]
             };
             var html=tabulator.toHtmlTable(matrix);
-            expect(html).to.contain("<tbody>"+
+            expect(html.toHtml()).to.contain("<tbody>"+
                 "<tr>"+"<th colspan=3>group 1</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
                 "<tr>"                                                       +"<th>b</th>"+"</tr>"+
                 "<tr>"                             +"<th>smalls</th>"        +"<th>a</th>"+"</tr>"+
