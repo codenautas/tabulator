@@ -109,25 +109,25 @@ describe('tabulator', function(){
                 "</table>\n"
             );
         });
-        it.skip('should render condense title lines and subtitles', function(){
+        it/*.skip*/('should render condense title lines and subtitles', function(){
             var matrix={
                 lines:[
-                    { titles:['group 1','bigs'  ,'a']},
-                    { titles:['group 1','bigs'  ,'b']},
-                    { titles:['group 1','smalls','a']},
-                    { titles:['group 2','bigs'  ,'a']},
-                    { titles:['group 2','bigs'  ,'b']},
-                    { titles:['group 3','bigs'  ,'a']},
+                    { titles:['group 1','bigs'  ,'a'], cells:[]},
+                    { titles:['group 1','bigs'  ,'b'], cells:[]},
+                    { titles:['group 1','smalls','a'], cells:[]},
+                    { titles:['group 2','bigs'  ,'a'], cells:[]},
+                    { titles:['group 2','bigs'  ,'b'], cells:[]},
+                    { titles:['group 3','bigs'  ,'a'], cells:[]},
                 ]
             };
-            var html=tabulator.toHtmlTable(matrix);
-            expect(html.toHtml()).to.contain("<tbody>"+
-                "<tr>"+"<th colspan=3>group 1</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
-                "<tr>"                                                       +"<th>b</th>"+"</tr>"+
-                "<tr>"                             +"<th>smalls</th>"        +"<th>a</th>"+"</tr>"+
-                "<tr>"+"<th colspan=2>group 2</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
-                "<tr>"                                                       +"<th>b</th>"+"</tr>"+
-                "<tr>"+"<th>group 3</th>"          +"<th>bigs</th>"          +"<th>a</th>"+"</tr>"+
+            var table=tabulator.toHtmlTable(matrix);
+            expect(table.toHtmlText().replace(/<tr>/g,"\n<tr>")).to.eql("<table><tbody>"+
+                "\n<tr>"+"<th colspan=3>group 1</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
+                "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
+                "\n<tr>"                             +"<th>smalls</th>"        +"<th>a</th>"+"</tr>"+
+                "\n<tr>"+"<th colspan=2>group 2</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
+                "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
+                "\n<tr>"+"<th>group 3</th>"          +"<th>bigs</th>"          +"<th>a</th>"+"</tr>"+
                 "</tbody>"+"</table>"
             );
         });

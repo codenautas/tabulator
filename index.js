@@ -18,12 +18,8 @@ var Tabulator = function(){
 
 (function(){
 
-console.log('al instalar');
-
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
-    console.log('la matriz', matrix.lines, matrix.lines.map);
     return html.table([html.tbody(matrix.lines.map(function(line){
-        console.log('la celda', line.cells, line.cells.map);
         return html.tr(line.cells.map(function(cell){
             return html.td(cell);
         }));
