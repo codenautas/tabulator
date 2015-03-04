@@ -109,7 +109,7 @@ describe('tabulator', function(){
                 "</table>\n"
             );
         });
-        it/*.skip*/('should render condense title lines and subtitles', function(){
+        it.skip('should render condense title lines and subtitles', function(){
             var matrix={
                 lines:[
                     { titles:['group 1','bigs'  ,'a'], cells:[]},
@@ -138,9 +138,9 @@ describe('tabulator', function(){
             var matrix={
                 lineVariables:['1','2'],
                 lines:[
-                    { titles:['a','b'] },
-                    { titles:['a','b'] },
-                    { titles:['a','b','c'] },
+                    { titles:['a','b']    , cells:[] },
+                    { titles:['a','b']    , cells:[] },
+                    { titles:['a','b','c'], cells:[] },
                 ]
             };
             expect(function(){
@@ -151,9 +151,10 @@ describe('tabulator', function(){
             var matrix={
                 columnVariables:['sex'],
                 columns:[
-                    {titles:['both']},
-                    {titles:[]},
-                ]
+                    {titles:['both'], cells:[]},
+                    {titles:[]      , cells:[]},
+                ],
+                lines:[]
             };
             expect(function(){
                 tabulator.toHtmlTable(matrix);
@@ -162,7 +163,7 @@ describe('tabulator', function(){
         it.skip('should control the existence of line headers', function(){
             var matrix={
                 lineVariables:[],
-                lines:[{titles:[]},{}]
+                lines:[{titles:[], cells:[]}, {cells:[]}]
             };
             expect(function(){
                 tabulator.toHtmlTable(matrix);
@@ -171,7 +172,8 @@ describe('tabulator', function(){
         it.skip('should control the existence of title columns', function(){
             var matrix={
                 columnVariables:['sex'],
-                columns:[{}]
+                columns:[{}],
+                lines:[]
             };
             expect(function(){
                 tabulator.toHtmlTable(matrix);
@@ -193,7 +195,7 @@ describe('tabulator', function(){
         it.skip('should control the existence of cells', function(){
             var matrix={
                 columns:[{},{},{}],
-                lines:[{}]
+                lines:[{cells:[]}]
             };
             expect(function(){
                 tabulator.toHtmlTable(matrix);
