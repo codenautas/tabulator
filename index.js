@@ -8,7 +8,7 @@
  * Module dependencies.
  */
 
-var jh=require('js-to-html');
+var html=require('js-to-html').html;
  
  // import used by this file
 // var dependency = dependency || require('dependency');  
@@ -20,24 +20,14 @@ var Tabulator = function(){
 
 console.log('al instalar');
 
-Tabulator.prototype.cellator = function cellator(obj){
-    return 'NOT IMPLEMENTED YET(1)!';
-}
-
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
     console.log('la matriz', matrix.lines, matrix.lines.map);
-    return jh({
-        tagName:'table',
-        content:[{
-            tagName:'tbody', 
-            content:matrix.lines.map(function(line){
-                console.log('la celda', line.cells, line.cells.map);
-                return {tagName:'tr', content: line.cells.map(function(cell){
-                    return {tagName:'td', content:cell};
-                })}
-            })
-        }]
-    });
+    return html.table([html.tbody(matrix.lines.map(function(line){
+        console.log('la celda', line.cells, line.cells.map);
+        return html.tr(line.cells.map(function(cell){
+            return html.td(cell);
+        }));
+    }))]);
 }
 
 Tabulator.prototype.toMatrix = function toMatrix(datum){

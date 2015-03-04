@@ -1,7 +1,7 @@
 ﻿
 var expect = require('expect.js');
 var expectCalled = require('expect-called');
-var jh = require('js-to-html');
+var jsToHtml = require('js-to-html');
 
 var Tabulator = require('..');
 
@@ -11,7 +11,7 @@ describe('tabulator', function(){
         tabulator=new Tabulator();
     });
     describe('toHtmlTable', function(){
-        it.skip('should render a 2x3 matrix into a html table', function(){
+        it('should render a 2x3 matrix into a html table', function(){
             var matrix={
                 lines:[{
                     cells:["one", "two", "three"]
@@ -19,9 +19,9 @@ describe('tabulator', function(){
                     cells:["alpha", "betha", "gamma"]
                 }]
             };
-            var html=tabulator.toHtmlTable(matrix);
-            expect(html).to.be.an(jh.Internal);
-            expect(html.toHtml({pretty:true})).to.eql(
+            var table=tabulator.toHtmlTable(matrix);
+            expect(table).to.be.an(jsToHtml.Html);
+            expect(table.toHtmlText({pretty:true})).to.eql(
                 "<table>\n"+
                 "  <tbody>\n"+
                 "    <tr>\n"+
