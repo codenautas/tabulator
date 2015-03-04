@@ -1,7 +1,9 @@
-﻿
+﻿"use strict";
+
 var expect = require('expect.js');
 var expectCalled = require('expect-called');
 var jsToHtml = require('js-to-html');
+var html=jsToHtml.html;
 
 var Tabulator = require('..');
 
@@ -39,8 +41,6 @@ describe('tabulator', function(){
             );
         });
         it.skip('should render headers', function(){
-            var controlValue=expectCalled.control(tabulator.toHtmlThValue);
-            var controlVariable=expectCalled.control(tabulator.toHtmlThVariable);
             var matrix={
                 caption:"Data for zone and area by sex",
                 lineVariables:['zone','area'],
@@ -49,32 +49,34 @@ describe('tabulator', function(){
                     {titles:['both']},
                     {titles:['masc']},
                     {titles:['fem' ]}
-                ]
+                ],
+                lines:[]
             };
-            var html=tabulator.toHtmlTable(matrix,{pretty:true});
-            expect(html.internal.content.slice(0,4)).to.eql([
-                { tagName:'caption', textContent:'Data for zone and area by sex' },
-                { tagName:'colgroup', attributes:{'class':'headers'}, content:[
-                    {  tagName:'col', attributes:{'class':'zone'} }, 
-                    {  tagName:'col', attributes:{'class':'area'} }
-                ]}, 
-                { tagName:'colgroup', attributes:{'class':'data'}, content:[
-                    {  tagName:'col', attributes:{'class':'{\"sex\":\"both\"}'} }, 
-                    {  tagName:'col', attributes:{'class':'{\"sex\":\"masc\"}'} },
-                    {  tagName:'col', attributes:{'class':'{\"sex\":\"fem\"}'} }
-                ]}, 
-                { tagName:'thead', content:[
-                    { tagName:'tr', content:[
-                        { tagName:'th', attributes:{'class':'variable', 'rowspan':2}, textContent:'zone'},
-                        { tagName:'th', attributes:{'class':'variable', 'rowspan':2}, textContent:'area'},
-                        { tagName:'th', attributes:{'class':'variable', 'colspan':2}, textContent:'sex'},//colspan=3 porque columns.length=3
-                    ]},
-                    { tagName:'tr', content:[
-                        { tagName:'th', attributes:{'class':'var_sex'}, textContent:'both'},
-                        { tagName:'th', attributes:{'class':'var_sex'}, textContent:'masc'},
-                        { tagName:'th', attributes:{'class':'var_sex'}, textContent:'fem'},
-                    ]}
-                ]}
+            var table=tabulator.toHtmlTable(matrix,{pretty:true});
+            expect(table.content.slice(0,4)).to.eql([
+                html.caption('Data for zone and area by sex'),
+                html.colgroup({'class':'headers'}, [
+                    html.col({'class':'zone'}), 
+                    html.col({'class':'area'}), 
+                ]), 
+                html.colgroup({'class':'data'}, [
+                    html.col({'class':'{\"sex\":\"both\"}'}), 
+                    html.col({'class':'{\"sex\":\"masc\"}'}),
+                    html.col({'class':'{\"sex\":\"fem\"}'})
+                ]),
+                html.thead([
+                    html.tr([
+                        html.th({'class':'variable', 'rowspan':2},'zone'),
+                        html.th({'class':'variable', 'rowspan':2},'area'),
+                        html.th({'class':'variable', 'colspan':2},'sex')//colspan=3 porque columns.length=3
+                    ]),
+                    html.tr([
+                        html.th({'class':'var_sex'}, 'both'),
+                        html.th({'class':'var_sex'}, 'masc'),
+                        html.th({'class':'var_sex'}, 'fem')
+                    ])
+                ]),
+                html.tbody()
             ]);
         });
         it.skip('should render line titles', function(){
