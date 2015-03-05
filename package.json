@@ -9,9 +9,9 @@
     "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
   }],
   "dependencies": {
-    "express": "^4.12.0",
+    "express": "^4.12.2",
     "expect.js": "~0.3.1",
-    "js-to-html": ">=0.1.3",
+    "js-to-html": ">=0.2.2",
     "expect-called": ">=0.2.1"
   },
   "devDependencies": {
