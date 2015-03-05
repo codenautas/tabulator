@@ -14,10 +14,10 @@ describe('tabulator', function(){
             datum={
                 list:[
                     {zone:'totalZ', area:'totalA', sex:'both', number:19000,total:19000},
-                    {zone:'totalZ', area:'totalA', sex:'masc', number:9745, total:19000},
+                    {zone:'totalZ', area:'totalA', sex:'masc', number:9880, total:19000},
                     {zone:'zone 1', area:'area 1', sex:'masc', number:5110, total:10000},
-                    {zone:'zone 1', area:'area 1', sex:'fem' , number:4890, total:10000},
                     {zone:'zone 1', area:'area 2', sex:'fem' , number:4365, total: 9000},
+                    {zone:'zone 1', area:'area 1', sex:'fem' , number:4890, total:10000},
                     {zone:'zone 1', area:'area 2', sex:'masc', number:4635, total: 9000},
                     {zone:'zone 1', area:'area 2', sex:'both' ,number:9000, total: 9000}
                 ],
