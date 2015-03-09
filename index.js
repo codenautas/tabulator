@@ -40,45 +40,49 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
             matrix.dataVariables.push(cadaVar.name);
         }        
     }
-    var lineVariablesJSON=JSON.stringify(matrix.lineVariables);
-    
-    var vistosColumnVariables=[];
-    var vistosLineVariables=[];
-    
+    var vistosColumnVariables={};
+    var vistosLineVariables={};
     for(var i=0; i<datum.list.length;i++){
         var cadaList=datum.list[i];
         for(var j=0; j< matrix.columnVariables.length;j++){
             var cadaNameTop=matrix.columnVariables[j];                
             if (!vistosColumnVariables[cadaList[cadaNameTop]]){
-                vistosColumnVariables[cadaList[cadaNameTop]]=true;                
-                matrix.columns.push({titles:[cadaList[cadaNameTop]]});               
+                var iCell=matrix.columns.push({titles:[cadaList[cadaNameTop]]})-1;
+                vistosColumnVariables[cadaList[cadaNameTop]]={index: iCell};
+            }else{
+                var iCell=vistosColumnVariables[cadaList[cadaNameTop]].index;
             }
         }
         var cadaDatoLeft=[];
-        var cadaDatoData=[];        
+        var cadaDatoData=[];                
+        var mapaDataVariable=[];
+    
         for(var j=0; j< matrix.lineVariables.length;j++){
-            cadaDatoLeft.push(cadaList[matrix.lineVariables[j]]);            
+            cadaDatoLeft.push(cadaList[matrix.lineVariables[j]]);
             cadaDatoData.push(cadaList[matrix.dataVariables[j]]);
+        }        
+        var jsonCadaDatoLeft=JSON.stringify(cadaDatoLeft);
+        if (vistosLineVariables[jsonCadaDatoLeft]){
+            var iLine=vistosLineVariables[jsonCadaDatoLeft].index;
+        }else{
+            //console.log('vamos a ver que hay en vistosLineVariables',vistosLineVariables,' y en cadaDatoLeft',cadaDatoLeft);
+            var iLine=matrix.lines.push({titles:cadaDatoLeft, cells:[]})-1;
+            vistosLineVariables[jsonCadaDatoLeft]={index: iLine};            
         }
-        if (!vistosLineVariables[cadaDatoLeft]){
-            vistosLineVariables[cadaDatoLeft]=true;
-            matrix.lines.push({titles:cadaDatoLeft});
-            //var cadaDatoDeLaLista
-            for(var k=0; k<datum.list.length;k++){
-                
-            /*
-                for(var m=0; m<cadaDatoLeft.length;m++){
-                    if(cadaDatoLeft[m]==datum.list[k]){
-                        matrix.lines.push({cells:cadaDatoData});                        
-                    }
-                }
-            */
-            }
-            
+        var newCell={};
+        if(datum.showFunction){
+            newCell.display=datum.showFunction(cadaList);
+            //console.log('newCell:'+newCell);
         }
-        //matrix.lines.push({cells:cadaDatoData});
-        
-    }    
+        //console.log('Newcell:'+newCell);
+        //console.log('datum.list[1].number:'+datum.list[1].number);
+        for(var k=0; k<matrix.dataVariables.length; k++){
+            var nombreVariable=matrix.dataVariables[k];
+            newCell[nombreVariable]=cadaList[nombreVariable];
+        }
+        matrix.lines[iLine].cells[iCell]=newCell;
+    }
+    
     return matrix;
 }
 

@@ -13,8 +13,8 @@ describe('tabulator', function(){
         beforeEach(function(){
             datum={
                 list:[
-                    {zone:'totalZ', area:'totalA', sex:'both', number:19000,total:19000},
-                    {zone:'totalZ', area:'totalA', sex:'masc', number:9880, total:19000},
+                    {zone:'totalZ', area:'total,A',sex:'both', number:19000,total:19000},
+                    {zone:'totalZ', area:'total,A',sex:'masc', number:9880, total:19000},
                     {zone:'zone 1', area:'area 1', sex:'masc', number:5110, total:10000},
                     {zone:'zone 1', area:'area 2', sex:'fem' , number:4365, total: 9000},
                     {zone:'zone 1', area:'area 1', sex:'fem' , number:4890, total:10000},
@@ -29,7 +29,7 @@ describe('tabulator', function(){
                     {name: 'total' , place: 'data'}
                 ],
                 showFunction:function(data){
-                    return data.number/total.number*100
+                    return data.number/data.total*100
                 }
             };
         });
@@ -46,7 +46,7 @@ describe('tabulator', function(){
                 {titles:['fem' ]}
             ]);
         });
-        it.skip('shoud obtain the data and the titles of each line',function(){
+        it('shoud obtain the data and the titles of each line',function(){
             var countCall2toCell=0;
             tabulator.toCell=function(row){
                 countCall2toCell++;
@@ -55,7 +55,7 @@ describe('tabulator', function(){
             var obtain=tabulator.toMatrix(datum);
             expect(obtain.lines).to.eql([
                 {
-                    titles:['totalZ', 'totalA'],
+                    titles:['totalZ', 'total,A'],
                     cells:[
                         {display:100  , number:19000,total:19000},
                         {display:52   , number: 9880,total:19000},
