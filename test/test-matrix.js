@@ -1,7 +1,7 @@
 ﻿
 var expect = require('expect.js');
 
-var Tabulator = require('..');
+var Tabulator = require('../tabulator.js');
 
 describe('tabulator', function(){
     var tabulator;

@@ -1,23 +1,24 @@
 {
   "name": "tabulator",
   "description": "Put data into tables",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/tabulator",
   "contributors": [{
     "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
   }],
+  "main": "",
   "dependencies": {
     "express": "^4.12.2",
-    "expect.js": "~0.3.1",
-    "js-to-html": ">=0.2.2",
-    "expect-called": ">=0.2.1"
+    "js-to-html": ">=0.2.2"
   },
   "devDependencies": {
     "istanbul": "~0.3.6",
     "mocha": "~2.1.0",
-    "supertest": "~0.15.0"
+    "supertest": "~0.15.0",
+    "expect.js": "~0.3.1",
+    "expect-called": ">=0.2.1"
   },
   "files": [
     "LICENSE",

@@ -5,7 +5,7 @@ var expectCalled = require('expect-called');
 var jsToHtml = require('js-to-html');
 var html=jsToHtml.html;
 
-var Tabulator = require('..');
+var Tabulator = require('../tabulator.js');
 
 describe('tabulator', function(){
     var tabulator;
