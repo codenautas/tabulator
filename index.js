@@ -65,24 +65,26 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
         if (vistosLineVariables[jsonCadaDatoLeft]){
             var iLine=vistosLineVariables[jsonCadaDatoLeft].index;
         }else{
-            //console.log('vamos a ver que hay en vistosLineVariables',vistosLineVariables,' y en cadaDatoLeft',cadaDatoLeft);
             var iLine=matrix.lines.push({titles:cadaDatoLeft, cells:[]})-1;
             vistosLineVariables[jsonCadaDatoLeft]={index: iLine};            
         }
         var newCell={};
         if(datum.showFunction){
             newCell.display=datum.showFunction(cadaList);
-            //console.log('newCell:'+newCell);
         }
-        //console.log('Newcell:'+newCell);
-        //console.log('datum.list[1].number:'+datum.list[1].number);
         for(var k=0; k<matrix.dataVariables.length; k++){
             var nombreVariable=matrix.dataVariables[k];
             newCell[nombreVariable]=cadaList[nombreVariable];
         }
         matrix.lines[iLine].cells[iCell]=newCell;
     }
-    
+    for(var l=0; l<matrix.lines.length; l++){
+        for(var m=0; m<matrix.columns.length; m++){
+            if (matrix.lines[l].cells[m]===undefined){
+                matrix.lines[l].cells[m]=null;
+            }
+        }
+    }
     return matrix;
 }
 
