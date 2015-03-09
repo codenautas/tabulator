@@ -90,6 +90,7 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
 
 // module system:
 
+/* istanbul ignore else  */
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = Tabulator;
 }
