@@ -6,6 +6,7 @@ Put data into tables
 [![Linux Build][travis-image]][travis-url]
 [![Windows Build][appveyor-image]][appveyor-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
+[![Code Climate][climate-image]][climate-url]
 
 ## Install
 
@@ -39,3 +40,5 @@ res.send(tabulator.toHtmlTable(matrix));
 [coveralls-url]: https://coveralls.io/r/codenautas/tabulator
 [downloads-image]: https://img.shields.io/npm/dm/tabulator.svg?style=flat
 [downloads-url]: https://npmjs.org/package/tabulator
+[climate-image]: https://codeclimate.com/github/codenautas/tabulator/badges/gpa.svg
+[climate-url]: https://codeclimate.com/github/codenautas/tabulator
