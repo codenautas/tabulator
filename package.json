@@ -1,14 +1,14 @@
 {
   "name": "tabulator",
   "description": "Put data into tables",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/tabulator",
   "contributors": [{
     "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
   }],
-  "main": "",
+  "main": "tabulator.js",
   "dependencies": {
     "express": "^4.12.2",
     "js-to-html": ">=0.2.3"
