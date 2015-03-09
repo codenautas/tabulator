@@ -90,10 +90,6 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
 
 // module system:
 
-Tabulator.newTabulator = function newTabulator(){
-    return new Tabulator();
-}
-
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = Tabulator;
 }

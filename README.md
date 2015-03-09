@@ -17,7 +17,8 @@ $ npm install tabulator
 ## Example
 
 ```js
-var tabulator = require('tabulator').newTabulator();
+var Tabulator = require('tabulator').Tabulator;
+var tabulator = new Tabulator();
 
 var data=sql.query('SELECT * FROM data');
 

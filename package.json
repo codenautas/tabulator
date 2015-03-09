@@ -11,11 +11,11 @@
   "main": "",
   "dependencies": {
     "express": "^4.12.2",
-    "js-to-html": ">=0.2.2"
+    "js-to-html": ">=0.2.3"
   },
   "devDependencies": {
-    "istanbul": "~0.3.6",
-    "mocha": "~2.1.0",
+    "istanbul": "~0.3.7",
+    "mocha": "~2.2.1",
     "supertest": "~0.15.0",
     "expect.js": "~0.3.1",
     "expect-called": ">=0.2.1"

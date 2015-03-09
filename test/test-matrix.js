@@ -78,5 +78,12 @@ describe('tabulator', function(){
                 }
             ]);
         });
+        it('shoud obtain cells without showFunction',function(){
+            delete datum.showFunction;
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.lines[0].cells[0]).to.eql(
+                {number:19000,total:19000}
+            );
+        });
     })
 });
