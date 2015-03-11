@@ -19,7 +19,12 @@ var Tabulator = function(){
 (function(){
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
-    return html.table([html.tbody(matrix.lines.map(function(line){
+    return html.table([/*
+        html.caption("algo"),
+        html.colgroups([]),
+        html.thead([html.tr([html.th("una celda de header")])]),
+        */
+        html.tbody(matrix.lines.map(function(line){
         return html.tr(line.cells.map(function(cell){
             return html.td(cell);
         }));
