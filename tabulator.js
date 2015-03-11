@@ -26,46 +26,47 @@ Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
     }))]);
 }
 
+
+
+
+
 Tabulator.prototype.toMatrix = function toMatrix(datum){
+    var places={
+        left:{place:'lineVariables'},
+        top:{place:'columnVariables'},
+        data:{place:'dataVariables'},
+    };
     var matrix={lineVariables:[],columnVariables:[], dataVariables:[], columns:[], lines:[]};
     for(var i=0; i<datum.vars.length;i++){
-        var cadaVar=datum.vars[i];        
-        if (cadaVar.place=='left'){
-            matrix.lineVariables.push(cadaVar.name);            
-        }
-        if (cadaVar.place=='top'){
-            matrix.columnVariables.push(cadaVar.name);
-        }
-        if (cadaVar.place=='data'){
-            matrix.dataVariables.push(cadaVar.name);
-        }        
+        var cadaVar=datum.vars[i];
+        matrix[places[cadaVar.place].place].push(cadaVar.name);
     }
     var vistosColumnVariables={};
     var vistosLineVariables={};
-    for(var i=0; i<datum.list.length;i++){
-        var cadaList=datum.list[i];
-        for(var j=0; j< matrix.columnVariables.length;j++){
-            var cadaNameTop=matrix.columnVariables[j];                
+    for(var iList=0; iList<datum.list.length; iList++){
+        var iCell;
+        var iLine;
+        var cadaList=datum.list[iList];
+        for(var iColumn=0; iColumn<matrix.columnVariables.length;iColumn++){
+            var cadaNameTop=matrix.columnVariables[iColumn];                
             if (!vistosColumnVariables[cadaList[cadaNameTop]]){
-                var iCell=matrix.columns.push({titles:[cadaList[cadaNameTop]]})-1;
+                iCell=matrix.columns.push({titles:[cadaList[cadaNameTop]]})-1;
                 vistosColumnVariables[cadaList[cadaNameTop]]={index: iCell};
             }else{
-                var iCell=vistosColumnVariables[cadaList[cadaNameTop]].index;
+                iCell=vistosColumnVariables[cadaList[cadaNameTop]].index;
             }
         }
         var cadaDatoLeft=[];
         var cadaDatoData=[];                
-        var mapaDataVariable=[];
-    
-        for(var j=0; j< matrix.lineVariables.length;j++){
+        for(var j=0; j<matrix.lineVariables.length;j++){
             cadaDatoLeft.push(cadaList[matrix.lineVariables[j]]);
             cadaDatoData.push(cadaList[matrix.dataVariables[j]]);
         }        
         var jsonCadaDatoLeft=JSON.stringify(cadaDatoLeft);
         if (vistosLineVariables[jsonCadaDatoLeft]){
-            var iLine=vistosLineVariables[jsonCadaDatoLeft].index;
+            iLine=vistosLineVariables[jsonCadaDatoLeft].index;
         }else{
-            var iLine=matrix.lines.push({titles:cadaDatoLeft, cells:[]})-1;
+            iLine=matrix.lines.push({titles:cadaDatoLeft, cells:[]})-1;
             vistosLineVariables[jsonCadaDatoLeft]={index: iLine};            
         }
         var newCell={};
@@ -86,7 +87,7 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
         }
     }
     return matrix;
-}
+};
 
 // module system:
 

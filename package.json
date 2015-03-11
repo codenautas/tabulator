@@ -1,7 +1,7 @@
 {
   "name": "tabulator",
   "description": "Put data into tables",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/tabulator",
@@ -11,7 +11,7 @@
   "main": "tabulator.js",
   "dependencies": {
     "express": "^4.12.2",
-    "js-to-html": ">=0.2.3"
+    "js-to-html": ">=0.2.7"
   },
   "devDependencies": {
     "istanbul": "~0.3.7",
