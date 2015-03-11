@@ -10,7 +10,7 @@
   }],
   "main": "tabulator.js",
   "dependencies": {
-    "js-to-html": ">=0.2.7"
+    "js-to-html": ">=0.2.8"
   },
   "devDependencies": {
     "express": "^4.12.2",

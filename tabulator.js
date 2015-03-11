@@ -18,17 +18,34 @@ var Tabulator = function(){
 
 (function(){
 
-Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
-    return html.table([/*
-        html.caption("algo"),
-        html.colgroups([]),
-        html.thead([html.tr([html.th("una celda de header")])]),
-        */
-        html.tbody(matrix.lines.map(function(line){
+Tabulator.prototype.captionPart = function toHtmlTable(matrix){
+    return matrix.caption?html.caption(matrix.caption):null;
+}
+
+Tabulator.prototype.colGroups = function colGroups(matrix){
+    return null;
+}
+
+Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
+    // {"class":"headers"}
+    return null;
+}
+
+Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
+    return html.tbody(matrix.lines.map(function(line){
         return html.tr(line.cells.map(function(cell){
             return html.td(cell);
         }));
-    }))]);
+    }));
+}
+
+Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
+    return html.table([].concat(
+        this.captionPart(matrix),
+        this.colGroups(matrix),
+        this.tHeadPart(matrix),
+        this.tBodyPart(matrix)
+    ));
 }
 
 
@@ -101,4 +118,3 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = Tabulator;
 }
 })();
-
