@@ -23,7 +23,13 @@ Tabulator.prototype.captionPart = function toHtmlTable(matrix){
 }
 
 Tabulator.prototype.colGroups = function colGroups(matrix){
-    return null;
+    var lineVariablesPart= matrix.lineVariables? html.colgroup({'class':'headers'},matrix.lineVariables.map(function(lineVariable){
+        return html.col({'class':lineVariable})})):null;
+    var columnVariablesPart=(matrix.columns)? html.colgroup({'class':'data'},matrix.columns.map(function(column){
+        return html.col({'class':'{\"'+matrix.columnVariables+'\":\"'+column.titles[0]+'\"}'}) })):null;
+    //console.log( 'lvp '+lineVariablesPart.join(',' ));  
+    //console.log( 'cvp '+columnVariablesPart.join(','));  
+    return [].concat(lineVariablesPart,columnVariablesPart);
 }
 
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
