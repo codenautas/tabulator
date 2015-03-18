@@ -13,8 +13,8 @@
     "js-to-html": ">=0.2.8"
   },
   "devDependencies": {
-    "express": "^4.12.2",
-    "istanbul": "~0.3.7",
+    "express": "^4.12.3",
+    "istanbul": "~0.3.8",
     "mocha": "~2.2.1",
     "supertest": "~0.15.0",
     "expect.js": "~0.3.1",
