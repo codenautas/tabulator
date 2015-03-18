@@ -37,12 +37,18 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     return null;
 }
 
+Tabulator.prototype.defaultShowAttribute='show';
+
+Tabulator.prototype.toCellTable=function(cell){
+    return html.td(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
+}
+
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     return html.tbody(matrix.lines.map(function(line){
         return html.tr(line.cells.map(function(cell){
-            return html.td(cell);
-        }));
-    }));
+            return this.toCellTable(cell);
+        },this));
+    },this));
 }
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){

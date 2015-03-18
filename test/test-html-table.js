@@ -46,13 +46,13 @@ describe('tabulator', function(){
                     cells:[{attr1:'value1', attr2:'value2'}]
                 }]
             };
-            var table=tabulator.toHtmlTable(matrix);
             var itCallsToCellTable=0;
             tabulator.toCellTable=function(cell){
                 expect(cell).to.eql({attr1:'value1', attr2:'value2'});
                 itCallsToCellTable++;
-                return "what to show & display";
+                return html.td(cell,"what to show & display");
             }
+            var table=tabulator.toHtmlTable(matrix);
             expect(table).to.be.an(jsToHtml.Html);
             expect(table.toHtmlText({pretty:true})).to.eql(
                 "<table>\n"+
@@ -64,6 +64,26 @@ describe('tabulator', function(){
                 "</table>\n"
             );
             expect(itCallsToCellTable).to.eql(1);
+        });
+        it('should render a 1x1 matrix with an object in cell with default show attribute', function(){
+            expect(tabulator.defaultShowAttribute).to.eql('show');
+            tabulator.defaultShowAttribute='to_show';
+            var matrix={
+                lines:[{
+                    cells:[{attr1:'value1', to_show:'what to display'}]
+                }]
+            };
+            var table=tabulator.toHtmlTable(matrix);
+            expect(table).to.be.an(jsToHtml.Html);
+            expect(table.toHtmlText({pretty:true})).to.eql(
+                "<table>\n"+
+                "  <tbody>\n"+
+                "    <tr>\n"+
+                "      <td attr1=value1 to_show='what to display'>what to display</td>\n"+
+                "    </tr>\n"+
+                "  </tbody>\n"+
+                "</table>\n"
+            );
         });
         it.skip('should render headers', function(){
             var matrix={
