@@ -31,21 +31,25 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
         for(var i=0; i<matrix.columnVariables.length; i++){
             var columnVariable=matrix.columnVariables[i];
             oClassName[columnVariable]=column.titles[i];
-        }
+        }   
         return html.col({'class':JSON.stringify(oClassName)}) 
     })):null;
-    
-    console.log('lineVariablesPart = '+ lineVariablesPart);
-    console.log('stringify(lineVariablesPart) = '+ JSON.stringify(lineVariablesPart));
-    console.log('concat = '+[].concat(lineVariablesPart,columnVariablesPart));
-    //console.log( 'lvp '+lineVariablesPart.join(',' ));  
-    //console.log( 'cvp '+columnVariablesPart.join(','));  
     return [].concat(lineVariablesPart,columnVariablesPart);
 }
 
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
-    // {"class":"headers"}
-    return null;
+    var lineVariablesHead= matrix.lineVariables?html.thead(matrix.lineVariables.map(function(lineVariable){
+        console.log(lineVariable);
+        return html.tr({'class': 'variable','rowspan':2},lineVariable)
+    })):null;
+    var columnVariablesPart=matrix.columnVariables?html.tr({'class':'variable', 'colspan':3},matrix.columnVariables):null;
+    console.log(columnVariablesPart);
+    var res=[].concat(lineVariablesHead,columnVariablesPart);
+    var columnVariablesHeadPart=matrix.lineVariables?html.thead(matrix.lineVariables.map(function(lineVariable){
+        return html.th({'class':'var_sex'}, 'both',lineVariable);
+    })):null;
+    var resUno=[].concat(res, columnVariablesHeadPart);
+    return [].concat(res, columnVariablesHeadPart);
 }
 
 Tabulator.prototype.defaultShowAttribute='show';

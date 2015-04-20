@@ -1,21 +1,36 @@
+<!--multilang v0 en:README.md es:LEEME.md -->
 # tabulator
+
 Put data into tables
 
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][downloads-url]
-[![Linux Build][travis-image]][travis-url]
+[![version](https://img.shields.io/npm/v/tabulator.svg)](https://npmjs.org/package/tabulator)
+[![downloads](https://img.shields.io/npm/dm/tabulator.svg)](https://npmjs.org/package/tabulator)
+[![linux](https://img.shields.io/travis/codenautas/tabulator/master.svg)](https://travis-ci.org/codenautas/tabulator)
 [![Windows Build][appveyor-image]][appveyor-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
-[![Code Climate][climate-image]][climate-url]
+[![coverage](https://img.shields.io/coveralls/codenautas/tabulator/master.svg)](https://coveralls.io/r/codenautas/tabulator)
+[![climate](https://img.shields.io/codeclimate/github/codenautas/tabulator.svg)](https://codeclimate.com/github/codenautas/tabulator)
+[![dependencies](https://img.shields.io/david/codenautas/tabulator.svg)](https://david-dm.org/codenautas/tabulator)
+<!--multilang buttons -->
+language: ![English](https://github.com/codenautas/multilang/blob/master/img/lang-en.png)
+also available in:
+[![Spanish](https://github.com/codenautas/multilang/blob/master/img/lang-es.png)](LEEME.md)
 
+<!--lang:en-->
 ## Install
+
+<!--lang:es--]
+## Instalación
+
+[!--lang:*-->
 
 ```sh
 $ npm install tabulator
 ```
 
 ## Example
-
+<!--lang:es--]
+## Ejemplo
+[!--lang:*-->
 ```js
 var Tabulator = require('tabulator').Tabulator;
 var tabulator = new Tabulator();
@@ -26,20 +41,12 @@ var matrix=tabulator.toMatrix(data);
 
 res.send(tabulator.toHtmlTable(matrix));
 ```
-
+<!--lang:en-->
 ## License
-
+<!--lang:es--]
+## Licencias
+-->
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/tabulator.svg?style=flat
-[npm-url]: https://npmjs.org/package/tabulator
-[travis-image]: https://img.shields.io/travis/codenautas/tabulator/master.svg?label=linux&style=flat
-[travis-url]: https://travis-ci.org/codenautas/tabulator
 [appveyor-image]: https://img.shields.io/appveyor/ci/emilioplatzer/tabulator/master.svg?label=windows&style=flat
 [appveyor-url]: https://ci.appveyor.com/project/emilioplatzer/tabulator
-[coveralls-image]: https://img.shields.io/coveralls/codenautas/tabulator/master.svg?style=flat
-[coveralls-url]: https://coveralls.io/r/codenautas/tabulator
-[downloads-image]: https://img.shields.io/npm/dm/tabulator.svg?style=flat
-[downloads-url]: https://npmjs.org/package/tabulator
-[climate-image]: https://codeclimate.com/github/codenautas/tabulator/badges/gpa.svg
-[climate-url]: https://codeclimate.com/github/codenautas/tabulator

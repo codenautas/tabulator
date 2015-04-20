@@ -85,7 +85,7 @@ describe('tabulator', function(){
                 "</table>\n"
             );
         });
-        it.skip('should render headers', function(){
+        it('should render headers for only one column variable', function(){
             var matrix={
                 caption:"Data for zone and area by sex",
                 lineVariables:['zone','area'],
