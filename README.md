@@ -6,7 +6,6 @@ Put data into tables
 [![version](https://img.shields.io/npm/v/tabulator.svg)](https://npmjs.org/package/tabulator)
 [![downloads](https://img.shields.io/npm/dm/tabulator.svg)](https://npmjs.org/package/tabulator)
 [![linux](https://img.shields.io/travis/codenautas/tabulator/master.svg)](https://travis-ci.org/codenautas/tabulator)
-[![Windows Build][appveyor-image]][appveyor-url]
 [![coverage](https://img.shields.io/coveralls/codenautas/tabulator/master.svg)](https://coveralls.io/r/codenautas/tabulator)
 [![climate](https://img.shields.io/codeclimate/github/codenautas/tabulator.svg)](https://codeclimate.com/github/codenautas/tabulator)
 [![dependencies](https://img.shields.io/david/codenautas/tabulator.svg)](https://david-dm.org/codenautas/tabulator)
