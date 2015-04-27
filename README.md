@@ -3,6 +3,7 @@
 
 Put data into tables
 
+![designing](https://img.shields.io/badge/stability-desgining-red.svg)
 [![version](https://img.shields.io/npm/v/tabulator.svg)](https://npmjs.org/package/tabulator)
 [![downloads](https://img.shields.io/npm/dm/tabulator.svg)](https://npmjs.org/package/tabulator)
 [![linux](https://img.shields.io/travis/codenautas/tabulator/master.svg)](https://travis-ci.org/codenautas/tabulator)
@@ -46,6 +47,3 @@ res.send(tabulator.toHtmlTable(matrix));
 ## Licencias
 -->
 [MIT](LICENSE)
-
-[appveyor-image]: https://img.shields.io/appveyor/ci/emilioplatzer/tabulator/master.svg?label=windows&style=flat
-[appveyor-url]: https://ci.appveyor.com/project/emilioplatzer/tabulator
