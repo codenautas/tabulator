@@ -1,7 +1,11 @@
 <!--multilang v0 en:README.md es:LEEME.md -->
 # tabulator
+<!--lang:en-->
 
 Put data into tables
+<!--lang:es--]
+Inserta datos en tablas
+[!--lang:*-->
 
 ![designing](https://img.shields.io/badge/stability-desgining-red.svg)
 [![version](https://img.shields.io/npm/v/tabulator.svg)](https://npmjs.org/package/tabulator)
@@ -10,10 +14,16 @@ Put data into tables
 [![coverage](https://img.shields.io/coveralls/codenautas/tabulator/master.svg)](https://coveralls.io/r/codenautas/tabulator)
 [![climate](https://img.shields.io/codeclimate/github/codenautas/tabulator.svg)](https://codeclimate.com/github/codenautas/tabulator)
 [![dependencies](https://img.shields.io/david/codenautas/tabulator.svg)](https://david-dm.org/codenautas/tabulator)
+
 <!--multilang buttons -->
-language: ![English](https://github.com/codenautas/multilang/blob/master/img/lang-en.png)
+language: ![English](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)
 also available in:
-[![Spanish](https://github.com/codenautas/multilang/blob/master/img/lang-es.png)](LEEME.md)
+[![Spanish](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)](LEEME.md)
+
+
+
+
+
 
 <!--lang:en-->
 ## Install
