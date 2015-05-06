@@ -27,10 +27,16 @@ also available in:
 $ npm install tabulator
 ```
 
+<!--lang:en-->
+
 ## Example
+
 <!--lang:es--]
+
 ## Ejemplo
+
 [!--lang:*-->
+
 ```js
 var Tabulator = require('tabulator').Tabulator;
 var tabulator = new Tabulator();
@@ -41,9 +47,15 @@ var matrix=tabulator.toMatrix(data);
 
 res.send(tabulator.toHtmlTable(matrix));
 ```
+
 <!--lang:en-->
+
 ## License
+
 <!--lang:es--]
+
 ## Licencias
--->
+
+[!--lang:*-->
+
 [MIT](LICENSE)
