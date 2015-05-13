@@ -1,7 +1,11 @@
 <!--multilang v0 en:README.md es:LEEME.md -->
 # tabulator
+<!--lang:en-->
 
 Put data into tables
+<!--lang:es--]
+Inserta datos en tablas
+[!--lang:*-->
 
 ![designing](https://img.shields.io/badge/stability-desgining-red.svg)
 [![version](https://img.shields.io/npm/v/tabulator.svg)](https://npmjs.org/package/tabulator)
@@ -18,6 +22,7 @@ also available in:
 [![Spanish](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)](LEEME.md)
 
 <!--lang:en-->
+
 ## Install
 
 <!--lang:es--]
@@ -29,10 +34,16 @@ also available in:
 $ npm install tabulator
 ```
 
+<!--lang:en-->
+
 ## Example
+
 <!--lang:es--]
+
 ## Ejemplo
+
 [!--lang:*-->
+
 ```js
 var Tabulator = require('tabulator').Tabulator;
 var tabulator = new Tabulator();
@@ -48,10 +59,10 @@ res.send(tabulator.toHtmlTable(matrix));
 
 ## License
 
+[MIT](LICENSE)
+
 <!--lang:es--]
 
 ## Licencias
-
-[!--lang:es-->
 
 [MIT](LICENSE)
