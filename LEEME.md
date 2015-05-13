@@ -1,4 +1,14 @@
-<!--multilang v0 en:README.md es:LEEME.md -->
+<!-- multilang from README.md
+
+
+
+
+NO MODIFIQUE ESTE ARCHIVO. FUE GENERADO AUTOMÁTICAMENTE POR multilang.js
+
+
+
+
+-->
 # tabulator
 
 Put data into tables
@@ -13,26 +23,19 @@ Put data into tables
 
 <!--multilang buttons-->
 
-language: ![English](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)
-also available in:
-[![Spanish](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)](LEEME.md)
+idioma: ![castellano](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)
+también disponible en:
+[![inglés](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)](README.md)
 
-<!--lang:en-->
-## Install
-
-<!--lang:es--]
 ## Instalación
 
-[!--lang:*-->
 
 ```sh
 $ npm install tabulator
 ```
 
 ## Example
-<!--lang:es--]
 ## Ejemplo
-[!--lang:*-->
 ```js
 var Tabulator = require('tabulator').Tabulator;
 var tabulator = new Tabulator();
@@ -44,14 +47,8 @@ var matrix=tabulator.toMatrix(data);
 res.send(tabulator.toHtmlTable(matrix));
 ```
 
-<!--lang:en-->
-
-## License
-
-<!--lang:es--]
 
 ## Licencias
 
-[!--lang:es-->
 
 [MIT](LICENSE)
