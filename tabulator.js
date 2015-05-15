@@ -38,9 +38,14 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
         console.log('ATENCION por ahora matrix.columnVariables.length deberia ser 1 y es',matrix.columnVariables.length);
         throw new Error('ATENCION por ahora matrix.columnVariables.length deberia ser 1 y es'+matrix.columnVariables.length);
     }
+
     return html.thead([
-        html.tr(),
-        html.tr()
+        html.tr(matrix.lineVariables.map(function(varName){
+            return html.th({'class':'variable', 'rowspan':2},varName);
+        }).concat(html.th({'class':'variable', 'colspan':matrix.columns.length},matrix.columnVariables[0]))),
+        html.tr(matrix.columns.map(function(column){
+            return html.th({'class':'var_'+matrix.columnVariables[0]},column.titles[0])
+        }))
     ]);
 }
 
@@ -49,6 +54,7 @@ Tabulator.prototype.defaultShowAttribute='show';
 Tabulator.prototype.toCellTable=function(cell){
     return html.td(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
 }
+
 
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     return html.tbody(matrix.lines.map(function(line){

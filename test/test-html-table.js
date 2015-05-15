@@ -113,7 +113,7 @@ describe('tabulator', function(){
                     html.tr([
                         html.th({'class':'variable', 'rowspan':2},'zone'),
                         html.th({'class':'variable', 'rowspan':2},'area'),
-                        html.th({'class':'variable', 'colspan':2},'sex')//colspan=3 porque columns.length=3
+                        html.th({'class':'variable', 'colspan':3},'sex')//colspan=3 porque columns.length=3
                     ]),
                     html.tr([
                         html.th({'class':'var_sex'}, 'both'),
