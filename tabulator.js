@@ -18,7 +18,7 @@ var Tabulator = function(){
 
 (function(){
 
-Tabulator.prototype.captionPart = function toHtmlTable(matrix){
+Tabulator.prototype.captionPart = function captionPart(matrix){
     return matrix.caption?html.caption(matrix.caption):null;
 }
 
@@ -33,8 +33,15 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
 }
 
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
-    // {"class":"headers"}
-    return null;
+    if(!matrix.columnVariables) return null;
+    if(matrix.columnVariables.length!=1){
+        console.log('ATENCION por ahora matrix.columnVariables.length deberia ser 1 y es',matrix.columnVariables.length);
+        throw new Error('ATENCION por ahora matrix.columnVariables.length deberia ser 1 y es'+matrix.columnVariables.length);
+    }
+    return html.thead([
+        html.tr(),
+        html.tr()
+    ]);
 }
 
 Tabulator.prototype.defaultShowAttribute='show';

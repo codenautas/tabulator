@@ -10,8 +10,7 @@ NO MODIFIQUE ESTE ARCHIVO. FUE GENERADO AUTOMÁTICAMENTE POR multilang.js
 
 -->
 # tabulator
-
-Put data into tables
+Inserta datos en tablas
 
 ![designing](https://img.shields.io/badge/stability-desgining-red.svg)
 [![version](https://img.shields.io/npm/v/tabulator.svg)](https://npmjs.org/package/tabulator)
@@ -34,8 +33,10 @@ también disponible en:
 $ npm install tabulator
 ```
 
-## Example
+
 ## Ejemplo
+
+
 ```js
 var Tabulator = require('tabulator').Tabulator;
 var tabulator = new Tabulator();
@@ -49,6 +50,5 @@ res.send(tabulator.toHtmlTable(matrix));
 
 
 ## Licencias
-
 
 [MIT](LICENSE)
