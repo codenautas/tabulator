@@ -49,6 +49,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     ]);
 }
 
+
 Tabulator.prototype.defaultShowAttribute='show';
 
 Tabulator.prototype.toCellTable=function(cell){

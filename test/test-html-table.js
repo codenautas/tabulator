@@ -98,7 +98,7 @@ describe('tabulator', function(){
                 lines:[]
             };
             var table=tabulator.toHtmlTable(matrix,{pretty:true});
-            expect(table.content.slice(0,4)).to.eql([
+            expect(table.content).to.eql([
                 html.caption('Data for zone and area by sex'),
                 html.colgroup({'class':'headers'}, [
                     html.col({'class':'zone'}), 
