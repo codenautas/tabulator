@@ -52,3 +52,4 @@ res.send(tabulator.toHtmlTable(matrix));
 ## Licencias
 
 [MIT](LICENSE)
+
