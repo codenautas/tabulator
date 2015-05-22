@@ -52,16 +52,23 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
 
 Tabulator.prototype.defaultShowAttribute='show';
 
+Tabulator.prototype.toLeftCellTable=function(cell){
+    return html.th(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
+}
+
 Tabulator.prototype.toCellTable=function(cell){
     return html.td(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
 }
 
-
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     return html.tbody(matrix.lines.map(function(line){
-        return html.tr(line.cells.map(function(cell){
-            return this.toCellTable(cell);
-        },this));
+        return html.tr(
+            (line.titles||[]).map(function(title){
+                return this.toLeftCellTable(title);
+            },this).concat(line.cells.map(function(cell){
+                return this.toCellTable(cell);
+            },this))
+        );
     },this));
 }
 

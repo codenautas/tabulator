@@ -91,7 +91,7 @@ describe('tabulator', function(){
                 lineVariables:['zone','area'],
                 columnVariables:['sex'],
                 columns:[
-                    {titles:['both']},
+                    {titles:[2]},
                     {titles:['masc']},
                     {titles:['fem' ]}
                 ],
@@ -105,7 +105,7 @@ describe('tabulator', function(){
                     html.col({'class':'area'}), 
                 ]), 
                 html.colgroup({'class':'data'}, [
-                    html.col({'class':'{\"sex\":\"both\"}'}), 
+                    html.col({'class':'{\"sex\":\"2\"}'}), 
                     html.col({'class':'{\"sex\":\"masc\"}'}),
                     html.col({'class':'{\"sex\":\"fem\"}'})
                 ]),
@@ -116,7 +116,7 @@ describe('tabulator', function(){
                         html.th({'class':'variable', 'colspan':3},'sex')//colspan=3 porque columns.length=3
                     ]),
                     html.tr([
-                        html.th({'class':'var_sex'}, 'both'),
+                        html.th({'class':'var_sex'}, 2),
                         html.th({'class':'var_sex'}, 'masc'),
                         html.th({'class':'var_sex'}, 'fem')
                     ])
@@ -124,7 +124,7 @@ describe('tabulator', function(){
                 html.tbody()
             ]);
         });
-        it.skip('should render line titles', function(){
+        it('should render line titles', function(){
             var matrix={
                 lines:[
                     { titles:['one','alpha','a'], cells:["101", "102"]},
@@ -160,8 +160,8 @@ describe('tabulator', function(){
                     { titles:['group 1','bigs'  ,'a'], cells:[]},
                     { titles:['group 1','bigs'  ,'b'], cells:[]},
                     { titles:['group 1','smalls','a'], cells:[]},
-                    { titles:['group 2','bigs'  ,'a'], cells:[]},
-                    { titles:['group 2','bigs'  ,'b'], cells:[]},
+                    { titles:['group 2','bigs'  ,  1], cells:[]},
+                    { titles:['group 2','bigs'  ,  2], cells:[]},
                     { titles:['group 3','bigs'  ,'a'], cells:[]},
                 ]
             };
@@ -170,8 +170,8 @@ describe('tabulator', function(){
                 "\n<tr>"+"<th colspan=3>group 1</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
                 "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
                 "\n<tr>"                             +"<th>smalls</th>"        +"<th>a</th>"+"</tr>"+
-                "\n<tr>"+"<th colspan=2>group 2</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
-                "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
+                "\n<tr>"+"<th colspan=2>group 2</th>"+"<th colspan=2>bigs</th>"+"<th>1</th>"+"</tr>"+
+                "\n<tr>"                                                       +"<th>2</th>"+"</tr>"+
                 "\n<tr>"+"<th>group 3</th>"          +"<th>bigs</th>"          +"<th>a</th>"+"</tr>"+
                 "</tbody>"+"</table>"
             );
