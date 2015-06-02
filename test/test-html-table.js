@@ -105,7 +105,7 @@ describe('tabulator', function(){
                     html.col({'class':'area'}), 
                 ]), 
                 html.colgroup({'class':'data'}, [
-                    html.col({'class':'{\"sex\":\"2\"}'}), 
+                    html.col({'class':'{\"sex\":2}'}), 
                     html.col({'class':'{\"sex\":\"masc\"}'}),
                     html.col({'class':'{\"sex\":\"fem\"}'})
                 ]),
@@ -119,6 +119,59 @@ describe('tabulator', function(){
                         html.th({'class':'var_sex'}, 2),
                         html.th({'class':'var_sex'}, 'masc'),
                         html.th({'class':'var_sex'}, 'fem')
+                    ])
+                ]),
+                html.tbody()
+            ]);
+        });
+        it('should render headers for many column variables', function(){
+            var matrix={
+                caption:"Data for zone and area by sex",
+                lineVariables:['zone','area'],
+                columnVariables:['age_range', 'sex'],
+                columns:[
+                    {titles:['adult' ,2     ]},
+                    {titles:['adult' ,'masc']},
+                    {titles:['adult' ,'fem' ]},
+                    {titles:['senior','masc']},
+                    {titles:['senior','fem' ]},
+                ],
+                lines:[]
+            };
+            var table=tabulator.toHtmlTable(matrix,{pretty:true});
+            expect(table.content).to.eql([
+                html.caption('Data for zone and area by sex'),
+                html.colgroup({'class':'headers'}, [
+                    html.col({'class':'zone'}), 
+                    html.col({'class':'area'}), 
+                ]), 
+                html.colgroup({'class':'data'}, [
+                    html.col({'class':'{\"age_range\":\"adult\",\"sex\":2}'   }), 
+                    html.col({'class':'{\"age_range\":\"adult\",\"sex\":\"masc\"}'}),
+                    html.col({'class':'{\"age_range\":\"adult\",\"sex\":\"fem\"}' }),
+                    html.col({'class':'{\"age_range\":\"senior\",\"sex\":\"masc\"}'}),
+                    html.col({'class':'{\"age_range\":\"senior\",\"sex\":\"fem\"}' })
+                ]),
+                html.thead([
+                    html.tr([
+                        html.th({'class':'variable', 'rowspan':4},'zone'),
+                        html.th({'class':'variable', 'rowspan':4},'area'),
+                        html.th({'class':'variable', 'colspan':5},'age_range')//colspan=5 porque columns.length=5
+                    ]),
+                    html.tr([
+                        html.th({'class':'var_age_range', colspan:3}, 'adult'),
+                        html.th({'class':'var_age_range', colspan:2}, 'senior')
+                    ]),
+                    html.tr([
+                        html.th({'class':'variable', colspan:3}, 'sex'),
+                        html.th({'class':'variable', colspan:2}, 'sex')
+                    ]),
+                    html.tr([
+                        html.th({'class':'var_sex'}, 2),
+                        html.th({'class':'var_sex'}, 'masc'),
+                        html.th({'class':'var_sex'}, 'fem'),
+                        html.th({'class':'var_sex'}, 'masc'),
+                        html.th({'class':'var_sex'}, 'fem'),
                     ])
                 ]),
                 html.tbody()

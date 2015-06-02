@@ -13,6 +13,14 @@ var html=require('js-to-html').html;
  // import used by this file
 // var dependency = dependency || require('dependency');  
 
+function array_combine(keys, values) {
+  var new_array = {};
+  for (var i = 0; i < keys.length; i++) {
+    new_array[keys[i]] = values[i];
+  }
+  return new_array;
+}
+
 var Tabulator = function(){
 };
 
@@ -26,7 +34,7 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
     var lineVariablesPart= matrix.lineVariables? html.colgroup({'class':'headers'},matrix.lineVariables.map(function(lineVariable){
         return html.col({'class':lineVariable})})):null;
     var columnVariablesPart=(matrix.columns)? html.colgroup({'class':'data'},matrix.columns.map(function(column){
-        return html.col({'class':'{\"'+matrix.columnVariables+'\":\"'+column.titles[0]+'\"}'}) })):null;
+        return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))}) })):null;
     //console.log( 'lvp '+lineVariablesPart.join(',' ));  
     //console.log( 'cvp '+columnVariablesPart.join(','));  
     return [].concat(lineVariablesPart,columnVariablesPart);
@@ -34,14 +42,9 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
 
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     if(!matrix.columnVariables) return null;
-    if(matrix.columnVariables.length!=1){
-        console.log('ATENCION por ahora matrix.columnVariables.length deberia ser 1 y es',matrix.columnVariables.length);
-        throw new Error('ATENCION por ahora matrix.columnVariables.length deberia ser 1 y es'+matrix.columnVariables.length);
-    }
-
     return html.thead([
         html.tr(matrix.lineVariables.map(function(varName){
-            return html.th({'class':'variable', 'rowspan':2},varName);
+            return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},varName);
         }).concat(html.th({'class':'variable', 'colspan':matrix.columns.length},matrix.columnVariables[0]))),
         html.tr(matrix.columns.map(function(column){
             return html.th({'class':'var_'+matrix.columnVariables[0]},column.titles[0])
