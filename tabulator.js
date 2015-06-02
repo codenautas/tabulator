@@ -8,6 +8,7 @@
  * Module dependencies.
  */
 
+var _=require('lodash');
 var html=require('js-to-html').html;
  
  // import used by this file
@@ -42,14 +43,51 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
 
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     if(!matrix.columnVariables) return null;
-    return html.thead([
-        html.tr(matrix.lineVariables.map(function(varName){
-            return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},varName);
-        }).concat(html.th({'class':'variable', 'colspan':matrix.columns.length},matrix.columnVariables[0]))),
-        html.tr(matrix.columns.map(function(column){
-            return html.th({'class':'var_'+matrix.columnVariables[0]},column.titles[0])
+    return html.thead(
+        [
+            html.tr(
+                matrix.lineVariables.map(function(varName){
+                    return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},varName);
+                }).concat(
+                    html.th({'class':'variable', colspan:matrix.columns.length},matrix.columnVariables[0])
+                )
+            )
+        ].concat(_.flatten(matrix.columnVariables.map(function(columnVariable,iColumnVariable){
+            var lineTitles=[];
+            var lineVariables=[];
+            var previousValuesUptoThisRowJson="none";
+            var colspan=1;
+            function actualizeColspan(){
+                if(colspan>1){
+                    titleCellAttrs.colspan=colspan;
+                    variableCellAttrs.colspan=colspan;
+                }
+            }
+            for(var i=0; i<matrix.columns.length; i++){
+                var actualValues=matrix.columns[i].titles;
+                var actualValuesUptoThisRow=actualValues.slice(0,iColumnVariable+1);
+                var actualValuesUptoThisRowJson=JSON.stringify(actualValuesUptoThisRow);
+                if(actualValuesUptoThisRowJson!=previousValuesUptoThisRowJson){
+                    actualizeColspan();
+                    var titleCellAttrs={'class':'var_'+matrix.columnVariables[iColumnVariable]};
+                    lineTitles.push(html.th(titleCellAttrs, actualValues[iColumnVariable]));
+                    if(iColumnVariable+1<matrix.columnVariables.length){
+                        var variableCellAttrs={'class':'variable'};
+                        lineVariables.push(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1]))
+                    }
+                    previousValuesUptoThisRowJson=actualValuesUptoThisRowJson;
+                    colspan=0;
+                };
+                colspan++;
+            }
+            actualizeColspan();
+            if(iColumnVariable+1<matrix.columnVariables.length){
+                return [html.tr(lineTitles), html.tr(lineVariables)];
+            }else{
+                return [html.tr(lineTitles)];
+            }
         }))
-    ]);
+    ));
 }
 
 

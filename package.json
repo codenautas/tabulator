@@ -10,6 +10,8 @@
   }],
   "main": "tabulator.js",
   "dependencies": {
+    "lodash": ">=3.9.3",
+    
     "js-to-html": ">=0.2.11"
   },
   "devDependencies": {
