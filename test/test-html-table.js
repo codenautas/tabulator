@@ -207,12 +207,13 @@ describe('tabulator', function(){
                 "</table>\n"
             );
         });
-        it.skip('should render condense title lines and subtitles', function(){
+        it('should render condense title lines and subtitles', function(){
             var matrix={
                 lines:[
                     { titles:['group 1','bigs'  ,'a'], cells:[]},
                     { titles:['group 1','bigs'  ,'b'], cells:[]},
                     { titles:['group 1','smalls','a'], cells:[]},
+                    // { titles:['group 3','bigs'  ,'a'], cells:[]},
                     { titles:['group 2','bigs'  ,  1], cells:[]},
                     { titles:['group 2','bigs'  ,  2], cells:[]},
                     { titles:['group 3','bigs'  ,'a'], cells:[]},
@@ -223,6 +224,7 @@ describe('tabulator', function(){
                 "\n<tr>"+"<th colspan=3>group 1</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
                 "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
                 "\n<tr>"                             +"<th>smalls</th>"        +"<th>a</th>"+"</tr>"+
+                // "\n<tr>"+"<th>group 3</th>"          +"<th>bigs</th>"          +"<th>a</th>"+"</tr>"+
                 "\n<tr>"+"<th colspan=2>group 2</th>"+"<th colspan=2>bigs</th>"+"<th>1</th>"+"</tr>"+
                 "\n<tr>"                                                       +"<th>2</th>"+"</tr>"+
                 "\n<tr>"+"<th>group 3</th>"          +"<th>bigs</th>"          +"<th>a</th>"+"</tr>"+
