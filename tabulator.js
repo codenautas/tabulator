@@ -1,3 +1,4 @@
+"use strict";
 /*!
  * tabulator
  * 2015 Codenautas
@@ -35,9 +36,7 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
     var lineVariablesPart= matrix.lineVariables? html.colgroup({'class':'headers'},matrix.lineVariables.map(function(lineVariable){
         return html.col({'class':lineVariable})})):null;
     var columnVariablesPart=(matrix.columns)? html.colgroup({'class':'data'},matrix.columns.map(function(column){
-        return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))}) })):null;
-    //console.log( 'lvp '+lineVariablesPart.join(',' ));  
-    //console.log( 'cvp '+columnVariablesPart.join(','));  
+        return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))}) })):null; 
     return [].concat(lineVariablesPart,columnVariablesPart);
 }
 
@@ -57,7 +56,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
             var lineVariables=[];
             var previousValuesUptoThisRowJson="none";
             var colspan=1;
-            function actualizeColspan(){
+            function updateColspan(){
                 if(colspan>1){
                     titleCellAttrs.colspan=colspan;
                     variableCellAttrs.colspan=colspan;
@@ -68,7 +67,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                 var actualValuesUptoThisRow=actualValues.slice(0,iColumnVariable+1);
                 var actualValuesUptoThisRowJson=JSON.stringify(actualValuesUptoThisRow);
                 if(actualValuesUptoThisRowJson!=previousValuesUptoThisRowJson){
-                    actualizeColspan();
+                    updateColspan();
                     var titleCellAttrs={'class':'var_'+matrix.columnVariables[iColumnVariable]};
                     lineTitles.push(html.th(titleCellAttrs, actualValues[iColumnVariable]));
                     if(iColumnVariable+1<matrix.columnVariables.length){
@@ -80,7 +79,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                 };
                 colspan++;
             }
-            actualizeColspan();
+            updateColspan();
             if(iColumnVariable+1<matrix.columnVariables.length){
                 return [html.tr(lineTitles), html.tr(lineVariables)];
             }else{
@@ -102,16 +101,58 @@ Tabulator.prototype.toCellTable=function(cell){
 }
 
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
-    return html.tbody(matrix.lines.map(function(line){
-        return html.tr(
-            (line.titles||[]).map(function(title){
-                return this.toLeftCellTable(title);
-            },this).concat(line.cells.map(function(cell){
+    var trList=[];
+    var previousLineTitles="none";
+    var titleLineAttrs=[];    
+    var colspans=[];    
+    if(matrix.lines && matrix.lines[0] && matrix.lines[0].titles){
+        for(var j=0;j<matrix.lines[0].titles.length;j++){
+            colspans[j]=0;
+        }
+    }
+    for(var i=0; i<matrix.lines.length;i++){
+        var actualLine=matrix.lines[i]
+        var actualLineTitles=actualLine.titles;
+        var thListActualLine=[];
+        var actualLineCells=matrix.lines[i].cells;
+        var td=actualLineCells.map(function(cell){
+            return (this.toCellTable(cell));
+        },this);
+        if(actualLineTitles){
+            for(j=0;j<actualLineTitles.length;j++){
+                var actualTitleActualLine=actualLineTitles[j];
+                var actualTitlePreviousLine=previousLineTitles[j];
+                //estas dos lineas que siguen se podrian definir adentro del if
+                var previousTitleActualLine=actualLineTitles[j-1];
+                var previousTitlePriviousLine=previousLineTitles[j-1];
+                colspans[j]++
+                if(colspans[j]>1){
+                    titleLineAttrs[j].colspan=colspans[j];
+                }
+                if(actualTitleActualLine!=actualTitlePreviousLine || 
+                    (previousTitleActualLine!=previousTitlePriviousLine && actualTitleActualLine==actualTitlePreviousLine)
+                ){
+                    colspans[j]=0;
+                    titleLineAttrs[j]={};
+                    thListActualLine.push(html.th(titleLineAttrs[j],actualTitleActualLine));
+                }
+            }
+        }
+        previousLineTitles=actualLineTitles;
+        trList.push(html.tr(thListActualLine.concat(td)));
+    }
+    return html.tbody(trList)
+}
+      /*  matrix.lines.map(function(line){
+            return html.tr(
+                (line.titles||[]).map(function(title){
+                    return this.toLeftCellTable(title);
+                },this).concat(line.cells.map(function(cell){
                 return this.toCellTable(cell);
             },this))
         );
-    },this));
-}
+    },this));*/
+
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
     return html.table([].concat(
