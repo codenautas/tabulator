@@ -142,6 +142,7 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
 
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
+    this.controls(matrix);
     return html.table([].concat(
         this.captionPart(matrix),
         this.colGroups(matrix),
@@ -150,7 +151,36 @@ Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
     ));
 }
 
-
+Tabulator.prototype.controls=function controls(matrix){
+    var  matrixLineVariables=matrix.lineVariables;
+    var  matrixLines=matrix.lines;
+    var  matrixColumnVariables=matrix.columnVariables;
+    var  matrixColumns=matrix.columns;
+    if(matrixLineVariables && matrixLines){
+        quantityLineVariables(matrixLineVariables,matrixLines,'lineVariables')
+    }
+    if(matrixColumnVariables && matrixColumns){
+        quantityLineVariables(matrixColumnVariables,matrixColumns,'columnVariables')
+    }
+        
+    function quantityLineVariables(arrVar,objVar,nameArrVar){
+        var variablesQuantity=arrVar.length;
+        for(var i=0;i<objVar.length;i++){
+            if(objVar[i].titles.length!=variablesQuantity){
+                var string='Line '+i+' has '+objVar[i].titles.length+' values but '+ nameArrVar+' has '+variablesQuantity;
+                throw new Error(string+ 'line 2 has 3 values but lineVariables has 2'+'column 1 has 0 values but columnVariables has 1');
+            }
+        }   
+    };
+   /* function existenceOfTitle(arrVar,objVar,nameArrVar){
+        
+        if(arrVar &&(objVar.titles==null) ){
+            console.log(arrVar+objVar.titles+(objVar.titles==null));
+            throw new Error('there are no titles in column 0 but columnVariables exists');
+        }
+    }
+    existenceOfTitle(matrixColumnVariables,matrixColumns,'columnVariables')*/
+}
 
 
 
