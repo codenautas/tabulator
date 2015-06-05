@@ -102,7 +102,7 @@ Tabulator.prototype.toCellTable=function(cell){
 
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     var trList=[];
-    var previousLineTitles="none";
+    var previousLineTitles=[];
     var titleLineAttrs=[];    
     var colspans=[];    
     if(matrix.lines && matrix.lines[0] && matrix.lines[0].titles){
@@ -119,39 +119,26 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
             return (this.toCellTable(cell));
         },this);
         if(actualLineTitles){
-            for(j=0;j<actualLineTitles.length;j++){
-                var actualTitleActualLine=actualLineTitles[j];
-                var actualTitlePreviousLine=previousLineTitles[j];
-                //estas dos lineas que siguen se podrian definir adentro del if
-                var previousTitleActualLine=actualLineTitles[j-1];
-                var previousTitlePriviousLine=previousLineTitles[j-1];
+            for(var j=0;j<actualLineTitles.length;j++){
+                var actualLineTitlesUpToNow=actualLineTitles.slice(0,j+1);
+                var previousLineTitlesUpToNow=previousLineTitles.slice(0,j+1);
                 colspans[j]++
                 if(colspans[j]>1){
                     titleLineAttrs[j].colspan=colspans[j];
                 }
-                if(actualTitleActualLine!=actualTitlePreviousLine || 
-                    (previousTitleActualLine!=previousTitlePriviousLine && actualTitleActualLine==actualTitlePreviousLine)
-                ){
+                if(JSON.stringify(actualLineTitlesUpToNow)!=JSON.stringify(previousLineTitlesUpToNow)){
                     colspans[j]=0;
                     titleLineAttrs[j]={};
-                    thListActualLine.push(html.th(titleLineAttrs[j],actualTitleActualLine));
+                    thListActualLine.push(html.th(titleLineAttrs[j],actualLineTitles[j]));
                 }
             }
+            previousLineTitles=actualLineTitles;
         }
-        previousLineTitles=actualLineTitles;
         trList.push(html.tr(thListActualLine.concat(td)));
     }
     return html.tbody(trList)
 }
-      /*  matrix.lines.map(function(line){
-            return html.tr(
-                (line.titles||[]).map(function(title){
-                    return this.toLeftCellTable(title);
-                },this).concat(line.cells.map(function(cell){
-                return this.toCellTable(cell);
-            },this))
-        );
-    },this));*/
+     
 
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
