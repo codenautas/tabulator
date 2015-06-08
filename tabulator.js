@@ -152,17 +152,27 @@ Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
 }
 
 Tabulator.prototype.controls=function controls(matrix){
+
     var  matrixLineVariables=matrix.lineVariables;
     var  matrixLines=matrix.lines;
     var  matrixColumnVariables=matrix.columnVariables;
     var  matrixColumns=matrix.columns;
-    if(matrixLineVariables && matrixLines){
-        quantityLineVariables(matrixLineVariables,matrixLines,'lineVariables')
+
+    if(matrixLineVariables){
+        if(matrixLines){
+            
+            quantityLineVariables(matrixLineVariables,matrixLines,'lineVariables')
+        }
     }
-    if(matrixColumnVariables && matrixColumns){
-        quantityLineVariables(matrixColumnVariables,matrixColumns,'columnVariables')
+    if(matrixColumnVariables){
+        if(matrixColumns){
+            if(matrixColumns[0].titles!=null){
+                quantityLineVariables(matrixColumnVariables,matrixColumns,'columnVariables');
+            }else{
+                throw new Error('there are no titles in column 0 but columnVariables exists'+'/line 2 has 1 cells but columns has 3/');
+            }
+        }
     }
-        
     function quantityLineVariables(arrVar,objVar,nameArrVar){
         var variablesQuantity=arrVar.length;
         for(var i=0;i<objVar.length;i++){
@@ -172,14 +182,20 @@ Tabulator.prototype.controls=function controls(matrix){
             }
         }   
     };
-   /* function existenceOfTitle(arrVar,objVar,nameArrVar){
-        
-        if(arrVar &&(objVar.titles==null) ){
-            console.log(arrVar+objVar.titles+(objVar.titles==null));
-            throw new Error('there are no titles in column 0 but columnVariables exists');
+
+    function quantityOfCells(matrix){
+        if(matrix.columns){
+            if(matrix.lines){
+                for(var i=0;i<matrix.lines.length;i++){
+                    if(matrix.lines[i].cells.length!=matrix.columns.length){
+                        throw new Error('line 2 has 1 cells but columns has 3');
+                    }
+                }
+            }
         }
     }
-    existenceOfTitle(matrixColumnVariables,matrixColumns,'columnVariables')*/
+    quantityOfCells(matrix)
+    
 }
 
 
