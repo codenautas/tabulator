@@ -156,7 +156,6 @@ Tabulator.prototype.controls=function controls(matrix){
     var  matrixLines=matrix.lines;
     var  matrixColumnVariables=matrix.columnVariables;
     var  matrixColumns=matrix.columns;
-
     if(matrixColumnVariables && matrixColumns){
         variableExistanceAndQuantity(matrixColumnVariables,matrixColumns,'columnVariables');
     }
@@ -166,16 +165,18 @@ Tabulator.prototype.controls=function controls(matrix){
     if(matrixColumns && matrixLines){
         cellExistanceAndQuantity(matrixColumns,matrixLines,'cells')
     }
- 
     function variableExistanceAndQuantity(arrVar,objVar,nameArrVar){
+        var varName=nameArrVar=='columnVariables'?'column ':'line ';
         var variablesQuantity=arrVar.length;
         for(var i=0;i<objVar.length;i++){
             if(objVar[i].titles){
                 if(objVar[i].titles.length!=variablesQuantity){
-                    throw new Error('column 1 has 0 values but columnVariables has 1'+'line 2 has 3 values but lineVariables has 2');
+                    var errorMessage=varName+i+' has '+objVar[i].titles.length+' values but '+nameArrVar+' has '+variablesQuantity;
+                    throw new Error(errorMessage);
                 }
             }else{
-                throw new Error('there are no titles in column 0 but columnVariables exists'+'there are no titles in line 1 but lineVariables exists');
+                var errorMessage='there are no titles in '+ varName +i+' but '+nameArrVar+ ' exists'; 
+                throw new Error(errorMessage);
             }
         }
     }
@@ -184,11 +185,13 @@ Tabulator.prototype.controls=function controls(matrix){
         var columnQuantity=matrixColumns.length;
         for(var i=0;i<matrixLines.length;i++){
             if(matrixLines[i].cells.length>0){
-                if(matrixLines[i].cells!=columnQuantity){
-                    throw new Error('line 2 has 1 cells but columns has 3');
+                if(matrixLines[i].cells.length!=columnQuantity){
+                    var errorMessage='line '+i+' has '+matrixLines[i].cells.length+' cells but columns has '+columnQuantity;
+                    throw new Error(errorMessage);
                 }
             }else{
-                throw new Error('there are no cells in line 0 but columns exists'); 
+                var errorMessage='there are no cells in line '+i+' but columns exists';
+                throw new Error(errorMessage); 
             }
         }
     }
