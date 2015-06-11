@@ -152,50 +152,46 @@ Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
 }
 
 Tabulator.prototype.controls=function controls(matrix){
-
     var  matrixLineVariables=matrix.lineVariables;
     var  matrixLines=matrix.lines;
     var  matrixColumnVariables=matrix.columnVariables;
     var  matrixColumns=matrix.columns;
 
-    if(matrixLineVariables){
-        if(matrixLines){
-            
-            quantityLineVariables(matrixLineVariables,matrixLines,'lineVariables')
-        }
+    if(matrixColumnVariables && matrixColumns){
+        variableExistanceAndQuantity(matrixColumnVariables,matrixColumns,'columnVariables');
     }
-    if(matrixColumnVariables){
-        if(matrixColumns){
-            if(matrixColumns[0].titles!=null){
-                quantityLineVariables(matrixColumnVariables,matrixColumns,'columnVariables');
-            }else{
-                throw new Error('there are no titles in column 0 but columnVariables exists'+'/line 2 has 1 cells but columns has 3/');
-            }
-        }
+    if(matrixLineVariables && matrixLines){
+        variableExistanceAndQuantity(matrixLineVariables,matrixLines,'lineVariables');
     }
-    function quantityLineVariables(arrVar,objVar,nameArrVar){
+    if(matrixColumns && matrixLines){
+        cellExistanceAndQuantity(matrixColumns,matrixLines,'cells')
+    }
+ 
+    function variableExistanceAndQuantity(arrVar,objVar,nameArrVar){
         var variablesQuantity=arrVar.length;
         for(var i=0;i<objVar.length;i++){
-            if(objVar[i].titles.length!=variablesQuantity){
-                var string='Line '+i+' has '+objVar[i].titles.length+' values but '+ nameArrVar+' has '+variablesQuantity;
-                throw new Error(string+ 'line 2 has 3 values but lineVariables has 2'+'column 1 has 0 values but columnVariables has 1');
-            }
-        }   
-    };
-
-    function quantityOfCells(matrix){
-        if(matrix.columns){
-            if(matrix.lines){
-                for(var i=0;i<matrix.lines.length;i++){
-                    if(matrix.lines[i].cells.length!=matrix.columns.length){
-                        throw new Error('line 2 has 1 cells but columns has 3');
-                    }
+            if(objVar[i].titles){
+                if(objVar[i].titles.length!=variablesQuantity){
+                    throw new Error('column 1 has 0 values but columnVariables has 1'+'line 2 has 3 values but lineVariables has 2');
                 }
+            }else{
+                throw new Error('there are no titles in column 0 but columnVariables exists'+'there are no titles in line 1 but lineVariables exists');
             }
         }
     }
-    quantityOfCells(matrix)
-    
+ 
+    function cellExistanceAndQuantity(matrixColumns,matrixLines,varName){
+        var columnQuantity=matrixColumns.length;
+        for(var i=0;i<matrixLines.length;i++){
+            if(matrixLines[i].cells.length>0){
+                if(matrixLines[i].cells!=columnQuantity){
+                    throw new Error('line 2 has 1 cells but columns has 3');
+                }
+            }else{
+                throw new Error('there are no cells in line 0 but columns exists'); 
+            }
+        }
+    }
 }
 
 
