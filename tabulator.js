@@ -1,4 +1,3 @@
-"use strict";
 /*!
  * tabulator
  * 2015 Codenautas
@@ -8,7 +7,27 @@
 /**
  * Module dependencies.
  */
-
+"use strict";
+/* eqnull:true */
+(function webpackUniversalModuleDefinition(root, factory) {
+    /* global define */
+    /* global globalModuleName */
+    /* istanbul ignore next */
+    if(typeof root.globalModuleName !== 'string'){
+        root.globalModuleName = factory.name;
+    }
+    /* istanbul ignore next */
+    if(typeof exports === 'object' && typeof module === 'object')
+        module.exports = factory();
+    else if(typeof define === 'function' && define.amd)
+        define(factory);
+    else if(typeof exports === 'object')
+        exports[root.globalModuleName] = factory();
+    else
+        root[root.globalModuleName] = factory();
+    root.globalModuleName = null;
+})(this, function Tabulator() {
+    
 var _=require('lodash');
 var html=require('js-to-html').html;
  
@@ -26,7 +45,7 @@ function array_combine(keys, values) {
 var Tabulator = function(){
 };
 
-(function(){
+
 
 Tabulator.prototype.captionPart = function captionPart(matrix){
     return matrix.caption?html.caption(matrix.caption):null;
@@ -34,11 +53,11 @@ Tabulator.prototype.captionPart = function captionPart(matrix){
 
 Tabulator.prototype.colGroups = function colGroups(matrix){
     var lineVariablesPart= matrix.lineVariables? html.colgroup({'class':'headers'},matrix.lineVariables.map(function(lineVariable){
-        return html.col({'class':lineVariable})})):null;
+        return html.col({'class':lineVariable});})):null;
     var columnVariablesPart=(matrix.columns)? html.colgroup({'class':'data'},matrix.columns.map(function(column){
-        return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))}) })):null; 
+        return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))});})):null; 
     return [].concat(lineVariablesPart,columnVariablesPart);
-}
+};
 
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     if(!matrix.columnVariables) return null;
@@ -87,18 +106,18 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
             }
         }))
     ));
-}
+};
 
 
 Tabulator.prototype.defaultShowAttribute='show';
 
 Tabulator.prototype.toLeftCellTable=function(cell){
     return html.th(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
-}
+};
 
 Tabulator.prototype.toCellTable=function(cell){
     return html.td(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
-}
+};
 
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     var trList=[];
@@ -149,7 +168,7 @@ Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
         this.tHeadPart(matrix),
         this.tBodyPart(matrix)
     ));
-}
+};
 
 Tabulator.prototype.controls=function controls(matrix){
     var  matrixLineVariables=matrix.lineVariables;
@@ -195,7 +214,7 @@ Tabulator.prototype.controls=function controls(matrix){
             }
         }
     }
-}
+};
 
 
 
@@ -258,10 +277,6 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
     return matrix;
 };
 
-// module system:
+return Tabulator;
 
-/* istanbul ignore else  */
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = Tabulator;
-}
-})();
+});
