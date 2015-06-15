@@ -8,11 +8,12 @@
  * Module dependencies.
  */
 "use strict";
-/* eqnull:true */
+/*jshint eqnull:true */
+/*jshint globalstrict:true */
+/*jshint node:true */
 (function webpackUniversalModuleDefinition(root, factory) {
     /* global define */
     /* global globalModuleName */
-    /* istanbul ignore next */
     if(typeof root.globalModuleName !== 'string'){
         root.globalModuleName = factory.name;
     }
@@ -26,10 +27,19 @@
     else
         root[root.globalModuleName] = factory();
     root.globalModuleName = null;
-})(this, function Tabulator() {
+})(/*jshint -W040 */this, function Tabulator() {
+/*jshint +W040 */
     
 var _=require('lodash');
 var html=require('js-to-html').html;
+
+
+
+
+/*jshint -W004 */
+var Tabulator = function(){
+};
+/*jshint +W004 */
  
  // import used by this file
 // var dependency = dependency || require('dependency');  
@@ -42,14 +52,11 @@ function array_combine(keys, values) {
   return new_array;
 }
 
-var Tabulator = function(){
-};
-
 
 
 Tabulator.prototype.captionPart = function captionPart(matrix){
     return matrix.caption?html.caption(matrix.caption):null;
-}
+};
 
 Tabulator.prototype.colGroups = function colGroups(matrix){
     var lineVariablesPart= matrix.lineVariables? html.colgroup({'class':'headers'},matrix.lineVariables.map(function(lineVariable){
@@ -91,11 +98,11 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                     lineTitles.push(html.th(titleCellAttrs, actualValues[iColumnVariable]));
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
-                        lineVariables.push(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1]))
+                        lineVariables.push(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1]));
                     }
                     previousValuesUptoThisRowJson=actualValuesUptoThisRowJson;
                     colspan=0;
-                };
+                }
                 colspan++;
             }
             updateColspan();
@@ -125,12 +132,12 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     var titleLineAttrs=[];    
     var colspans=[];    
     if(matrix.lines && matrix.lines[0] && matrix.lines[0].titles){
-        for(var j=0;j<matrix.lines[0].titles.length;j++){
-            colspans[j]=0;
+        for(var iLines=0;iLines<matrix.lines[0].titles.length;iLines++){
+            colspans[iLines]=0;
         }
     }
     for(var i=0; i<matrix.lines.length;i++){
-        var actualLine=matrix.lines[i]
+        var actualLine=matrix.lines[i];
         var actualLineTitles=actualLine.titles;
         var thListActualLine=[];
         var actualLineCells=matrix.lines[i].cells;
@@ -141,7 +148,7 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
             for(var j=0;j<actualLineTitles.length;j++){
                 var actualLineTitlesUpToNow=actualLineTitles.slice(0,j+1);
                 var previousLineTitlesUpToNow=previousLineTitles.slice(0,j+1);
-                colspans[j]++
+                colspans[j]++;
                 if(colspans[j]>1){
                     titleLineAttrs[j].colspan=colspans[j];
                 }
@@ -155,8 +162,8 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
         }
         trList.push(html.tr(thListActualLine.concat(td)));
     }
-    return html.tbody(trList)
-}
+    return html.tbody(trList);
+};
      
 
 
@@ -182,7 +189,7 @@ Tabulator.prototype.controls=function controls(matrix){
         variableExistanceAndQuantity(matrixLineVariables,matrixLines,'lineVariables');
     }
     if(matrixColumns && matrixLines){
-        cellExistanceAndQuantity(matrixColumns,matrixLines,'cells')
+        cellExistanceAndQuantity(matrixColumns,matrixLines,'cells');
     }
     function variableExistanceAndQuantity(arrVar,objVar,nameArrVar){
         var varName=nameArrVar=='columnVariables'?'column ':'line ';
@@ -190,12 +197,10 @@ Tabulator.prototype.controls=function controls(matrix){
         for(var i=0;i<objVar.length;i++){
             if(objVar[i].titles){
                 if(objVar[i].titles.length!=variablesQuantity){
-                    var errorMessage=varName+i+' has '+objVar[i].titles.length+' values but '+nameArrVar+' has '+variablesQuantity;
-                    throw new Error(errorMessage);
+                    throw new Error(varName+i+' has '+objVar[i].titles.length+' values but '+nameArrVar+' has '+variablesQuantity);
                 }
             }else{
-                var errorMessage='there are no titles in '+ varName +i+' but '+nameArrVar+ ' exists'; 
-                throw new Error(errorMessage);
+                throw new Error('there are no titles in '+ varName +i+' but '+nameArrVar+ ' exists');
             }
         }
     }
@@ -205,12 +210,10 @@ Tabulator.prototype.controls=function controls(matrix){
         for(var i=0;i<matrixLines.length;i++){
             if(matrixLines[i].cells.length>0){
                 if(matrixLines[i].cells.length!=columnQuantity){
-                    var errorMessage='line '+i+' has '+matrixLines[i].cells.length+' cells but columns has '+columnQuantity;
-                    throw new Error(errorMessage);
+                    throw new Error('line '+i+' has '+matrixLines[i].cells.length+' cells but columns has '+columnQuantity);
                 }
             }else{
-                var errorMessage='there are no cells in line '+i+' but columns exists';
-                throw new Error(errorMessage); 
+                throw new Error('there are no cells in line '+i+' but columns exists'); 
             }
         }
     }
