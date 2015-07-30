@@ -1,7 +1,7 @@
 {
   "name": "tabulator",
   "description": "Put data into tables",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/tabulator",
@@ -10,13 +10,13 @@
   }],
   "main": "tabulator.js",
   "dependencies": {
-    "lodash": ">=3.9.3",
+    "lodash": ">=3.10.0",
     
-    "js-to-html": ">=0.2.11"
+    "js-to-html": ">=0.3.4"
   },
   "devDependencies": {
-    "express": "^4.12.4",
-    "istanbul": "~0.3.14",
+    "express": "^4.13.1",
+    "istanbul": "~0.3.17",
     "mocha": "~2.2.5",
     "supertest": "~1.0.1",
     "expect.js": "~0.3.1",
