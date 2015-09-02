@@ -10,12 +10,12 @@
   }],
   "main": "tabulator.js",
   "dependencies": {
-    "lodash": ">=3.10.0",
+    "lodash": ">=3.10.1",
     
     "js-to-html": ">=0.3.4"
   },
   "devDependencies": {
-    "express": "^4.13.1",
+    "express": "^4.13.3",
     "istanbul": "~0.3.17",
     "mocha": "~2.2.5",
     "supertest": "~1.0.1",
