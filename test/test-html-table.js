@@ -129,7 +129,7 @@ describe('tabulator', function(){
                 html.tbody()
             ]);
         });
-        it('should render headers for many column variables', function(){
+        it.skip('should render headers for many column variables #3', function(){
             var matrix={
                 caption:"Data for zone and area by sex",
                 lineVariables:['zone','area'],
@@ -141,7 +141,19 @@ describe('tabulator', function(){
                     {titles:['senior','fem' ]},
                     {titles:['senior','masc']},
                 ],
-                lines:[]
+                lines:[],
+                vars:{
+                    age_range:{
+                        label:'Age Range',
+                        values:{
+                            adult: {label:'Adults 18-59'},
+                            senior:{label:'Senior 60+'}
+                        }
+                    },
+                    sex:{
+                        label:'Sex'
+                    }
+                }
             };
             var table=tabulator.toHtmlTable(matrix,{pretty:true});
             expect(table.content).to.eql([
@@ -161,15 +173,15 @@ describe('tabulator', function(){
                     html.tr([
                         html.th({'class':'variable', rowspan:4},'zone'),
                         html.th({'class':'variable', rowspan:4},'area'),
-                        html.th({'class':'variable', colspan:5},'age_range')//colspan=5 porque columns.length=5
+                        html.th({'class':'variable', colspan:5},'Age Range')//colspan=5 porque columns.length=5
                     ]),
                     html.tr([
-                        html.th({'class':'var_age_range', colspan:3}, 'adult'),
-                        html.th({'class':'var_age_range', colspan:2}, 'senior')
+                        html.th({'class':'var_age_range', colspan:3}, 'Adults 18-59'),
+                        html.th({'class':'var_age_range', colspan:2}, 'Senior 60+')
                     ]),
                     html.tr([
-                        html.th({'class':'variable', colspan:3}, 'sex'),
-                        html.th({'class':'variable', colspan:2}, 'sex')
+                        html.th({'class':'variable', colspan:3}, 'Sex'),
+                        html.th({'class':'variable', colspan:2}, 'Sex')
                     ]),
                     html.tr([
                         html.th({'class':'var_sex'}, 2),
@@ -182,12 +194,22 @@ describe('tabulator', function(){
                 html.tbody()
             ]);
         });
-        it('should render line titles', function(){
+        it.skip('should render line titles #3 #4', function(){
             var matrix={
+                lineVariables:['number', 'greeks', 'letter'],
                 lines:[
                     { titles:['one','alpha','a'], cells:["101", "102"]},
                     { titles:['two','betha','b'], cells:["103", "104"]}
-                ]
+                ],
+                vars:{
+                    greeks:{
+                        label:'Greek',
+                        values:{
+                            alpha:{label:'α'},
+                            betha:{label:'β'}
+                        }
+                    }
+                }
             };
             var html=tabulator.toHtmlTable(matrix);
             var htmlText=html.toHtmlText({pretty:true})
@@ -195,16 +217,16 @@ describe('tabulator', function(){
             expect(htmlText.substr(i)).to.eql(
                 "  <tbody>\n"+
                 "    <tr>\n"+
-                "      <th>one</th>\n"+
-                "      <th>alpha</th>\n"+
-                "      <th>a</th>\n"+
+                "      <th class=var_number>one</th>\n"+
+                "      <th class=var_greeks>α</th>\n"+
+                "      <th class=var_letter>a</th>\n"+
                 "      <td>101</td>\n"+
                 "      <td>102</td>\n"+
                 "    </tr>\n"+
                 "    <tr>\n"+
-                "      <th>two</th>\n"+
-                "      <th>betha</th>\n"+
-                "      <th>b</th>\n"+
+                "      <th class=var_number>two</th>\n"+
+                "      <th class=var_greeks>β</th>\n"+
+                "      <th class=var_letter>b</th>\n"+
                 "      <td>103</td>\n"+
                 "      <td>104</td>\n"+
                 "    </tr>\n"+
