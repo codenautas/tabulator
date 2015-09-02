@@ -85,7 +85,7 @@ describe('tabulator', function(){
                 "</table>\n"
             );
         });
-        it('should render headers for only one column variable', function(){
+        it.skip('should render headers for only one column variable #2', function(){
             var matrix={
                 caption:"Data for zone and area by sex",
                 lineVariables:['zone','area'],
@@ -95,7 +95,12 @@ describe('tabulator', function(){
                     {titles:['masc']},
                     {titles:['fem' ]}
                 ],
-                lines:[]
+                lines:[],
+                vars:{
+                    zone:{
+                        label:'The Zone'
+                    }
+                }
             };
             var table=tabulator.toHtmlTable(matrix,{pretty:true});
             expect(table.content).to.eql([
@@ -111,7 +116,7 @@ describe('tabulator', function(){
                 ]),
                 html.thead([
                     html.tr([
-                        html.th({'class':'variable', rowspan:2},'zone'),
+                        html.th({'class':'variable', rowspan:2},'The Zone'),
                         html.th({'class':'variable', rowspan:2},'area'),
                         html.th({'class':'variable', colspan:3},'sex')//colspan=3 porque columns.length=3
                     ]),
