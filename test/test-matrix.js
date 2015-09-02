@@ -78,6 +78,10 @@ describe('tabulator', function(){
                 }
             ]);
         });
+        it.skip('shoud obtain vars #1',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.vars).to.eql(datum.vars);
+        });
         it('shoud obtain cells without showFunction',function(){
             delete datum.showFunction;
             var obtain=tabulator.toMatrix(datum);
