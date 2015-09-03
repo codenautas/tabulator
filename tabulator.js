@@ -72,7 +72,10 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
         [
             html.tr(
                 matrix.lineVariables.map(function(varName){
-                    return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},varName);
+                    //matrix.vars[varName].label === undefined ? varName: matrix.vars[varName].label
+                    //return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},varName);
+                    return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},
+                                   matrix.vars===undefined||matrix.vars[varName]===undefined||matrix.vars[varName].label===undefined?varName:matrix.vars[varName].label);
                 }).concat(
                     html.th({'class':'variable', colspan:matrix.columns.length},matrix.columnVariables[0])
                 )
@@ -91,6 +94,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
             for(var i=0; i<matrix.columns.length; i++){
                 var actualValues=matrix.columns[i].titles;
                 var actualValuesUptoThisRow=actualValues.slice(0,iColumnVariable+1);
+                console.log("actualValuesUptoThisRow" + actualValuesUptoThisRow);
                 var actualValuesUptoThisRowJson=JSON.stringify(actualValuesUptoThisRow);
                 if(actualValuesUptoThisRowJson!=previousValuesUptoThisRowJson){
                     updateColspan();
@@ -99,6 +103,12 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
                         lineVariables.push(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1]));
+                        //var varName=matrix.columnVariables[iColumnVariable+1];
+                        console.log("iColumnVariable: " + iColumnVariable);
+                        console.log(matrix.columnVariables[iColumnVariable+1]);
+                        console.log("Elemento que pushea en lineVariables: " + JSON.stringify(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1])));
+                        //lineVariables.push(html.th(variableCellAttrs, 
+                        //matrix.vars===undefined||matrix.vars[varName]===undefined||matrix.vars[varName].label===undefined?matrix.vars[varName].label:varName));
                     }
                     previousValuesUptoThisRowJson=actualValuesUptoThisRowJson;
                     colspan=0;
@@ -227,10 +237,11 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
         top:{place:'columnVariables'},
         data:{place:'dataVariables'},
     };
-    var matrix={lineVariables:[],columnVariables:[], dataVariables:[], columns:[], lines:[]};
+    var matrix={lineVariables:[],columnVariables:[], dataVariables:[], columns:[], lines:[], vars:[]};
     for(var i=0; i<datum.vars.length;i++){
         var cadaVar=datum.vars[i];
         matrix[places[cadaVar.place].place].push(cadaVar.name);
+        matrix.vars[i] = cadaVar;
     }
     var vistosColumnVariables={};
     var vistosLineVariables={};

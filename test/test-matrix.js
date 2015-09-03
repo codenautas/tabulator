@@ -78,7 +78,7 @@ describe('tabulator', function(){
                 }
             ]);
         });
-        it.skip('shoud obtain vars #1',function(){
+        it('shoud obtain vars #1',function(){
             var obtain=tabulator.toMatrix(datum);
             expect(obtain.vars).to.eql(datum.vars);
         });
