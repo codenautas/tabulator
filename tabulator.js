@@ -78,8 +78,6 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
         [
             html.tr(
                 matrix.lineVariables.map(function(varName){
-                    //matrix.vars[varName].label === undefined ? varName: matrix.vars[varName].label
-                    //return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},varName);
                     return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length}, labelVariable(varName));
                 }).concat(
                     html.th({'class':'variable', colspan:matrix.columns.length},labelVariable(matrix.columnVariables[0]))
@@ -99,25 +97,16 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
             for(var i=0; i<matrix.columns.length; i++){
                 var actualValues=matrix.columns[i].titles;
                 var actualValuesUptoThisRow=actualValues.slice(0,iColumnVariable+1);
-                //console.log("actualValuesUptoThisRow" + actualValuesUptoThisRow);
                 var actualValuesUptoThisRowJson=JSON.stringify(actualValuesUptoThisRow);
                 if(actualValuesUptoThisRowJson!=previousValuesUptoThisRowJson){
                     updateColspan();
                     var titleCellAttrs={'class':'var_'+matrix.columnVariables[iColumnVariable]};
-                    //console.log(iColumnVariable + '     ' + JSON.stringify(actualValues[iColumnVariable]));
-                    //console.log(labelVariableValues(matrix.columnVariables[iColumnVariable],actualValues[iColumnVariable]));
                     var varName = matrix.columnVariables[iColumnVariable];
                     var varValue = actualValues[iColumnVariable];
                     lineTitles.push(html.th(titleCellAttrs, labelVariableValues(varName,varValue)));
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
                         lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])));
-                        //var varName=matrix.columnVariables[iColumnVariable+1];
-                        //console.log("iColumnVariable: " + iColumnVariable);
-                        //console.log(matrix.columnVariables[iColumnVariable+1]);
-                        //console.log("Elemento que pushea en lineVariables: " + JSON.stringify(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1])));
-                        //lineVariables.push(html.th(variableCellAttrs, 
-                        //matrix.vars===undefined||matrix.vars[varName]===undefined||matrix.vars[varName].label===undefined?matrix.vars[varName].label:varName));
                     }
                     previousValuesUptoThisRowJson=actualValuesUptoThisRowJson;
                     colspan=0;
@@ -146,6 +135,9 @@ Tabulator.prototype.toCellTable=function(cell){
 };
 
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
+    //function labelVariableValues(varName,varValue){
+    //    return (((((matrix.vars||{})[varName]||{}).values)||{})[varValue]||{}).label||varValue;
+    //}
     var trList=[];
     var previousLineTitles=[];
     var titleLineAttrs=[];    
@@ -157,6 +149,7 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     }
     for(var i=0; i<matrix.lines.length;i++){
         var actualLine=matrix.lines[i];
+        //var varName=matrix.lineVariables[i]||null;
         var actualLineTitles=actualLine.titles;
         var thListActualLine=[];
         var actualLineCells=matrix.lines[i].cells;
@@ -174,6 +167,7 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
                 if(JSON.stringify(actualLineTitlesUpToNow)!=JSON.stringify(previousLineTitlesUpToNow)){
                     colspans[j]=0;
                     titleLineAttrs[j]={};
+                    //thListActualLine.push(html.th(titleLineAttrs[j],labelVariableValues(varName,actualLineTitles[j])));
                     thListActualLine.push(html.th(titleLineAttrs[j],actualLineTitles[j]));
                 }
             }
