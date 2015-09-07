@@ -129,7 +129,7 @@ describe('tabulator', function(){
                 html.tbody()
             ]);
         });
-        it.skip('should render headers for many column variables #3', function(){
+        it('should render headers for many column variables #3', function(){
             var matrix={
                 caption:"Data for zone and area by sex",
                 lineVariables:['zone','area'],

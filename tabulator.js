@@ -71,6 +71,9 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     function labelVariable(varName){
         return ((matrix.vars||{})[varName]||{}).label||varName;
     }
+    function labelVariableValues(varName,varValue){
+        return (((((matrix.vars||{})[varName]||{}).values)||{})[varValue]||{}).label||varValue;
+    }
     return html.thead(
         [
             html.tr(
@@ -96,19 +99,23 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
             for(var i=0; i<matrix.columns.length; i++){
                 var actualValues=matrix.columns[i].titles;
                 var actualValuesUptoThisRow=actualValues.slice(0,iColumnVariable+1);
-                console.log("actualValuesUptoThisRow" + actualValuesUptoThisRow);
+                //console.log("actualValuesUptoThisRow" + actualValuesUptoThisRow);
                 var actualValuesUptoThisRowJson=JSON.stringify(actualValuesUptoThisRow);
                 if(actualValuesUptoThisRowJson!=previousValuesUptoThisRowJson){
                     updateColspan();
                     var titleCellAttrs={'class':'var_'+matrix.columnVariables[iColumnVariable]};
-                    lineTitles.push(html.th(titleCellAttrs, actualValues[iColumnVariable]));
+                    //console.log(iColumnVariable + '     ' + JSON.stringify(actualValues[iColumnVariable]));
+                    //console.log(labelVariableValues(matrix.columnVariables[iColumnVariable],actualValues[iColumnVariable]));
+                    var varName = matrix.columnVariables[iColumnVariable];
+                    var varValue = actualValues[iColumnVariable];
+                    lineTitles.push(html.th(titleCellAttrs, labelVariableValues(varName,varValue)));
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
                         lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])));
                         //var varName=matrix.columnVariables[iColumnVariable+1];
-                        console.log("iColumnVariable: " + iColumnVariable);
-                        console.log(matrix.columnVariables[iColumnVariable+1]);
-                        console.log("Elemento que pushea en lineVariables: " + JSON.stringify(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1])));
+                        //console.log("iColumnVariable: " + iColumnVariable);
+                        //console.log(matrix.columnVariables[iColumnVariable+1]);
+                        //console.log("Elemento que pushea en lineVariables: " + JSON.stringify(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1])));
                         //lineVariables.push(html.th(variableCellAttrs, 
                         //matrix.vars===undefined||matrix.vars[varName]===undefined||matrix.vars[varName].label===undefined?matrix.vars[varName].label:varName));
                     }
