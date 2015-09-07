@@ -25,7 +25,7 @@ describe('tabulator', function(){
                     {name: 'zone'  , place: 'left'},
                     {name: 'area'  , place: 'left'},
                     {name: 'sex'   , place: 'top' },
-                    {name: 'number', place: 'data'},
+                    {name: 'number', place: 'data', another_data:{all:true}},
                     {name: 'total' , place: 'data'}
                 ],
                 showFunction:function(data){
@@ -80,7 +80,13 @@ describe('tabulator', function(){
         });
         it('shoud obtain vars #1',function(){
             var obtain=tabulator.toMatrix(datum);
-            expect(obtain.vars).to.eql(datum.vars);
+            expect(obtain.vars).to.eql({
+                zone  :{name: 'zone'  , place: 'left'},
+                area  :{name: 'area'  , place: 'left'},
+                sex   :{name: 'sex'   , place: 'top' },
+                number:{name: 'number', place: 'data', another_data:{all:true}},
+                total :{name: 'total' , place: 'data'}
+            });
         });
         it('shoud obtain cells without showFunction',function(){
             delete datum.showFunction;

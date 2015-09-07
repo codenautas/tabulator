@@ -75,7 +75,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                     //matrix.vars[varName].label === undefined ? varName: matrix.vars[varName].label
                     //return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},varName);
                     return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},
-                                   matrix.vars===undefined||matrix.vars[varName]===undefined||matrix.vars[varName].label===undefined?varName:matrix.vars[varName].label);
+                                   ((matrix.vars||{})[varName]||{}).label||varName);
                 }).concat(
                     html.th({'class':'variable', colspan:matrix.columns.length},matrix.columnVariables[0])
                 )
@@ -241,7 +241,7 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
     for(var i=0; i<datum.vars.length;i++){
         var cadaVar=datum.vars[i];
         matrix[places[cadaVar.place].place].push(cadaVar.name);
-        matrix.vars[i] = cadaVar;
+        matrix.vars[cadaVar.name] = cadaVar;
     }
     var vistosColumnVariables={};
     var vistosLineVariables={};
