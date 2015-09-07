@@ -68,16 +68,18 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
 
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     if(!matrix.columnVariables) return null;
+    function labelVariable(varName){
+        return ((matrix.vars||{})[varName]||{}).label||varName;
+    }
     return html.thead(
         [
             html.tr(
                 matrix.lineVariables.map(function(varName){
                     //matrix.vars[varName].label === undefined ? varName: matrix.vars[varName].label
                     //return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},varName);
-                    return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length},
-                                   ((matrix.vars||{})[varName]||{}).label||varName);
+                    return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length}, labelVariable(varName));
                 }).concat(
-                    html.th({'class':'variable', colspan:matrix.columns.length},matrix.columnVariables[0])
+                    html.th({'class':'variable', colspan:matrix.columns.length},labelVariable(matrix.columnVariables[0]))
                 )
             )
         ].concat(_.flatten(matrix.columnVariables.map(function(columnVariable,iColumnVariable){
@@ -102,7 +104,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                     lineTitles.push(html.th(titleCellAttrs, actualValues[iColumnVariable]));
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
-                        lineVariables.push(html.th(variableCellAttrs, matrix.columnVariables[iColumnVariable+1]));
+                        lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])));
                         //var varName=matrix.columnVariables[iColumnVariable+1];
                         console.log("iColumnVariable: " + iColumnVariable);
                         console.log(matrix.columnVariables[iColumnVariable+1]);
