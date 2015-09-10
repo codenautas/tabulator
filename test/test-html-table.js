@@ -194,7 +194,7 @@ describe('tabulator', function(){
                 html.tbody()
             ]);
         });
-        it.skip('should render line titles #3 #4', function(){
+        it('should render line titles #3 #4', function(){
             var matrix={
                 lineVariables:['number', 'greeks', 'letter'],
                 lines:[

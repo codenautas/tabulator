@@ -66,13 +66,14 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
     return [].concat(lineVariablesPart,columnVariablesPart);
 };
 
+function labelVariableValues(matrix, varName, varValue){
+    return (((((matrix.vars||{})[varName]||{}).values)||{})[varValue]||{}).label||varValue;
+}
+
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     if(!matrix.columnVariables) return null;
     function labelVariable(varName){
         return ((matrix.vars||{})[varName]||{}).label||varName;
-    }
-    function labelVariableValues(varName,varValue){
-        return (((((matrix.vars||{})[varName]||{}).values)||{})[varValue]||{}).label||varValue;
     }
     return html.thead(
         [
@@ -103,7 +104,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                     var titleCellAttrs={'class':'var_'+matrix.columnVariables[iColumnVariable]};
                     var varName = matrix.columnVariables[iColumnVariable];
                     var varValue = actualValues[iColumnVariable];
-                    lineTitles.push(html.th(titleCellAttrs, labelVariableValues(varName,varValue)));
+                    lineTitles.push(html.th(titleCellAttrs, labelVariableValues(matrix, varName,varValue)));
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
                         lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])));
@@ -126,18 +127,11 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
 
 Tabulator.prototype.defaultShowAttribute='show';
 
-Tabulator.prototype.toLeftCellTable=function(cell){
-    return html.th(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
-};
-
 Tabulator.prototype.toCellTable=function(cell){
     return html.td(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
 };
 
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
-    //function labelVariableValues(varName,varValue){
-    //    return (((((matrix.vars||{})[varName]||{}).values)||{})[varValue]||{}).label||varValue;
-    //}
     var trList=[];
     var previousLineTitles=[];
     var titleLineAttrs=[];    
@@ -149,7 +143,6 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     }
     for(var i=0; i<matrix.lines.length;i++){
         var actualLine=matrix.lines[i];
-        //var varName=matrix.lineVariables[i]||null;
         var actualLineTitles=actualLine.titles;
         var thListActualLine=[];
         var actualLineCells=matrix.lines[i].cells;
@@ -158,6 +151,7 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
         },this);
         if(actualLineTitles){
             for(var j=0;j<actualLineTitles.length;j++){
+                var varName=(matrix.lineVariables||{})[j]||null;
                 var actualLineTitlesUpToNow=actualLineTitles.slice(0,j+1);
                 var previousLineTitlesUpToNow=previousLineTitles.slice(0,j+1);
                 colspans[j]++;
@@ -167,8 +161,11 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
                 if(JSON.stringify(actualLineTitlesUpToNow)!=JSON.stringify(previousLineTitlesUpToNow)){
                     colspans[j]=0;
                     titleLineAttrs[j]={};
-                    //thListActualLine.push(html.th(titleLineAttrs[j],labelVariableValues(varName,actualLineTitles[j])));
-                    thListActualLine.push(html.th(titleLineAttrs[j],actualLineTitles[j]));
+                    if((matrix.lineVariables||{})[j]){
+                        titleLineAttrs[j]['class']='var_'+(matrix.lineVariables||{})[j];
+                    }
+                    thListActualLine.push(html.th(titleLineAttrs[j],labelVariableValues(matrix, varName,actualLineTitles[j])));
+                    // thListActualLine.push(html.th(titleLineAttrs[j],actualLineTitles[j]));
                 }
             }
             previousLineTitles=actualLineTitles;
