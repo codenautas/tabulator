@@ -135,12 +135,6 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     var trList=[];
     var previousLineTitles=[];
     var titleLineAttrs=[];    
-    var colspans=[];    
-    if(matrix.lines && matrix.lines[0] && matrix.lines[0].titles){
-        for(var iLines=0;iLines<matrix.lines[0].titles.length;iLines++){
-            colspans[iLines]=0;
-        }
-    }
     for(var i=0; i<matrix.lines.length;i++){
         var actualLine=matrix.lines[i];
         var actualLineTitles=actualLine.titles;
@@ -154,18 +148,14 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
                 var varName=(matrix.lineVariables||{})[j]||null;
                 var actualLineTitlesUpToNow=actualLineTitles.slice(0,j+1);
                 var previousLineTitlesUpToNow=previousLineTitles.slice(0,j+1);
-                colspans[j]++;
-                if(colspans[j]>1){
-                    titleLineAttrs[j].colspan=colspans[j];
-                }
                 if(JSON.stringify(actualLineTitlesUpToNow)!=JSON.stringify(previousLineTitlesUpToNow)){
-                    colspans[j]=0;
                     titleLineAttrs[j]={};
                     if((matrix.lineVariables||{})[j]){
                         titleLineAttrs[j]['class']='var_'+(matrix.lineVariables||{})[j];
                     }
                     thListActualLine.push(html.th(titleLineAttrs[j],labelVariableValues(matrix, varName,actualLineTitles[j])));
-                    // thListActualLine.push(html.th(titleLineAttrs[j],actualLineTitles[j]));
+                }else{
+                    titleLineAttrs[j].rowspan=(titleLineAttrs[j].rowspan||1)+1;
                 }
             }
             previousLineTitles=actualLineTitles;

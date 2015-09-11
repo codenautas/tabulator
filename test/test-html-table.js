@@ -240,21 +240,25 @@ describe('tabulator', function(){
                     { titles:['group 1','bigs'  ,'a'], cells:[]},
                     { titles:['group 1','bigs'  ,'b'], cells:[]},
                     { titles:['group 1','smalls','a'], cells:[]},
-                    // { titles:['group 3','bigs'  ,'a'], cells:[]},
+                    { titles:['group 1','mini'  ,'a'], cells:[]},
+                    { titles:['group 1','mini'  ,'b'], cells:[]},
+                    { titles:['group 1','mini'  ,'c'], cells:[]},
+                    { titles:['group 3','bigs'  ,'a'], cells:[]},
                     { titles:['group 2','bigs'  ,  1], cells:[]},
                     { titles:['group 2','bigs'  ,  2], cells:[]},
-                    { titles:['group 3','bigs'  ,'a'], cells:[]},
                 ]
             };
             var table=tabulator.toHtmlTable(matrix);
             expect(table.toHtmlText().replace(/<tr>/g,"\n<tr>")).to.eql("<table><tbody>"+
-                "\n<tr>"+"<th colspan=3>group 1</th>"+"<th colspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
+                "\n<tr>"+"<th rowspan=6>group 1</th>"+"<th rowspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
                 "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
                 "\n<tr>"                             +"<th>smalls</th>"        +"<th>a</th>"+"</tr>"+
-                // "\n<tr>"+"<th>group 3</th>"          +"<th>bigs</th>"          +"<th>a</th>"+"</tr>"+
-                "\n<tr>"+"<th colspan=2>group 2</th>"+"<th colspan=2>bigs</th>"+"<th>1</th>"+"</tr>"+
-                "\n<tr>"                                                       +"<th>2</th>"+"</tr>"+
+                "\n<tr>"                             +"<th rowspan=3>mini</th>"+"<th>a</th>"+"</tr>"+
+                "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
+                "\n<tr>"                                                       +"<th>c</th>"+"</tr>"+
                 "\n<tr>"+"<th>group 3</th>"          +"<th>bigs</th>"          +"<th>a</th>"+"</tr>"+
+                "\n<tr>"+"<th rowspan=2>group 2</th>"+"<th rowspan=2>bigs</th>"+"<th>1</th>"+"</tr>"+
+                "\n<tr>"                                                       +"<th>2</th>"+"</tr>"+
                 "</tbody>"+"</table>"
             );
         });
