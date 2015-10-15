@@ -95,5 +95,77 @@ describe('tabulator', function(){
                 {number:19000,total:19000}
             );
         });
+    });
+    describe('toMatrix with datum to produce 1d matrix (with no top variable)', function(){
+        var datum;
+        beforeEach(function(){
+            datum={
+                list:[
+                    {zone:'totalZ', area:'total,A', number:19000,total:19000},
+                    {zone:'zone 1', area:'area 1',  number:5110, total:10000},
+                    {zone:'zone 1', area:'area 2',  number:4365, total: 9000}
+                ],
+                vars:[
+                    {name: 'zone'  , place: 'left'},
+                    {name: 'area'  , place: 'left'},
+                    {name: 'number', place: 'data', another_data:{all:true}},
+                    {name: 'total' , place: 'data'}
+                ],
+                showFunction:function(data){
+                    return data.number/data.total*100
+                }
+            };
+        });
+        it('shoud obtain the variables',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.lineVariables).to.eql(['zone','area']);
+            expect(obtain.columnVariables).to.eql([]);
+        });
+        it('shoud obtain the data for the column titles',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.columns).to.eql([]);
+        });
+        it('shoud obtain the data and the titles of each line',function(){
+            var countCall2toCell=0;
+            tabulator.toCell=function(row){
+                countCall2toCell++;
+                return {display:row.number/row.total, numerator:row.number, denominator:row.total};
+            }
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.lines).to.eql([
+                {
+                    titles:['totalZ', 'total,A'],
+                    cells:[
+                        {display:100  , number:19000,total:19000},
+                    ]
+                },{
+                    titles:['zone 1', 'area 1'],
+                    cells:[
+                        {display:51.1 , number:5110, total:10000},
+                    ]
+                },{
+                    titles:['zone 1', 'area 2'],
+                    cells:[
+                        {display:48.5 , number:4365, total: 9000}
+                    ]
+                }
+            ]);
+        });
+        it('shoud obtain vars #1',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.vars).to.eql({
+                zone  :{name: 'zone'  , place: 'left'},
+                area  :{name: 'area'  , place: 'left'},
+                number:{name: 'number', place: 'data', another_data:{all:true}},
+                total :{name: 'total' , place: 'data'}
+            });
+        });
+        it('shoud obtain cells without showFunction',function(){
+            delete datum.showFunction;
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.lines[0].cells[0]).to.eql(
+                {number:19000,total:19000}
+            );
+        });
     })
 });
