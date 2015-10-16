@@ -96,7 +96,7 @@ describe('tabulator', function(){
             );
         });
     });
-    describe.skip('toMatrix with datum to produce 1d matrix (with no top variable) #5', function(){
+    describe('toMatrix with datum to produce 1d matrix (with no top variable) #5', function(){
         var datum;
         beforeEach(function(){
             datum={

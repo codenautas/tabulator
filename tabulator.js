@@ -233,12 +233,14 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
         matrix[places[cadaVar.place].place].push(cadaVar.name);
         matrix.vars[cadaVar.name] = cadaVar;
     }
+    matrix.oneColumnTitle=datum.oneColumnTitle; 
     var vistosColumnVariables={};
     var vistosLineVariables={};
     for(var iList=0; iList<datum.list.length; iList++){
         var iCell;
         var iLine;
         var cadaList=datum.list[iList];
+        iCell=matrix.columnVariables.length;
         for(var iColumn=0; iColumn<matrix.columnVariables.length;iColumn++){
             var cadaNameTop=matrix.columnVariables[iColumn];                
             if (!vistosColumnVariables[cadaList[cadaNameTop]]){
