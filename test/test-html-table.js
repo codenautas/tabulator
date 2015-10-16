@@ -194,12 +194,46 @@ describe('tabulator', function(){
                 html.tbody()
             ]);
         });
-        it('should render line titles #3 #4', function(){
+        it.skip('should render headers for NO column variable #6', function(){
+            var matrix={
+                caption:"Data for zone and area",
+                lineVariables:['zone','area'],
+                columnVariables:[],
+                columns:[],
+                lines:[],
+                vars:{
+                    zone:{
+                        label:'The Zone'
+                    }
+                },
+                oneColumnTitle:'the title for this column'
+            };
+            var table=tabulator.toHtmlTable(matrix,{pretty:true});
+            expect(table.content).to.eql([
+                html.caption('Data for zone and area'),
+                html.colgroup({'class':'headers'}, [
+                    html.col({'class':'zone'}), 
+                    html.col({'class':'area'}), 
+                ]), 
+                html.colgroup({'class':'data'}, [
+                    html.col({'class':'variable'}), 
+                ]),
+                html.thead([
+                    html.tr([                        /* si molesta el rowspan:2 sacarlo sino dejarlo */
+                        html.th({'class':'variable', rowspan:2},'The Zone'),
+                        html.th({'class':'variable', rowspan:2},'area'),
+                        html.th({'class':'variable', rowspan:2},'the title for this column')
+                    ]),
+                ]),
+                html.tbody()
+            ]);
+        });
+        it('should render line titles', function(){
             var matrix={
                 lineVariables:['number', 'greeks', 'letter'],
                 lines:[
-                    { titles:['one','alpha','a'], cells:["101", "102"]},
-                    { titles:['two','betha','b'], cells:["103", "104"]}
+                    { titles:['one','alpha','a'], cells:["101"]},
+                    { titles:['two','betha','b'], cells:["103"]}
                 ],
                 vars:{
                     greeks:{
@@ -221,45 +255,15 @@ describe('tabulator', function(){
                 "      <th class=var_greeks>α</th>\n"+
                 "      <th class=var_letter>a</th>\n"+
                 "      <td>101</td>\n"+
-                "      <td>102</td>\n"+
                 "    </tr>\n"+
                 "    <tr>\n"+
                 "      <th class=var_number>two</th>\n"+
                 "      <th class=var_greeks>β</th>\n"+
                 "      <th class=var_letter>b</th>\n"+
                 "      <td>103</td>\n"+
-                "      <td>104</td>\n"+
                 "    </tr>\n"+
                 "  </tbody>\n"+
                 "</table>\n"
-            );
-        });
-        it('should render condense title lines and subtitles', function(){
-            var matrix={
-                lines:[
-                    { titles:['group 1','bigs'  ,'a'], cells:[]},
-                    { titles:['group 1','bigs'  ,'b'], cells:[]},
-                    { titles:['group 1','smalls','a'], cells:[]},
-                    { titles:['group 1','mini'  ,'a'], cells:[]},
-                    { titles:['group 1','mini'  ,'b'], cells:[]},
-                    { titles:['group 1','mini'  ,'c'], cells:[]},
-                    { titles:['group 3','bigs'  ,'a'], cells:[]},
-                    { titles:['group 2','bigs'  ,  1], cells:[]},
-                    { titles:['group 2','bigs'  ,  2], cells:[]},
-                ]
-            };
-            var table=tabulator.toHtmlTable(matrix);
-            expect(table.toHtmlText().replace(/<tr>/g,"\n<tr>")).to.eql("<table><tbody>"+
-                "\n<tr>"+"<th rowspan=6>group 1</th>"+"<th rowspan=2>bigs</th>"+"<th>a</th>"+"</tr>"+
-                "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
-                "\n<tr>"                             +"<th>smalls</th>"        +"<th>a</th>"+"</tr>"+
-                "\n<tr>"                             +"<th rowspan=3>mini</th>"+"<th>a</th>"+"</tr>"+
-                "\n<tr>"                                                       +"<th>b</th>"+"</tr>"+
-                "\n<tr>"                                                       +"<th>c</th>"+"</tr>"+
-                "\n<tr>"+"<th>group 3</th>"          +"<th>bigs</th>"          +"<th>a</th>"+"</tr>"+
-                "\n<tr>"+"<th rowspan=2>group 2</th>"+"<th rowspan=2>bigs</th>"+"<th>1</th>"+"</tr>"+
-                "\n<tr>"                                                       +"<th>2</th>"+"</tr>"+
-                "</tbody>"+"</table>"
             );
         });
     });

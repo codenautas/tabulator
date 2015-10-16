@@ -96,7 +96,7 @@ describe('tabulator', function(){
             );
         });
     });
-    describe('toMatrix with datum to produce 1d matrix (with no top variable)', function(){
+    describe.skip('toMatrix with datum to produce 1d matrix (with no top variable) #5', function(){
         var datum;
         beforeEach(function(){
             datum={
@@ -113,13 +113,15 @@ describe('tabulator', function(){
                 ],
                 showFunction:function(data){
                     return data.number/data.total*100
-                }
+                },
+                oneColumnTitle:'the unique title'
             };
         });
         it('shoud obtain the variables',function(){
             var obtain=tabulator.toMatrix(datum);
             expect(obtain.lineVariables).to.eql(['zone','area']);
             expect(obtain.columnVariables).to.eql([]);
+            expect(obtain.oneColumnTitle).to.eql('the unique title');
         });
         it('shoud obtain the data for the column titles',function(){
             var obtain=tabulator.toMatrix(datum);
