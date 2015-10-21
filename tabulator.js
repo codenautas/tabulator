@@ -59,11 +59,23 @@ Tabulator.prototype.captionPart = function captionPart(matrix){
 };
 
 Tabulator.prototype.colGroups = function colGroups(matrix){
+    //console.log("matrix.lineVariables",matrix.lineVariables);
     var lineVariablesPart= matrix.lineVariables? html.colgroup({'class':'headers'},matrix.lineVariables.map(function(lineVariable){
         return html.col({'class':lineVariable});})):null;
-    var columnVariablesPart=(matrix.columns)? html.colgroup({'class':'data'},matrix.columns.map(function(column){
-        return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))});})):null; 
-    return [].concat(lineVariablesPart,columnVariablesPart);
+    //console.log("lineVariablesPart",lineVariablesPart);
+    var columnVariablesPart=(matrix.columns)? html.colgroup({'class':'data'},
+      (matrix.oneColumnTitle)?function(){return html.col({'class':'variable'})}:
+      matrix.columns.map(function(column){return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))});
+                                         }
+                        )):null;
+    //console.log("matrix.columns: ",(matrix.columns)?JSON.stringify(matrix.columns):null);        
+    //console.log("oneColumnTitle: ",(matrix.oneColumnTitle)?JSON.stringify(matrix.oneColumnTitle):null);        
+    //var columnVariablesOneColumn=(matrix.oneColumnTitle)?html.colgroup({'class':'data'},[html.col({'class':'variable'})]):null;
+    console.log("lineVariablesPart: ", JSON.stringify(lineVariablesPart));        
+    console.log("columnVariablesPart: ", JSON.stringify(columnVariablesPart));        
+    //console.log("columnVariablesOneColumn: ", JSON.stringify(columnVariablesOneColumn));        
+
+    return [].concat(lineVariablesPart,columnVariablesPart /*,columnVariablesOneColumn*/);
 };
 
 function labelVariableValues(matrix, varName, varValue){
@@ -75,13 +87,18 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     function labelVariable(varName){
         return ((matrix.vars||{})[varName]||{}).label||varName;
     }
+    var varObj=matrix.columns.length>0?{'class':'variable', colspan:matrix.columns.length}:{'class':'variable'};
+    //console.log ("matrix.columns.length",matrix.columns.length);
+    //console.log("expresion 2:", html.th(varObj,labelVariable(matrix.columnVariables[0])||matrix.oneColumnTitle));
     return html.thead(
         [
             html.tr(
                 matrix.lineVariables.map(function(varName){
-                    return html.th({'class':'variable', 'rowspan':2*matrix.columnVariables.length}, labelVariable(varName));
+                    var columnVariablesLength = matrix.columnVariables.length>0?matrix.columnVariables.length:1;
+                    //console.log("expresion 1: ",html.th({'class':'variable', 'rowspan':2*columnVariablesLength}, labelVariable(varName)||matrix.oneColumnTitle));
+                    return html.th({'class':'variable', 'rowspan':2*columnVariablesLength}, labelVariable(varName)||matrix.oneColumnTitle);
                 }).concat(
-                    html.th({'class':'variable', colspan:matrix.columns.length},labelVariable(matrix.columnVariables[0]))
+                    html.th(varObj,labelVariable(matrix.columnVariables[0])||matrix.oneColumnTitle)
                 )
             )
         ].concat(_.flatten(matrix.columnVariables.map(function(columnVariable,iColumnVariable){
@@ -107,7 +124,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                     lineTitles.push(html.th(titleCellAttrs, labelVariableValues(matrix, varName,varValue)));
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
-                        lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])));
+                        lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])||matrix.oneColumnTitle));
                     }
                     previousValuesUptoThisRowJson=actualValuesUptoThisRowJson;
                     colspan=0;
@@ -116,8 +133,11 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
             }
             updateColspan();
             if(iColumnVariable+1<matrix.columnVariables.length){
+                //console.log("lineTitles: ", JSON.stringify(lineTitles));
+                //console.log("lineVariables: ", JSON.stringify(lineVariables));
                 return [html.tr(lineTitles), html.tr(lineVariables)];
             }else{
+                //console.log("lineTitles: ", JSON.stringify(lineTitles));
                 return [html.tr(lineTitles)];
             }
         }))

@@ -194,7 +194,7 @@ describe('tabulator', function(){
                 html.tbody()
             ]);
         });
-        it.skip('should render headers for NO column variable #6', function(){
+        it('should render headers for NO column variable #6', function(){
             var matrix={
                 caption:"Data for zone and area",
                 lineVariables:['zone','area'],
@@ -222,7 +222,7 @@ describe('tabulator', function(){
                     html.tr([                        /* si molesta el rowspan:2 sacarlo sino dejarlo */
                         html.th({'class':'variable', rowspan:2},'The Zone'),
                         html.th({'class':'variable', rowspan:2},'area'),
-                        html.th({'class':'variable', rowspan:2},'the title for this column')
+                        html.th({'class':'variable' /*, rowspan:2*/},'the title for this column')
                     ]),
                 ]),
                 html.tbody()
