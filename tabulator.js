@@ -80,7 +80,7 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
             )
         )
     ):null;
-    return [].concat(lineVariablesPart,columnVariablesPart /*,columnVariablesOneColumn*/);
+    return [].concat(lineVariablesPart,columnVariablesPart);
 };
 
 function labelVariableValues(matrix, varName, varValue){
@@ -92,16 +92,13 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     function labelVariable(varName){
         return ((matrix.vars||{})[varName]||{}).label||varName;
     }
-    var varObj=matrix.columns.length>0?{'class':'variable', colspan:matrix.columns.length}:{'class':'variable'};
-    //console.log ("matrix.columns.length",matrix.columns.length);
-    //console.log("expresion 2:", html.th(varObj,labelVariable(matrix.columnVariables[0])||matrix.oneColumnTitle));
+    var varObj=matrix.columns.length>0?{'class':'variable', colspan:matrix.columns.length}:{'class':'variable', rowspan:2};
     return html.thead(
         [
             html.tr(
                 matrix.lineVariables.map(function(varName){
                     var columnVariablesLength = matrix.columnVariables.length>0?matrix.columnVariables.length:1;
-                    //console.log("expresion 1: ",html.th({'class':'variable', 'rowspan':2*columnVariablesLength}, labelVariable(varName)||matrix.oneColumnTitle));
-                    return html.th({'class':'variable', 'rowspan':2*columnVariablesLength}, labelVariable(varName)||matrix.oneColumnTitle);
+                    return html.th({'class':'variable', 'rowspan':2*columnVariablesLength}, labelVariable(varName));
                 }).concat(
                     html.th(varObj,labelVariable(matrix.columnVariables[0])||matrix.oneColumnTitle)
                 )
@@ -129,7 +126,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                     lineTitles.push(html.th(titleCellAttrs, labelVariableValues(matrix, varName,varValue)));
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
-                        lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])||matrix.oneColumnTitle));
+                        lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])));
                     }
                     previousValuesUptoThisRowJson=actualValuesUptoThisRowJson;
                     colspan=0;
