@@ -222,11 +222,17 @@ describe('tabulator', function(){
                     html.tr([                        /* si molesta el rowspan:2 sacarlo sino dejarlo */
                         html.th({'class':'variable', rowspan:2},'The Zone'),
                         html.th({'class':'variable', rowspan:2},'area'),
-                        html.th({'class':'variable' /*, rowspan:2*/},'the title for this column')
+                        html.th({'class':'variable', rowspan:2},'the title for this column')
                     ]),
                 ]),
                 html.tbody()
             ]);
+            matrix.lines=[{
+                titles:["one", "two"],
+                cells:["three"]
+            }];
+            // no debe fallar:
+            tabulator.toHtmlTable(matrix,{pretty:true});
         });
         it('should render line titles', function(){
             var matrix={
