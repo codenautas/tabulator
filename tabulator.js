@@ -64,7 +64,7 @@ Tabulator.prototype.colGroups = function colGroups(matrix){
         return html.col({'class':lineVariable});})):null;
     //console.log("lineVariablesPart",lineVariablesPart);
     var columnVariablesPart=(matrix.columns)? html.colgroup({'class':'data'},
-      (matrix.oneColumnTitle)?function(){return html.col({'class':'variable'})}:
+      ((matrix.oneColumnTitle)?function(){return html.col({'class':'variable'})}:
       matrix.columns.map(function(column){return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))});
                                          }
                         )):null;
