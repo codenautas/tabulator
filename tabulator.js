@@ -60,21 +60,26 @@ Tabulator.prototype.captionPart = function captionPart(matrix){
 
 Tabulator.prototype.colGroups = function colGroups(matrix){
     //console.log("matrix.lineVariables",matrix.lineVariables);
-    var lineVariablesPart= matrix.lineVariables? html.colgroup({'class':'headers'},matrix.lineVariables.map(function(lineVariable){
-        return html.col({'class':lineVariable});})):null;
-    //console.log("lineVariablesPart",lineVariablesPart);
-    var columnVariablesPart=(matrix.columns)? html.colgroup({'class':'data'},
-      ((matrix.oneColumnTitle)?function(){return html.col({'class':'variable'})}:
-      matrix.columns.map(function(column){return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))});
-                                         }
-                        )):null;
-    //console.log("matrix.columns: ",(matrix.columns)?JSON.stringify(matrix.columns):null);        
-    //console.log("oneColumnTitle: ",(matrix.oneColumnTitle)?JSON.stringify(matrix.oneColumnTitle):null);        
-    //var columnVariablesOneColumn=(matrix.oneColumnTitle)?html.colgroup({'class':'data'},[html.col({'class':'variable'})]):null;
-    console.log("lineVariablesPart: ", JSON.stringify(lineVariablesPart));        
-    console.log("columnVariablesPart: ", JSON.stringify(columnVariablesPart));        
-    //console.log("columnVariablesOneColumn: ", JSON.stringify(columnVariablesOneColumn));        
-
+    var lineVariablesPart=matrix.lineVariables?(
+        html.colgroup(
+            {'class':'headers'},
+            matrix.lineVariables.map(function(lineVariable){
+                return html.col({'class':lineVariable});
+            })
+        )
+    ):null;
+    var columnVariablesPart=(matrix.columns)?(
+        html.colgroup(
+            {'class':'data'},
+            (matrix.oneColumnTitle)?(
+                html.col({'class':'variable'})
+            ):(
+                matrix.columns.map(function(column){
+                    return html.col({'class':JSON.stringify(array_combine(matrix.columnVariables,column.titles))});
+                })
+            )
+        )
+    ):null;
     return [].concat(lineVariablesPart,columnVariablesPart /*,columnVariablesOneColumn*/);
 };
 
