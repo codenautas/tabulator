@@ -305,6 +305,12 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
     return matrix;
 };
 
+Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
+    return matrixList[1];
+}
+
+Tabulator.prototype.matrixJoin.captionSeparator = ', ';
+
 return Tabulator;
 
 });
