@@ -126,7 +126,7 @@ describe('tabulator', function(){
         });
     });
     describe('matrixJoin controls', function(){
-        it.skip('should control lenght of all lines', function(){
+        it('should control lenght of all lines', function(){
             var matrix1={
                 lines:[1,2,3]
             }
@@ -140,7 +140,7 @@ describe('tabulator', function(){
                 tabulator.matrixJoin([matrix1, matrix2, matrix3]);
             }).throwError(/line.length does not match in all matrix/);
         });
-        it.skip('sould control titles matchs', function(){
+        it('sould control titles matchs', function(){
             var matrix1={
                 lines:[
                     { titles:['one','alpha','a'], cells:["101",1,2,11,12,13,14]},

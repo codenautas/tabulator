@@ -241,7 +241,22 @@ Tabulator.prototype.controls=function controls(matrix){
     }
 };
 
-
+Tabulator.prototype.controlsJoin=function controlsJoin(matrixList){
+var firstMatrixListLinesLength = matrixList[0].lines.length;
+if (!matrixList.every(function(element){return element.lines.length == firstMatrixListLinesLength})){
+    throw new Error('line.length does not match in all matrix');
+}
+var firstMatrixListLine = matrixList[0].lines;
+if (!matrixList.every(
+      function(element,index){
+        return element.lines.every(
+           function(elemento,indice){
+             return JSON.stringify(elemento.titles) == JSON.stringify(firstMatrixListLine[indice].titles)
+           })
+      })){
+          throw new Error('line titles does not match in all matrix');
+         }
+}
 
 Tabulator.prototype.toMatrix = function toMatrix(datum){
     var places={
@@ -306,6 +321,8 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
 };
 
 Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
+    this.controlsJoin(matrixList);
+
     return matrixList[1];
 }
 
