@@ -333,23 +333,26 @@ Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
     matrix.caption = captions.join(this.matrixJoin.captionSeparator);
     //console.log("aqui: ", matrix.caption);
     matrix.columnGroups = matrixList.map(function(obj){
-            var cGroup={};
-            cGroup.columnVariables=obj.columnVariables;
-            cGroup.columns=obj.columns;
-            return cGroup;
-            });
+        var cGroup={};
+        cGroup.columnVariables=obj.columnVariables;
+        cGroup.columns=obj.columns;
+        return cGroup;
+    });
     matrix.lineVariables = matrixList[0].lineVariables;
     matrix.lines = matrixList[0].lines;
-    matrixList.forEach(function(elemento, indice){
-        if (indice>0){
-            console.log("aqui: ",JSON.stringify(elemento.lines));
-            elemento.lines.every(function(ele,ind){
-                console.log("aqui2: ",JSON.stringify(ele));
+    // primer paso construir un arreglo indexado de líneas (indexado por título)
+    // reordererLines[i_matrix][json_title] = line
+    // segundo paso igual pero iterando sobre la matriz 0 (original) y buscando por índice (si un índice no está lanza excepción)
+    matrixList.forEach(function(matrixToAdd, i_matrixToAdd){
+        if (i_matrixToAdd>0){
+            console.log("aqui: ",JSON.stringify(matrixToAdd.lines));
+            matrixToAdd.lines.forEach(function(line,ind){
+                console.log("aqui2: ",JSON.stringify(line));
                 
-                if (JSON.stringify(ele.titles) == JSON.stringify(matrix.lines[ind].titles)){
-                    matrix.lines[ind].cells.concat(ele.cells);
-                }}
-            )
+                if (JSON.stringify(line.titles) == JSON.stringify(matrix.lines[ind].titles)){
+                    matrix.lines[ind].cells = matrix.lines[ind].cells.concat(line.cells);
+                }
+            })
         }
     });
     return matrix;
