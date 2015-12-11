@@ -11,7 +11,7 @@ describe('tabulator', function(){
         tabulator=new Tabulator();
     });
     describe('matrixJoin', function(){
-        it.skip('should render line titles', function(){
+        it('should render line titles', function(){
             var matrix1={
                 caption:"Data for zone and area by sex",
                 columnVariables:['code'],
@@ -79,7 +79,8 @@ describe('tabulator', function(){
             expect(joined).to.eql({
                 caption:[matrix1.caption, matrix2.caption, matrix3.caption].join(tabulator.matrixJoin.captionSeparator),
                 columnGroups:[{
-                    columnVariables:['sex','age'],
+                    //columnVariables:['sex','age'],
+                    columnVariables:['code'],
                     columns:[
                         {titles:['unique']}
                     ],

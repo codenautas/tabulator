@@ -247,15 +247,20 @@ if (!matrixList.every(function(element){return element.lines.length == firstMatr
     throw new Error('line.length does not match in all matrix');
 }
 var firstMatrixListLine = matrixList[0].lines;
+var JsonTitlesFirstMatrixListLine = firstMatrixListLine.map(function(obj){return JSON.stringify(obj.titles)});
 if (!matrixList.every(
       function(element,index){
         return element.lines.every(
            function(elemento,indice){
-             return JSON.stringify(elemento.titles) == JSON.stringify(firstMatrixListLine[indice].titles)
+             //return JSON.stringify(elemento.titles) == JSON.stringify(firstMatrixListLine[indice].titles)
+             //console.log('Titulos ',JsonTitlesFirstMatrixListLine);
+             //console.log('Titulos ',JSON.stringify(elemento.titles));
+             return JsonTitlesFirstMatrixListLine.indexOf(JSON.stringify(elemento.titles)) > -1;
            })
-      })){
-          throw new Error('line titles does not match in all matrix');
-         }
+      })
+    ){
+        throw new Error('line titles does not match in all matrix');
+     }
 }
 
 Tabulator.prototype.toMatrix = function toMatrix(datum){
@@ -322,8 +327,32 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
 
 Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
     this.controlsJoin(matrixList);
-
-    return matrixList[1];
+    
+    var matrix={columnGroups:[], lineVariables:[], lines:[], vars:[]};
+    var captions = matrixList.map(function(obj){return obj.caption});
+    matrix.caption = captions.join(this.matrixJoin.captionSeparator);
+    //console.log("aqui: ", matrix.caption);
+    matrix.columnGroups = matrixList.map(function(obj){
+            var cGroup={};
+            cGroup.columnVariables=obj.columnVariables;
+            cGroup.columns=obj.columns;
+            return cGroup;
+            });
+    matrix.lineVariables = matrixList[0].lineVariables;
+    matrix.lines = matrixList[0].lines;
+    matrixList.forEach(function(elemento, indice){
+        if (indice>0){
+            console.log("aqui: ",JSON.stringify(elemento.lines));
+            elemento.lines.every(function(ele,ind){
+                console.log("aqui2: ",JSON.stringify(ele));
+                
+                if (JSON.stringify(ele.titles) == JSON.stringify(matrix.lines[ind].titles)){
+                    matrix.lines[ind].cells.concat(ele.cells);
+                }}
+            )
+        }
+    });
+    return matrix;
 }
 
 Tabulator.prototype.matrixJoin.captionSeparator = ', ';
