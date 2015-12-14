@@ -331,7 +331,24 @@ Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
     var matrix={columnGroups:[], lineVariables:[], lines:[], vars:[]};
     var captions = matrixList.map(function(obj){return obj.caption});
     matrix.caption = captions.join(this.matrixJoin.captionSeparator);
-    //console.log("aqui: ", matrix.caption);
+    var lines = matrixList.map(function(arr){
+				var linea = arr.lines;
+				return linea
+		});
+    //console.log("lines: ", JSON.stringify(lines));
+	
+	var reordererLines = [];
+	var linesTitles = lines.forEach(function(lin, iLin){
+		var li = {};
+		var li_i = lin.forEach(function (o,i){
+			var ind = o.titles.join(',');
+			var cont = JSON.stringify(o.cells);
+			li[ind] = cont;
+			});
+		reordererLines.push(li);
+		});
+    //console.log("reordererLines: ", JSON.stringify(reordererLines));
+
     matrix.columnGroups = matrixList.map(function(obj){
         var cGroup={};
         cGroup.columnVariables=obj.columnVariables;
@@ -345,10 +362,7 @@ Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
     // segundo paso igual pero iterando sobre la matriz 0 (original) y buscando por índice (si un índice no está lanza excepción)
     matrixList.forEach(function(matrixToAdd, i_matrixToAdd){
         if (i_matrixToAdd>0){
-            console.log("aqui: ",JSON.stringify(matrixToAdd.lines));
             matrixToAdd.lines.forEach(function(line,ind){
-                console.log("aqui2: ",JSON.stringify(line));
-                
                 if (JSON.stringify(line.titles) == JSON.stringify(matrix.lines[ind].titles)){
                     matrix.lines[ind].cells = matrix.lines[ind].cells.concat(line.cells);
                 }
