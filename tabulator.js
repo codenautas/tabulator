@@ -328,7 +328,7 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
 Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
     this.controlsJoin(matrixList);
     
-    var matrix={columnGroups:[], lineVariables:[], lines:[], vars:[]};
+    var matrix={columnGroups:[], lineVariables:[], lines:[], vars:{}};
     var captions = matrixList.map(function(obj){return obj.caption});
     matrix.caption = captions.join(this.matrixJoin.captionSeparator);
     
@@ -342,7 +342,7 @@ Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
         });
         reordererLines.push(indexedLines);
     });
-    console.log("reordererLines: ", reordererLines);
+    //console.log("reordererLines: ", reordererLines);
 
     matrix.columnGroups = matrixList.map(function(obj){
         var cGroup={};
@@ -352,6 +352,7 @@ Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
     });
     matrix.lineVariables = matrixList[0].lineVariables;
     matrix.lines = matrixList[0].lines;
+    matrix.vars = matrixList[0].vars;
     // primer paso construir un arreglo indexado de líneas (indexado por título)
     // reordererLines[i_matrix][json_title] = line
     // segundo paso igual pero iterando sobre la matriz 0 (original) y buscando por índice (si un índice no está lanza excepción)
@@ -360,7 +361,10 @@ Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
             matrix.lines.forEach(function(line,ind){
                 var lineToAdd = reordererLines[i_matrixToAdd][JSON.stringify(line.titles)];
                 matrix.lines[ind].cells = matrix.lines[ind].cells.concat(lineToAdd);
-            })
+            });
+            for (var key in matrixToAdd.vars){
+                matrix.vars[key] = matrixToAdd.vars[key];
+            }
         }
     });
     return matrix;
