@@ -43,12 +43,12 @@ describe('tabulator', function(){
         it('should render a 1x1 matrix with an object in cell', function(){
             var matrix={
                 lines:[{
-                    cells:[{attr1:'value1', attr2:'value2'}]
+                    cells:[{'attr-1':'value1', 'attr-2':'value2'}]
                 }]
             };
             var itCallsToCellTable=0;
             tabulator.toCellTable=function(cell){
-                expect(cell).to.eql({attr1:'value1', attr2:'value2'});
+                expect(cell).to.eql({'attr-1':'value1', 'attr-2':'value2'});
                 itCallsToCellTable++;
                 return html.td(cell,"what to show & display");
             }
@@ -58,7 +58,7 @@ describe('tabulator', function(){
                 "<table>\n"+
                 "  <tbody>\n"+
                 "    <tr>\n"+
-                "      <td attr1=value1 attr2=value2>what to show &amp; display</td>\n"+
+                "      <td attr-1=value1 attr-2=value2>what to show &amp; display</td>\n"+
                 "    </tr>\n"+
                 "  </tbody>\n"+
                 "</table>\n"
@@ -67,10 +67,10 @@ describe('tabulator', function(){
         });
         it('should render a 1x1 matrix with an object in cell with default show attribute', function(){
             expect(tabulator.defaultShowAttribute).to.eql('show');
-            tabulator.defaultShowAttribute='to_show';
+            tabulator.defaultShowAttribute='to-show';
             var matrix={
                 lines:[{
-                    cells:[{attr1:'value1', to_show:'what to display'}]
+                    cells:[{'attr-1':'value1', 'to-show':'what to display'}]
                 }]
             };
             var table=tabulator.toHtmlTable(matrix);
@@ -79,7 +79,7 @@ describe('tabulator', function(){
                 "<table>\n"+
                 "  <tbody>\n"+
                 "    <tr>\n"+
-                "      <td attr1=value1 to_show='what to display'>what to display</td>\n"+
+                "      <td attr-1=value1 to-show='what to display'>what to display</td>\n"+
                 "    </tr>\n"+
                 "  </tbody>\n"+
                 "</table>\n"
