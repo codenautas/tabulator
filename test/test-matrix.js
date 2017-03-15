@@ -95,6 +95,19 @@ describe('tabulator', function(){
                 {number:19000,total:19000}
             );
         });
+        it('should obtain the titles with more than one column',function(){
+            var datum2=datum;
+            datum2.vars=datum2.vars.map(function(varElem,i){
+                varElem.place= varElem.place=='left'?'top':(varElem.place=='top'?'left':varElem.place);
+                return varElem;
+            }); 
+            var obtain=tabulator.toMatrix(datum2);
+            expect(obtain.columns).to.eql([
+                {titles:['totalZ', 'total,A']},
+                {titles:['zone 1', 'area 1']},
+                {titles:['zone 1', 'area 2']}
+            ]);
+        });
     });
     describe('toMatrix with datum to produce 1d matrix (with no top variable) #5', function(){
         var datum;

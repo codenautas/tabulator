@@ -283,13 +283,15 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
         var iLine;
         var cadaList=datum.list[iList];
         iCell=matrix.columnVariables.length;
-        for(var iColumn=0; iColumn<matrix.columnVariables.length;iColumn++){
-            var cadaNameTop=matrix.columnVariables[iColumn];                
-            if (!vistosColumnVariables[cadaList[cadaNameTop]]){
-                iCell=matrix.columns.push({titles:[cadaList[cadaNameTop]]})-1;
-                vistosColumnVariables[cadaList[cadaNameTop]]={index: iCell};
+        if(iCell>0){ 
+            var cadaDatoTop=[];
+            cadaDatoTop=matrix.columnVariables.map(function(columnVar){ return cadaList[columnVar]});
+            var jsonCadaDatoTop=JSON.stringify(cadaDatoTop);
+            if (!vistosColumnVariables[jsonCadaDatoTop]){
+                iCell=matrix.columns.push({titles:cadaDatoTop})-1;
+                vistosColumnVariables[jsonCadaDatoTop]={index: iCell};
             }else{
-                iCell=vistosColumnVariables[cadaList[cadaNameTop]].index;
+                iCell=vistosColumnVariables[jsonCadaDatoTop].index;
             }
         }
         var cadaDatoLeft=[];
