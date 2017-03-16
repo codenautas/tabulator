@@ -191,7 +191,7 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
     this.controls(matrix);
-    return html.table([].concat(
+    return html.table({class:'tabulator-table'},[].concat(
         this.captionPart(matrix),
         this.colGroups(matrix),
         this.tHeadPart(matrix),

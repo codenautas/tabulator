@@ -24,7 +24,7 @@ describe('tabulator', function(){
             var table=tabulator.toHtmlTable(matrix);
             expect(table).to.be.an(jsToHtml.Html);
             expect(table.toHtmlText({pretty:true})).to.eql(
-                "<table>\n"+
+                "<table class='tabulator-table'>\n"+
                 "  <tbody>\n"+
                 "    <tr>\n"+
                 "      <td>one</td>\n"+
@@ -55,7 +55,7 @@ describe('tabulator', function(){
             var table=tabulator.toHtmlTable(matrix);
             expect(table).to.be.an(jsToHtml.Html);
             expect(table.toHtmlText({pretty:true})).to.eql(
-                "<table>\n"+
+                "<table class='tabulator-table'>\n"+
                 "  <tbody>\n"+
                 "    <tr>\n"+
                 "      <td attr-1=value1 attr-2=value2>what to show &amp; display</td>\n"+
@@ -76,7 +76,7 @@ describe('tabulator', function(){
             var table=tabulator.toHtmlTable(matrix);
             expect(table).to.be.an(jsToHtml.Html);
             expect(table.toHtmlText({pretty:true})).to.eql(
-                "<table>\n"+
+                "<table class='tabulator-table'>\n"+
                 "  <tbody>\n"+
                 "    <tr>\n"+
                 "      <td attr-1=value1 to-show='what to display'>what to display</td>\n"+
