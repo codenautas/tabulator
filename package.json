@@ -10,18 +10,19 @@
   }],
   "main": "tabulator.js",
   "dependencies": {
-    "lodash": ">=3.10.1",
-    
-    "js-to-html": ">=0.3.4"
+    "js-to-html": "~0.9.3",
+    "like-ar": "~0.2.2"
   },
   "devDependencies": {
-    "express": "^4.13.3",
-    "istanbul": "~0.3.17",
-    "mocha": "~2.2.5",
-    "supertest": "~1.0.1",
+    "express": "~4.15.4",
+    "istanbul": "~0.4.5",
+    "mocha": "~3.5.0",
+    "supertest": "~3.0.0",
     "expect.js": "~0.3.1",
     
-    "expect-called": ">=0.4.0"
+    "expect-called": "~0.4.0",
+    "require-bro": "~0.1.5",
+    "serve-content": "~0.3.8"
   },
   "engines": {
     "node": ">= 0.8.0"

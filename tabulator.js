@@ -29,12 +29,10 @@
     root.globalModuleName = null;
 })(/*jshint -W040 */this, function Tabulator() {
 /*jshint +W040 */
-    
-var _=require('lodash');
+
+var likeAr = require('like-ar');
+
 var html=require('js-to-html').html;
-
-
-
 
 /*jshint -W004 */
 var Tabulator = function(){
@@ -87,6 +85,10 @@ function labelVariableValues(matrix, varName, varValue){
     return (((((matrix.vars||{})[varName]||{}).values)||{})[varValue]||{}).label||varValue;
 }
 
+function flatArray(arrays){
+    return [].concat.apply([], arrays);
+}
+
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
     if(!matrix.columnVariables) return null;
     function labelVariable(varName){
@@ -103,7 +105,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                     html.th(varObj,labelVariable(matrix.columnVariables[0])||matrix.oneColumnTitle)
                 )
             )
-        ].concat(_.flatten(matrix.columnVariables.map(function(columnVariable,iColumnVariable){
+        ].concat(flatArray(matrix.columnVariables.map(function(columnVariable,iColumnVariable){
             var lineTitles=[];
             var lineVariables=[];
             var previousValuesUptoThisRowJson="none";
@@ -150,7 +152,10 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
 Tabulator.prototype.defaultShowAttribute='show';
 
 Tabulator.prototype.toCellTable=function(cell){
-    return html.td(cell,cell instanceof Object?cell[this.defaultShowAttribute]:null);
+    return cell instanceof Object?html.td(
+        likeAr(cell).filter(function(value,key){return /-/.test(key);}).plain(),
+        cell[this.defaultShowAttribute]
+    ):html.td(cell);
 };
 
 Tabulator.prototype.tBodyPart = function tBodyPart(matrix){

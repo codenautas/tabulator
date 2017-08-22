@@ -85,6 +85,26 @@ describe('tabulator', function(){
                 "</table>\n"
             );
         });
+        it('should render a 1x1 matrix with an object in cell with default show attribute and simple name attrs', function(){
+            expect(tabulator.defaultShowAttribute).to.eql('show');
+            tabulator.defaultShowAttribute='toShow';
+            var matrix={
+                lines:[{
+                    cells:[{'attr1':'value1', 'toShow':'what to display'}]
+                }]
+            };
+            var table=tabulator.toHtmlTable(matrix);
+            expect(table).to.be.an(jsToHtml.Html);
+            expect(table.toHtmlText({pretty:true})).to.eql(
+                "<table class='tabulator-table'>\n"+
+                "  <tbody>\n"+
+                "    <tr>\n"+
+                "      <td>what to display</td>\n"+
+                "    </tr>\n"+
+                "  </tbody>\n"+
+                "</table>\n"
+            );
+        });
         it('should render headers for only one column variable #2', function(){
             var matrix={
                 caption:"Data for zone and area by sex",
