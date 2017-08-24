@@ -37,6 +37,7 @@ describe('tabulator', function(){
             var obtain=tabulator.toMatrix(datum);
             expect(obtain.lineVariables).to.eql(['zone','area']);
             expect(obtain.columnVariables).to.eql(['sex']);
+            expect(obtain.vars).not.to.be.an(Array);
         });
         it('shoud obtain the data for the column titles',function(){
             var obtain=tabulator.toMatrix(datum);

@@ -1,7 +1,7 @@
 {
   "name": "tabulator",
   "description": "Put data into tables",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/tabulator",

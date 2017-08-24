@@ -274,7 +274,7 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
         top:{place:'columnVariables'},
         data:{place:'dataVariables'},
     };
-    var matrix={lineVariables:[],columnVariables:[], dataVariables:[], columns:[], lines:[], vars:[]};
+    var matrix={lineVariables:[],columnVariables:[], dataVariables:[], columns:[], lines:[], vars:{}};
     for(var i=0; i<datum.vars.length;i++){
         var cadaVar=datum.vars[i];
         matrix[places[cadaVar.place].place].push(cadaVar.name);
