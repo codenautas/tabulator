@@ -14,6 +14,8 @@ function site_up(req,res){
         <link rel="shortcut icon" href="tabulator-ico.png" type="image/png" />
         <h1>tabulator demo</h1>
         <div id=canvasTable>loading...</div>
+        <script src='FileSaver.min.js'></script>
+        <script src='dist/xlsx.full.min.js'></script>
         <script src='like-ar.js'></script>
         <script src='js-to-html.js'></script>
         <script src='require-bro.js'></script>
@@ -23,6 +25,8 @@ function site_up(req,res){
 }
 
 [
+    'node_modules/file-saver',
+    'node_modules/xlsx',
     'node_modules/like-ar',
     'node_modules/js-to-html',
     'node_modules/require-bro/lib',

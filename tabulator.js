@@ -30,6 +30,8 @@
 })(/*jshint -W040 */this, function Tabulator() {
 /*jshint +W040 */
 
+var XLSX = require('XLSX');
+
 var likeAr = require('like-ar');
 
 var html=require('js-to-html').html;
@@ -192,7 +194,43 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     return html.tbody(trList);
 };
      
+Tabulator.prototype.toExcel = function toExcel(tableElem){
+    var type = 'xlsx'
+    var wb = XLSX.utils.table_to_book(tableElem, {
+        sheet: "Sheet JS"
+    });
+    var wbout = XLSX.write(wb, {
+        bookType: type,
+        bookSST: true,
+        type: 'binary'
+    });
+    var fname = 'test.' + type;
+    try {
+        var blob = new Blob([s2ab(wbout)], {
+            type: "application/octet-stream"
+        });
+        saveAs(blob, fname);
+    } catch (e) {
+        if (typeof console != 'undefined')
+            console.log(e, wbout);
+    }
+    return wbout;
+}
 
+function s2ab(s) {
+    if (typeof ArrayBuffer !== 'undefined') {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i = 0; i != s.length; ++i)
+            view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    } else {
+        var buf = new Array(s.length);
+        for (var i = 0; i != s.length; ++i)
+            buf[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+}
 
 Tabulator.prototype.toHtmlTable = function toHtmlTable(matrix){
     this.controls(matrix);

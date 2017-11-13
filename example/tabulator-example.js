@@ -33,4 +33,13 @@ console.log(matrix);
 var table = tabulator.toHtmlTable(matrix);
 
 canvasTable.innerHTML="";
-canvasTable.appendChild(table.create());
+var createdTable = canvasTable.appendChild(table.create());
+
+//export to excel button
+var exportButton = document.createElement('input');
+exportButton.type='button';
+exportButton.value='export to excel';
+exportButton.onclick = function(){
+    tabulator.toExcel(createdTable);
+};
+canvasTable.appendChild(exportButton);
