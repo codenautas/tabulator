@@ -194,17 +194,26 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
     return html.tbody(trList);
 };
      
-Tabulator.prototype.toExcel = function toExcel(tableElem){
+Tabulator.prototype.toExcel = function toExcel(tableElem, params){
     var type = 'xlsx'
     var wb = XLSX.utils.table_to_book(tableElem, {
-        sheet: "Sheet JS"
+        sheet: "Tabulado"
     });
+
+    wb.SheetNames.push('Ficha');
+    var ws = {B2: {t:'s', v:'fecha'}, C2: {t:'s', v: new Date().toISOString()},
+            B3: {t:'s', v:'usuario'}, C3:{t:'s',v:params.username},
+            B4: {t:'s', v:'indicador'}, C4:{t:'s',v:params.filename}
+    };
+    ws['!ref'] = 'A1:D50';
+    wb.Sheets['Ficha'] = ws;
+
     var wbout = XLSX.write(wb, {
         bookType: type,
         bookSST: true,
         type: 'binary'
     });
-    var fname = 'test.' + type;
+    var fname = params.filename + '.' + type;
     try {
         var blob = new Blob([s2ab(wbout)], {
             type: "application/octet-stream"

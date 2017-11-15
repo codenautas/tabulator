@@ -40,6 +40,6 @@ var exportButton = document.createElement('input');
 exportButton.type='button';
 exportButton.value='export to excel';
 exportButton.onclick = function(){
-    tabulator.toExcel(createdTable);
+    tabulator.toExcel(createdTable, 'ejemplo');
 };
 canvasTable.appendChild(exportButton);
