@@ -201,7 +201,8 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
 Tabulator.prototype.toExcel = function toExcel(tableElem, params){
     var type = 'xlsx'
     var wb = XLSX.utils.table_to_book(tableElem, {
-        sheet: "Tabulado"
+        sheet: "Tabulado",
+        raw: true
     });
 
     // usar aoa_to_sheet pasandole una matriz para que lo exporte solo
