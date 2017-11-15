@@ -30,7 +30,11 @@
 })(/*jshint -W040 */this, function Tabulator() {
 /*jshint +W040 */
 
-var XLSX = require('XLSX');
+if(typeof window !== 'undefined'){
+    window.require.definedModules['xlsx']=window.XLSX; var likeAr = require('like-ar');
+}
+
+var XLSX = require('xlsx');
 
 var likeAr = require('like-ar');
 
@@ -200,11 +204,15 @@ Tabulator.prototype.toExcel = function toExcel(tableElem, params){
         sheet: "Tabulado"
     });
 
+    // usar aoa_to_sheet pasandole una matriz para que lo exporte solo
     wb.SheetNames.push('Ficha');
-    var ws = {B2: {t:'s', v:'fecha'}, C2: {t:'s', v: new Date().toISOString()},
-            B3: {t:'s', v:'usuario'}, C3:{t:'s',v:params.username},
-            B4: {t:'s', v:'indicador'}, C4:{t:'s',v:params.filename}
+    var ws = {B2: {t:'s', v:'fecha'}, C2: {t:'s', v: new Date(Date.now()).toLocaleString()},
+            B3: {t:'s', v:'indicador'}, C3:{t:'s',v:params.filename}
     };
+    if (params.username){
+        ws.B4 = {t:'s', v:'usuario'};
+        ws.C4 = {t:'s',v:params.username};
+    }
     ws['!ref'] = 'A1:D50';
     wb.Sheets['Ficha'] = ws;
 
