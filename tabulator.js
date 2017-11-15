@@ -30,7 +30,11 @@
 })(/*jshint -W040 */this, function Tabulator() {
 /*jshint +W040 */
 
-var XLSX = require('XLSX');
+if(typeof window !== 'undefined'){
+    window.require.definedModules['xlsx']=window.XLSX;
+}
+
+var XLSX = require('xlsx');
 
 var likeAr = require('like-ar');
 
