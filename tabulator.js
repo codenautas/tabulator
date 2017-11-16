@@ -201,18 +201,22 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
 Tabulator.prototype.toExcel = function toExcel(tableElem, params){
     var type = 'xlsx'
     var wb = XLSX.utils.table_to_book(tableElem, {
-        sheet: "Tabulado",
-        raw: true
+        sheet: "Tabulado"
     });
 
     // usar aoa_to_sheet pasandole una matriz para que lo exporte solo
     wb.SheetNames.push('Ficha');
-    var ws = {B2: {t:'s', v:'fecha'}, C2: {t:'s', v: new Date(Date.now()).toLocaleString()},
-            B3: {t:'s', v:'indicador'}, C3:{t:'s',v:params.filename}
+    var ws;
+    ws = {B2: {t:'s', v:'Fecha:'}, C2: {t:'s', v: new Date(Date.now()).toLocaleString()},
+            B3: {t:'s', v:'Indicador:'}, C3:{t:'s',v:params.filename},
+            B4: {t:'s', v:'Enlace:'}, C4:{t:'s',v:window.location.href},
+            B6: {t:'s', v:'Sistema de Indicadores de Género BA'},
+            B7: {t:'s', v:'Dirección General de Estadísticas y Censos'},
     };
+
     if (params.username){
-        ws.B4 = {t:'s', v:'usuario'};
-        ws.C4 = {t:'s',v:params.username};
+        ws.B1 = {t:'s', v:'usuario'};
+        ws.C1 = {t:'s',v:params.username};
     }
     ws['!ref'] = 'A1:D50';
     wb.Sheets['Ficha'] = ws;
