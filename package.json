@@ -5,15 +5,18 @@
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/tabulator",
-  "contributors": [{
-    "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Emilio Platzer",
+      "email": "emilioplatzer@gmail.com"
+    }
+  ],
   "main": "tabulator.js",
   "dependencies": {
-    "file-saver":"~1.3.3",
+    "file-saver": "~1.3.3",
     "js-to-html": "~0.9.3",
     "like-ar": "~0.2.2",
-    "xlsx": "0.11.8"
+    "xlsx": "codenautas/js-xlsx"
   },
   "devDependencies": {
     "express": "~4.16.2",
@@ -21,7 +24,6 @@
     "mocha": "~4.0.1",
     "supertest": "~3.0.0",
     "expect.js": "~0.3.1",
-    
     "expect-called": "~0.4.0",
     "require-bro": "~0.1.5",
     "serve-content": "~0.3.8"
