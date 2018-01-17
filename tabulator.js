@@ -31,10 +31,10 @@
 /*jshint +W040 */
 
 if(typeof window !== 'undefined'){
-    window.require.definedModules['xlsx']=window.XLSX;
+    window.require.definedModules['codenautas-xlsx']=window.XLSX;
 }
 
-var XLSX = require('xlsx');
+var XLSX = require('codenautas-xlsx');
 
 var likeAr = require('like-ar');
 

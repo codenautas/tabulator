@@ -26,7 +26,7 @@ function site_up(req,res){
 
 [
     'node_modules/file-saver',
-    'node_modules/xlsx',
+    'node_modules/codenautas-xlsx',
     'node_modules/like-ar',
     'node_modules/js-to-html',
     'node_modules/require-bro/lib',
