@@ -210,8 +210,6 @@ Tabulator.prototype.toExcel = function toExcel(tableElem, params){
     ws = {B2: {t:'s', v:'Fecha:'}, C2: {t:'s', v: new Date(Date.now()).toLocaleString()},
             B3: {t:'s', v:'Indicador:'}, C3:{t:'s',v:params.filename},
             B4: {t:'s', v:'Enlace:'}, C4:{t:'s',v:window.location.href},
-            B6: {t:'s', v:'Sistema de Indicadores de Género BA'},
-            B7: {t:'s', v:'Dirección General de Estadísticas y Censos'},
     };
 
     if (params.username){
