@@ -109,6 +109,129 @@ describe('tabulator', function(){
                 {titles:['zone 1', 'area 2']}
             ]);
         });
+        it.skip('should has z although it does not has its', function(){
+            expect(obtain.z).to.eql([obtain]);
+        });
+    });
+    describe.skip('toMatrix with datum to undertand z', function(){
+        var datum;
+        beforeEach(function(){
+            datum={
+                list:[
+                    {planet:'earth',zone:'totalZ', area:'total,A',sex:'both', number:19000,total:19000},
+                    {planet:'earth',zone:'totalZ', area:'total,A',sex:'masc', number:9880, total:19000},
+                    {planet:'earth',zone:'zone 1', area:'area 1', sex:'masc', number:5110, total:10000},
+                    {planet:'earth',zone:'zone 1', area:'area 2', sex:'fem' , number:4365, total: 9000},
+                    {planet:'earth',zone:'zone 1', area:'area 1', sex:'fem' , number:4890, total:10000},
+                    {planet:'earth',zone:'zone 1', area:'area 2', sex:'masc', number:4635, total: 9000},
+                    {planet:'earth',zone:'zone 1', area:'area 2', sex:'both' ,number:9000, total: 9000},
+                    {planet:'mars' ,zone:'totalZ', area:'total,A',sex:'masc', number:988,  total:1900 },
+                    {planet:'mars' ,zone:'zone 1', area:'area 1', sex:'masc', number:511,  total:1000 },
+                    {planet:'mars' ,zone:'zone 1', area:'area 2', sex:'fem' , number:436,  total: 900 },
+                    {planet:'mars' ,zone:'zone 1', area:'area 1', sex:'fem' , number:489,  total:1000 },
+                    {planet:'mars' ,zone:'zone 1', area:'area 2', sex:'masc', number:463,  total: 900 }
+                ],
+                vars:[
+                    {name: 'planet', place: 'z'   },
+                    {name: 'zone'  , place: 'left'},
+                    {name: 'area'  , place: 'left'},
+                    {name: 'sex'   , place: 'top' },
+                    {name: 'number', place: 'data', another_data:{all:true}},
+                    {name: 'total' , place: 'data'}
+                ],
+                showFunction:function(data){
+                    return data.number/data.total*100
+                }
+            };
+        });
+        it('shoud obtain the variables',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.zVariables).to.eql(['planet']);
+            expect(obtain.lineVariables).to.eql(['zone', 'area']);
+            expect(obtain.columnVariables).to.eql(['sex']);
+            expect(obtain.vars).not.to.be.an(Array);
+        });
+        it('shoud obtain the data for z titles',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.z.length).to.eql(2);
+            expect(obtain.z[0].zValues).to.eql(['earth']);
+            expect(obtain.z[1].zValues).to.eql(['mars']);
+        });
+        it('shoud obtain the data for the column titles',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.z[0].columns).to.eql([
+                {titles:['both']},
+                {titles:['masc']},
+                {titles:['fem' ]}
+            ]);
+            expect(obtain.z[1].columns).to.eql([
+                {titles:['masc']},
+                {titles:['fem' ]}
+            ]);
+        });
+        it('shoud obtain the data and the titles of each line',function(){
+            var countCall2toCell=0;
+            tabulator.toCell=function(row){
+                countCall2toCell++;
+                return {display:row.number/row.total, numerator:row.number, denominator:row.total};
+            }
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.z[0].lines).to.eql([
+                {
+                    titles:['totalZ', 'total,A'],
+                    cells:[
+                        {display:100  , number:19000,total:19000},
+                        {display:52   , number: 9880,total:19000},
+                        null
+                    ]
+                },{
+                    titles:['zone 1', 'area 1'],
+                    cells:[
+                        null,
+                        {display:51.1 , number:5110, total:10000},
+                        {display:48.9 , number:4890, total:10000}
+                    ]
+                },{
+                    titles:['zone 1', 'area 2'],
+                    cells:[
+                        {display:100  , number:9000, total: 9000},
+                        {display:51.5 , number:4635, total: 9000},
+                        {display:48.5 , number:4365, total: 9000}
+                    ]
+                }
+            ]);
+            expect(obtain.z[1].lines).to.eql([
+                {
+                    titles:['totalZ', 'total,A'],
+                    cells:[
+                        {display:52   , number: 988,total:1900},
+                        null
+                    ]
+                },{
+                    titles:['zone 1', 'area 1'],
+                    cells:[
+                        {display:51.1 , number:511, total:1000},
+                        {display:48.9 , number:489, total:1000}
+                    ]
+                },{
+                    titles:['zone 1', 'area 2'],
+                    cells:[
+                        {display:51.5 , number:463, total: 900},
+                        {display:48.5 , number:436, total: 900}
+                    ]
+                }
+            ]);
+        });
+        it('shoud obtain vars #1',function(){
+            var obtain=tabulator.toMatrix(datum);
+            expect(obtain.vars).to.eql({
+                zone  :{name: 'zone'  , place: 'left'},
+                area  :{name: 'area'  , place: 'left'},
+                sex   :{name: 'sex'   , place: 'top' },
+                number:{name: 'number', place: 'data', another_data:{all:true}},
+                total :{name: 'total' , place: 'data'}
+            });
+        });
     });
     describe('toMatrix with datum to produce 1d matrix (with no top variable) #5', function(){
         var datum;

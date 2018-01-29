@@ -29,3 +29,5 @@ node_modules
 
 .npmrc
 launch.json
+
+package-lock.json
