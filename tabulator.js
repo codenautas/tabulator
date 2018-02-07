@@ -346,7 +346,9 @@ Tabulator.prototype.getZMatrices = function getZMatrices(datumBase, zVar) {
         datumCopy.list = datumCopy.list.filter(function (listItem) {
             return listItem[zVar.name] == cat;
         });
-        return that.getBaseMatrix(datumCopy);
+        let aMatrix = that.getBaseMatrix(datumCopy);
+        aMatrix.caption = cat;
+        return aMatrix;
     });
     return z;
 }
