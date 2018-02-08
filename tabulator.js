@@ -347,7 +347,7 @@ Tabulator.prototype.getZMatrices = function getZMatrices(datumBase, zVar) {
             return listItem[zVar.name] == cat;
         });
         let aMatrix = that.getBaseMatrix(datumCopy);
-        aMatrix.caption = cat;
+        aMatrix.caption = zVar.values[cat].label;
         return aMatrix;
     });
     return z;
@@ -355,15 +355,9 @@ Tabulator.prototype.getZMatrices = function getZMatrices(datumBase, zVar) {
 
 Tabulator.prototype.toMatrix = function toMatrix(datum){
     //Managing only one z var
-    var zVar;
-    var index = 0;
     var datumBase = bg.changing({}, datum);
-    var that = this;
-    while (index < datum.vars.length && !zVar) {
-        //get and remove z variable from datum.vars
-        zVar = (datumBase.vars[index].isZ)? datumBase.vars.splice(index,1)[0]: null;
-        index++;
-    }
+    var zVar = datumBase.vars.find(function(v){ return v.isZ});
+    datumBase.vars.splice(datumBase.vars.indexOf(zVar),1)
     var matrix = this.getBaseMatrix(datum);//classic matrix construction
     //For the base matrix case using copy instead of reference to avoid "typeerror converting circular structure to json" in JSON.stringify
     matrix.z = zVar? this.getZMatrices(datumBase, zVar): [bg.changing({},matrix)];
