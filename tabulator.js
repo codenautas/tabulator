@@ -38,6 +38,8 @@ var XLSX = require('codenautas-xlsx');
 
 var likeAr = require('like-ar');
 
+var bg = require('best-globals');
+
 var html=require('js-to-html').html;
 
 /*jshint -W004 */
@@ -326,7 +328,43 @@ if (!matrixList.every(
      }
 }
 
+//matrix.z is an array of matrizes (one per each category of z present in datum.list)
+Tabulator.prototype.getZMatrices = function getZMatrices(datumBase, zVar) {
+    //get z categories 
+    var zVarCategories = datumBase.list.map(function (item) {
+        return item[zVar.name];
+    });
+    //remove duplicates
+    zVarCategories = zVarCategories.filter(function (v, i, self) {
+        return i == self.indexOf(v);
+    });
+    //one matrix for each category
+    var that = this;
+    var z = zVarCategories.map(function (cat) {
+        var datumCopy = bg.changing({}, datumBase);
+        // keep only all rows where zVar has this category
+        datumCopy.list = datumCopy.list.filter(function (listItem) {
+            return listItem[zVar.name] == cat;
+        });
+        let aMatrix = that.getBaseMatrix(datumCopy);
+        aMatrix.caption = zVar.values[cat].label;
+        return aMatrix;
+    });
+    return z;
+}
+
 Tabulator.prototype.toMatrix = function toMatrix(datum){
+    //Managing only one z var
+    var datumBase = bg.changing({}, datum);
+    var zVar = datumBase.vars.find(function(v){ return v.isZ});
+    datumBase.vars.splice(datumBase.vars.indexOf(zVar),1)
+    var matrix = this.getBaseMatrix(datum);//classic matrix construction
+    //For the base matrix case using copy instead of reference to avoid "typeerror converting circular structure to json" in JSON.stringify
+    matrix.z = zVar? this.getZMatrices(datumBase, zVar): [bg.changing({},matrix)];
+    return matrix;
+};
+
+Tabulator.prototype.getBaseMatrix = function getBaseMatrix(datum){
     var places={
         left:{place:'lineVariables'},
         top:{place:'columnVariables'},
@@ -338,7 +376,7 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
         matrix[places[cadaVar.place].place].push(cadaVar.name);
         matrix.vars[cadaVar.name] = cadaVar;
     }
-    matrix.oneColumnTitle=datum.oneColumnTitle; 
+    matrix.oneColumnTitle=datum.oneColumnTitle;
     var vistosColumnVariables={};
     var vistosLineVariables={};
     for(var iList=0; iList<datum.list.length; iList++){
@@ -388,7 +426,7 @@ Tabulator.prototype.toMatrix = function toMatrix(datum){
         }
     }
     return matrix;
-};
+}
 
 Tabulator.prototype.matrixJoin = function matrixJoin(matrixList){
     this.controlsJoin(matrixList);
