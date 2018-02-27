@@ -9,7 +9,6 @@
  */
 "use strict";
 /*jshint eqnull:true */
-/*jshint globalstrict:true */
 /*jshint node:true */
 (function webpackUniversalModuleDefinition(root, factory) {
     /* global define */
@@ -346,7 +345,7 @@ Tabulator.prototype.getZMatrices = function getZMatrices(datumBase, zVar) {
         datumCopy.list = datumCopy.list.filter(function (listItem) {
             return listItem[zVar.name] == cat;
         });
-        let aMatrix = that.getBaseMatrix(datumCopy);
+        var aMatrix = that.getBaseMatrix(datumCopy);
         aMatrix.caption = zVar.values[cat].label;
         return aMatrix;
     });
