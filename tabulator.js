@@ -29,6 +29,7 @@
 })(/*jshint -W040 */this, function Tabulator() {
 /*jshint +W040 */
 
+/*jshint node:false */
 if(typeof window !== 'undefined'){
     window.require.definedModules['codenautas-xlsx']=window.XLSX;
 }
@@ -337,6 +338,8 @@ Tabulator.prototype.getZMatrices = function getZMatrices(datumBase, zVar) {
     zVarCategories = zVarCategories.filter(function (v, i, self) {
         return i == self.indexOf(v);
     });
+    //remove total category
+    if (zVarCategories.indexOf(null) >= 0) {zVarCategories.splice(zVarCategories.indexOf(null),1);}
     //one matrix for each category
     var that = this;
     var z = zVarCategories.map(function (cat) {
@@ -355,7 +358,7 @@ Tabulator.prototype.getZMatrices = function getZMatrices(datumBase, zVar) {
 Tabulator.prototype.toMatrix = function toMatrix(datum){
     //Managing only one z var
     var datumBase = bg.changing({}, datum);
-    var zVar = datumBase.vars.find(function(v){ return v.isZ});
+    var zVar = (datumBase.vars.filter(function(v){ return v.isZ}))[0];
     datumBase.vars.splice(datumBase.vars.indexOf(zVar),1)
     var matrix = this.getBaseMatrix(datum);//classic matrix construction
     //For the base matrix case using copy instead of reference to avoid "typeerror converting circular structure to json" in JSON.stringify
