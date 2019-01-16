@@ -165,7 +165,7 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
 
 Tabulator.prototype.defaultShowAttribute='show';
 
-Tabulator.prototype.toCellTable=function(cell){
+Tabulator.prototype.toCellTable=function(cell, varValues){
     return cell instanceof Object?html.td(
         likeAr(cell).filter(function(value,key){return /-/.test(key);}).plain(),
         cell[this.defaultShowAttribute]
@@ -181,8 +181,14 @@ Tabulator.prototype.tBodyPart = function tBodyPart(matrix){
         var actualLineTitles=actualLine.titles;
         var thListActualLine=[];
         var actualLineCells=matrix.lines[i].cells;
-        var td=actualLineCells.map(function(cell){
-            return (this.toCellTable(cell));
+        var lineVarValues=matrix.lineVariables && actualLine.titles ? 
+            likeAr.toPlainObject(matrix.lineVariables, actualLine.titles) : 
+            {};
+        var td=actualLineCells.map(function(cell, j){
+            var columnVarValues=matrix.columnVariables && matrix.columns &&  matrix.columns[j] ? 
+                likeAr.toPlainObject(matrix.columnVariables, matrix.columns[j].titles) :
+                {};
+            return this.toCellTable(cell, bg.changing(lineVarValues,columnVarValues));
         },this);
         if(actualLineTitles){
             for(var j=0;j<actualLineTitles.length;j++){

@@ -4,6 +4,7 @@ var expect = require('expect.js');
 var expectCalled = require('expect-called');
 var jsToHtml = require('js-to-html');
 var html=jsToHtml.html;
+var likeAr = require('like-ar');
 
 var Tabulator = require('../tabulator.js');
 
@@ -264,11 +265,19 @@ describe('tabulator', function(){
             tabulator.toHtmlTable(matrix,{pretty:true});
         });
         it('should render line titles', function(){
+            tabulator.toCellTable=function(cell, varValues){
+                return html.td({'var-number':varValues.number, 'var-sex':varValues.sex},cell);
+            }
             var matrix={
+                columnVariables:['sex'],
+                columns:[
+                    {titles:['fem' ]},
+                    {titles:['masc']},
+                ],
                 lineVariables:['number', 'greeks', 'letter'],
                 lines:[
-                    { titles:['one','alpha','a'], cells:["101"]},
-                    { titles:['two','betha','b'], cells:["103"]}
+                    { titles:['one','alpha','a'], cells:["101", "102"]},
+                    { titles:['two','betha','b'], cells:["103", "104"]}
                 ],
                 vars:{
                     greeks:{
@@ -280,26 +289,49 @@ describe('tabulator', function(){
                     }
                 }
             };
-            var html=tabulator.toHtmlTable(matrix);
-            var htmlText=html.toHtmlText({pretty:true})
+            var htmlObject=tabulator.toHtmlTable(matrix);
+            var htmlText=htmlObject.toHtmlText({pretty:true})
             var i=htmlText.indexOf('  <tbody>');
-            expect(htmlText.substr(i)).to.eql(
-                "  <tbody>\n"+
-                "    <tr>\n"+
-                "      <th class=var_number>one</th>\n"+
-                "      <th class=var_greeks>α</th>\n"+
-                "      <th class=var_letter>a</th>\n"+
-                "      <td>101</td>\n"+
-                "    </tr>\n"+
-                "    <tr>\n"+
-                "      <th class=var_number>two</th>\n"+
-                "      <th class=var_greeks>β</th>\n"+
-                "      <th class=var_letter>b</th>\n"+
-                "      <td>103</td>\n"+
-                "    </tr>\n"+
-                "  </tbody>\n"+
-                "</table>\n"
-            );
+            expect(htmlText).to.eql(`<table class='tabulator-table'>
+  <colgroup class=headers>
+    <col class=number>
+    <col class=greeks>
+    <col class=letter>
+  </colgroup>
+  <colgroup class=data>
+    <col class='{&quot;sex&quot;:&quot;fem&quot;}'>
+    <col class='{&quot;sex&quot;:&quot;masc&quot;}'>
+  </colgroup>
+  <thead>
+    <tr>
+      <th class=variable rowspan=2>number</th>
+      <th class=variable rowspan=2>Greek</th>
+      <th class=variable rowspan=2>letter</th>
+      <th class=variable colspan=2>sex</th>
+    </tr>
+    <tr>
+      <th class=var_sex>fem</th>
+      <th class=var_sex>masc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th class=var_number>one</th>
+      <th class=var_greeks>α</th>
+      <th class=var_letter>a</th>
+      <td var-number=one var-sex=fem>101</td>
+      <td var-number=one var-sex=masc>102</td>
+    </tr>
+    <tr>
+      <th class=var_number>two</th>
+      <th class=var_greeks>β</th>
+      <th class=var_letter>b</th>
+      <td var-number=two var-sex=fem>103</td>
+      <td var-number=two var-sex=masc>104</td>
+    </tr>
+  </tbody>
+</table>
+`);
         });
     });
     describe('toHtmlTable controls', function(){
