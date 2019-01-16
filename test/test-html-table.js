@@ -150,6 +150,15 @@ describe('tabulator', function(){
             ]);
         });
         it('should render headers for many column variables #3', function(){
+            var tabulator=new Tabulator();
+            var toCellColumnHeaderPrevious = tabulator.toCellColumnHeader;
+            tabulator.toCellColumnHeader=function (titleCellAttrs, varName, labelValue, varValue){
+                if(varName=='sex'){
+                    titleCellAttrs['var-sex'] = 'x-'+labelValue;
+                }
+                var th = toCellColumnHeaderPrevious.apply(this, arguments);
+                return th;
+            }
             var matrix={
                 caption:"Data for zone and area by sex",
                 lineVariables:['zone','area'],
@@ -204,11 +213,11 @@ describe('tabulator', function(){
                         html.th({'class':'variable', colspan:2}, 'Sex')
                     ]),
                     html.tr([
-                        html.th({'class':'var_sex'}, 2),
-                        html.th({'class':'var_sex'}, 'masc'),
-                        html.th({'class':'var_sex'}, 'fem'),
-                        html.th({'class':'var_sex'}, 'fem'),
-                        html.th({'class':'var_sex'}, 'masc'),
+                        html.th({'class':'var_sex', 'var-sex': 'x-2'   }, 2),
+                        html.th({'class':'var_sex', 'var-sex': 'x-masc'}, 'masc'),
+                        html.th({'class':'var_sex', 'var-sex': 'x-fem' }, 'fem'),
+                        html.th({'class':'var_sex', 'var-sex': 'x-fem' }, 'fem'),
+                        html.th({'class':'var_sex', 'var-sex': 'x-masc'}, 'masc'),
                     ])
                 ]),
                 html.tbody()

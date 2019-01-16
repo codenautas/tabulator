@@ -1,7 +1,7 @@
 /*!
  * tabulator
  * 2015 Codenautas
- * GNU Licensed
+ * MIT Licensed
  */
 
 /**
@@ -97,7 +97,12 @@ function flatArray(arrays){
     return [].concat.apply([], arrays);
 }
 
+Tabulator.prototype.toCellColumnHeader = function toCellColumnHeader(titleCellAttrs, varName, labelValue, varValue){
+    return html.th(titleCellAttrs, labelValue);
+}
+
 Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
+    var tabulator = this;
     if(!matrix.columnVariables) return null;
     function labelVariable(varName){
         return ((matrix.vars||{})[varName]||{}).label||varName;
@@ -130,10 +135,11 @@ Tabulator.prototype.tHeadPart = function tHeadPart(matrix){
                 var actualValuesUptoThisRowJson=JSON.stringify(actualValuesUptoThisRow);
                 if(actualValuesUptoThisRowJson!=previousValuesUptoThisRowJson){
                     updateColspan();
-                    var titleCellAttrs={'class':'var_'+matrix.columnVariables[iColumnVariable]};
                     var varName = matrix.columnVariables[iColumnVariable];
                     var varValue = actualValues[iColumnVariable];
-                    lineTitles.push(html.th(titleCellAttrs, labelVariableValues(matrix, varName,varValue)));
+                    var labelValue = labelVariableValues(matrix, varName,varValue);
+                    var titleCellAttrs={'class':'var_'+varName};
+                    lineTitles.push(tabulator.toCellColumnHeader(titleCellAttrs, varName, labelValue, varValue));
                     if(iColumnVariable+1<matrix.columnVariables.length){
                         var variableCellAttrs={'class':'variable'};
                         lineVariables.push(html.th(variableCellAttrs, labelVariable(matrix.columnVariables[iColumnVariable+1])));
